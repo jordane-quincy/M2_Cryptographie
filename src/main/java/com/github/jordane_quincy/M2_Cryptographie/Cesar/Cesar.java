@@ -58,39 +58,42 @@ public class Cesar {
 
 	public static String encodeDecode(String text, char key, boolean encode) {
 		final StringBuilder sb = new StringBuilder();
+		System.out.println(encode ? "encode" : "decode");
 		// obtain the shift
 		final int shift = Character.toUpperCase(key) - A;
-		System.out.println("source : " + text + " with key : " + key + " (shift : " + shift + ")");
+		System.out.println("input : " + text + " with key : " + key + " (shift : " + shift + ")");
 
 		for (final char letter : text.toUpperCase().toCharArray()) {
 
-			char letterCode;
+			int letterCode;
 
 			if (encode) {
 				// encode
-				letterCode = (char) (letter + shift);
+				letterCode = letter + shift;
 				// System.out.println((int) letter + "+" + shift + " = " + (int)
 				// letterCode + " (" + letterCode + ")");
 				if (letterCode > Z) {
-					letterCode = (char) (letterCode - NB_LETTER_ALPHABET);
+					letterCode = letterCode - NB_LETTER_ALPHABET;
 				}
 
 			} else {
 				// decode
-				letterCode = (char) (letter - shift);
+				letterCode = letter - shift;
 				// System.out.println((int) letter + "-" + shift + " = " + (int)
 				// letterCode + " (" + letterCode + ")");
 				if (letterCode < A) {
-					letterCode = (char) (letterCode + NB_LETTER_ALPHABET);
+					letterCode = letterCode + NB_LETTER_ALPHABET;
 				}
 
 			}
 
-			System.out.println("letterCode : " + letterCode + " (" + (int) letterCode + ")");
+			// System.out.println("letterCode : " + (char) letterCode + " (" +
+			// letterCode + ")");
 
-			sb.append(letterCode);
+			sb.append((char) letterCode);
 		}
 
+		System.out.println("output: " + sb.toString());
 		return sb.toString();
 	}
 
