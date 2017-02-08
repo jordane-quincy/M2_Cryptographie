@@ -7,6 +7,36 @@ import junit.framework.Assert;
 public class CesarTest {
 
 	@Test
+	public void testCM170208_01() {
+		final String sourceText = "PREMIEREXEMPLE";
+		final char key = 'Y';
+
+		final String encodedText = Cesar.encode(sourceText, key);
+
+		Assert.assertEquals("NPCKGCPCVCKNJC", encodedText);
+	}
+
+	@Test
+	public void testCM170208_02() {
+		final String sourceText = "MZMVCVDFULCVUVTIPGKF";
+		final char key = 'R';
+
+		final String encodedText = Cesar.decode(sourceText, key);
+
+		Assert.assertEquals("VIVELEMODULEDECRYPTO", encodedText);
+	}
+
+	@Test
+	public void testCM170208_03() {
+		final String sourceText = "KNSIZUWJRNJWJCT";
+		final char key = 'F';
+
+		final String encodedText = Cesar.decode(sourceText, key);
+
+		Assert.assertEquals("FINDUPREMIEREXO", encodedText);
+	}
+
+	@Test
 	public void testDecode() {
 		final String encodedText = "BCDE";
 		final char key = 'b';

@@ -16,7 +16,7 @@ public class Cesar {
 
 	public static String encodeDecode(String text, char key, boolean encode) {
 		final StringBuilder sb = new StringBuilder();
-		System.out.println(encode ? "encode" : "decode");
+		System.out.println("Cesar " + (encode ? "encode" : "decode"));
 		// obtain the shift
 		final int shift = Character.toUpperCase(key) - A;
 		System.out.println("input : " + text + " with key : " + key + " (shift : " + shift + ")");
