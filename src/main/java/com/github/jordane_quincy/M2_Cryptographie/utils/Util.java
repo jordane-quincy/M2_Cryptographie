@@ -7,14 +7,25 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class Util {
+
+	public static String convertCharacterListToString(List<Character> charList) {
+		final StringBuilder sb = new StringBuilder();
+
+		for (final Character lettre : charList) {
+			sb.append(lettre);
+		}
+
+		return sb.toString();
+	}
 
 	public static Map<Character, Integer> countLetterOccurence(String text) {
 		Map<Character, Integer> map = new HashMap<>();
 
 		for (final char letter : text.toCharArray()) {
-			System.out.println("letter : " + letter);
+			// System.out.println("letter : " + letter);
 			Integer countLetter = map.get(letter) == null ? 0 : map.get(letter);
 			countLetter++;
 			map.put(letter, countLetter);
@@ -23,6 +34,17 @@ public class Util {
 		map = sortByLetterOccurenceDesc(map);
 		System.out.println("map :" + map);
 		return map;
+	}
+
+	/**
+	 * Get the letter with the biggest occurence in the text.
+	 *
+	 * @param text
+	 * @return the Character and the number of occurence
+	 */
+	public static Entry<Character, Integer> getLetterWithMaxOccurence(String text) {
+		final Map<Character, Integer> mapLetterOccurence = countLetterOccurence(text);
+		return mapLetterOccurence.entrySet().iterator().next();
 	}
 
 	public static String removeAllNonAlphabeticalCharacters(String textOriginal) {
