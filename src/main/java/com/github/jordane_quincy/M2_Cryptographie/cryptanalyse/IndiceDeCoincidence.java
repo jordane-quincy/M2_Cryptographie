@@ -3,9 +3,14 @@ package com.github.jordane_quincy.M2_Cryptographie.cryptanalyse;
 import java.util.ArrayList;
 import java.util.Map.Entry;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.github.jordane_quincy.M2_Cryptographie.utils.Util;
 
 public class IndiceDeCoincidence {
+
+	private static final Logger LOG = LogManager.getLogger(IndiceDeCoincidence.class);
 
 	public static float getIndiceDeCoincidence(String texteChiffre, int longeurCle) {
 		final float ic = 0f;
@@ -14,11 +19,11 @@ public class IndiceDeCoincidence {
 		final ArrayList<ArrayList<Character>> lstSequence = getLstSequence(texte, longeurCle);
 
 		for (final ArrayList<Character> sequence : lstSequence) {
-			System.out.println(sequence);
+			LOG.debug("sequence : " + sequence);
 			final String sequenceString = Util.convertCharacterListToString(sequence);
-			System.out.println("sequenceString : " + sequenceString);
+
 			final Entry<Character, Integer> entryMaxOccurence = Util.getLetterWithMaxOccurence(sequenceString);
-			System.out.println("entryMaxOccurence :" + entryMaxOccurence);
+			LOG.debug("entryMaxOccurence : " + entryMaxOccurence);
 		}
 
 		return ic;

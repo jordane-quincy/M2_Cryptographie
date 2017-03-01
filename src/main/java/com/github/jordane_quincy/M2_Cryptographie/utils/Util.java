@@ -9,7 +9,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class Util {
+
+	private static final Logger LOG = LogManager.getLogger(Util.class);
 
 	public static String convertCharacterListToString(List<Character> charList) {
 		final StringBuilder sb = new StringBuilder();
@@ -32,7 +37,7 @@ public class Util {
 		}
 
 		map = sortByLetterOccurenceDesc(map);
-		System.out.println("map :" + map);
+		LOG.debug("countLetterOccurence : " + map);
 		return map;
 	}
 

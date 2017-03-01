@@ -1,6 +1,13 @@
 package com.github.jordane_quincy.M2_Cryptographie.Cesar;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.github.jordane_quincy.M2_Cryptographie.Vigenere.Vigenere;
+
 public class Cesar {
+
+	private static final Logger LOG = LogManager.getLogger(Vigenere.class);
 
 	public static final int A = 'A'; // int == 65
 	public static final int Z = 'Z'; // int == 90
@@ -16,16 +23,16 @@ public class Cesar {
 
 	public static String encodeDecode(String text, char key, boolean encode) {
 		final StringBuilder sb = new StringBuilder();
-		System.out.println("Cesar " + (encode ? "encode" : "decode"));
+		LOG.debug("Cesar " + (encode ? "encode" : "decode"));
 		// obtain the shift
 		final int shift = Character.toUpperCase(key) - A;
-		System.out.println("input : " + text + " with key : " + key + " (shift : " + shift + ")");
+		LOG.debug("input : " + text + " with key : " + key + " (shift : " + shift + ")");
 
 		for (final char letter : text.toUpperCase().toCharArray()) {
 			sb.append(encodeDecodeChar(letter, key, encode));
 		}
 
-		System.out.println("output: " + sb.toString());
+		LOG.debug("output: " + sb.toString());
 		return sb.toString();
 	}
 
