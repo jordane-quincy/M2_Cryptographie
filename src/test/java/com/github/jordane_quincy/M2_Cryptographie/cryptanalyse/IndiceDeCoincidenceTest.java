@@ -10,12 +10,13 @@ import org.junit.Test;
 public class IndiceDeCoincidenceTest {
 
 	@Test
-	public void testGetIndiceDeCoincidence() {
+	public void testFindKey() {
 		// fail("Not yet implemented");
 		final String texteChiffre = "QODBS WWOFO LOFMW MSZFK HSEES FWCSK JOFST SSBEE SVSCP KGOGC CXHKQ AISGO G";
 		final int longeurCle = 2;
-		final float ic = IndiceDeCoincidence.getIndiceDeCoincidence(texteChiffre, longeurCle);
-		// TODO: faire un vrai test !
+		final String cle = IndiceDeCoincidence.findKey(texteChiffre, longeurCle);
+
+		assertEquals("OK", cle);
 	}
 
 	@Test

@@ -12,8 +12,8 @@ public class IndiceDeCoincidence {
 
 	private static final Logger LOG = LogManager.getLogger(IndiceDeCoincidence.class);
 
-	public static float getIndiceDeCoincidence(String texteChiffre, int longeurCle) {
-		final float ic = 0f;
+	public static String findKey(String texteChiffre, int longeurCle) {
+		String cle = null;
 		final String texte = Util.removeAllNonAlphabeticalCharacters(texteChiffre);
 
 		final ArrayList<ArrayList<Character>> lstSequence = getLstSequence(texte, longeurCle);
@@ -50,9 +50,11 @@ public class IndiceDeCoincidence {
 
 		}
 
-		LOG.info(" cle = '" + sb.toString() + "'");
+		cle = sb.toString();
 
-		return ic;
+		LOG.info(" cle = '" + cle + "'");
+
+		return cle;
 	}
 
 	protected static ArrayList<ArrayList<Character>> getLstSequence(String texte, int longeurCle) {
