@@ -18,13 +18,39 @@ public class IndiceDeCoincidence {
 
 		final ArrayList<ArrayList<Character>> lstSequence = getLstSequence(texte, longeurCle);
 
+		final StringBuilder sb = new StringBuilder();
 		for (final ArrayList<Character> sequence : lstSequence) {
 			LOG.debug("sequence : " + sequence);
 			final String sequenceString = Util.convertCharacterListToString(sequence);
 
 			final Entry<Character, Integer> entryMaxOccurence = Util.getLetterWithMaxOccurence(sequenceString);
 			LOG.debug("entryMaxOccurence : " + entryMaxOccurence);
+
+			// TODO: prendre la lettre avec la plus grande occurence et faire le
+			// calcul avec la lettre la plus fréquente de la langue en question
+			// (mais comme ici on ne va faire que du francais...)
+			// final char letterMax = entryMaxOccurence.getKey();
+			// final BigDecimal letterMaxOccurence = new
+			// BigDecimal(entryMaxOccurence.getValue());
+			//
+			// final BigDecimal ratio = letterMaxOccurence.divide(new
+			// BigDecimal(sequence.size()), RoundingMode.HALF_UP);
+			// LOG.debug(letterMaxOccurence + "/" + sequence.size() + "=" +
+			// ratio);
+			//
+			// final char letterMaxDecoded = (char) (letterMax - 'E');
+			// LOG.debug("letterMaxDecoded " + letterMaxDecoded);
+
+			final char letterMax = entryMaxOccurence.getKey();
+			final char letterMaxDecoded = (char) ('A' + (letterMax - 'E'));
+			LOG.debug("letterMaxDecoded :" + (int) letterMax + "-" + (int) 'E' + ":" + (int) letterMaxDecoded + "="
+					+ letterMaxDecoded);
+
+			sb.append(letterMaxDecoded);
+
 		}
+
+		LOG.info(" cle = '" + sb.toString() + "'");
 
 		return ic;
 	}
