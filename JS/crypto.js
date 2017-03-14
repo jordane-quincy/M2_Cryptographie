@@ -53,7 +53,8 @@ const alphabet = [
     "x",
     "y",
     "z",
-    " "
+    " ",
+    "!"
 ];
 
 var vigenereEncryption = () => {
