@@ -12,4 +12,4 @@
 hs_err_pid*
 /target/
 
-./JS/node_modules/
+/JS/node_modules/
