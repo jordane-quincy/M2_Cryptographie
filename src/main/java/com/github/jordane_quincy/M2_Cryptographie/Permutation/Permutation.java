@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.github.jordane_quincy.M2_Cryptographie.Vigenere.Vigenere;
+import com.github.jordane_quincy.M2_Cryptographie.utils.Util;
 
 public class Permutation {
 
@@ -15,8 +16,10 @@ public class Permutation {
 		return encodeDecode(sourceText, newAlphabet, true);
 	}
 
-	public static String encodeDecode(String sourceText, String newAlphabet, boolean encode) {
+	public static String encodeDecode(String sourceTextOriginal, String newAlphabetOriginal, boolean encode) {
 		final StringBuilder sb = new StringBuilder();
+		final String sourceText = Util.removeAllNonAlphabeticalCharacters(sourceTextOriginal);
+		final String newAlphabet = Util.removeAllNonAlphabeticalCharacters(newAlphabetOriginal);
 		LOG.debug("sourceText : " + sourceText);
 
 		for (final char letter : sourceText.toUpperCase().toCharArray()) {
