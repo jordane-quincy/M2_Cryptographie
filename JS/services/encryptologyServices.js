@@ -20,22 +20,14 @@ var encryptLetter = (letter, shift) => {
 
 var cesarEncryption = (next) => {
 
-    const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout,
-        terminal: false
-    });
+    const rl = readline.createInterface({input: process.stdin, output: process.stdout, terminal: false});
     var textToCrypt;
     var keyToCrypt;
     var encryptedText = "";
     rl.question("Quel texte voulez-vous chiffrer ? ", (answer) => {
         textToCrypt = answer;
         rl.close();
-        const r2 = readline.createInterface({
-            input: process.stdin,
-            output: process.stdout,
-            terminal: false
-        });
+        const r2 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: false});
 
         r2.question("Avec quelle clé voulez-vous chiffrer ? ", (answer) => {
             keyToCrypt = answer;
