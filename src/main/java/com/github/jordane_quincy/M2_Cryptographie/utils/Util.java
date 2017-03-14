@@ -1,5 +1,6 @@
 package com.github.jordane_quincy.M2_Cryptographie.utils;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -39,6 +40,23 @@ public class Util {
 		map = sortByLetterOccurenceDesc(map);
 		LOG.debug("countLetterOccurence : " + map);
 		return map;
+	}
+
+	public static String detectLang(String texte) {
+		String lang = null;
+		final int nbCarMax = 5; // arbitraire, "ELLES" étant le plus grand
+
+		final List<String> WORD_FR = Arrays.asList("JE", "TU", "IL", "ELLE", "NOUS", "VOUS", "ILS", "ELLES", "CE",
+				"QUE", "QUI");
+		for (int i = 1; i <= nbCarMax; i++) {
+			final String mot = texte.substring(0, i);
+			if (WORD_FR.contains(mot)) {
+				lang = "FR";
+			}
+		}
+
+		return lang;
+
 	}
 
 	/**

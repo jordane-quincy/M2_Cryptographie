@@ -46,6 +46,19 @@
       <version>${log4j2.version}</version>
     </dependency>
   	<!-- LOGGING End -->
+  	
+  	<!-- LANGUAGE Start -->
+  	<!--<dependency>
+	    <groupId>org.apache.tika</groupId>
+	    <artifactId>tika-langdetect</artifactId>
+	    <version>1.14</version>
+	</dependency>-->
+	<!-- <dependency>
+	    <groupId>com.optimaize.languagedetector</groupId>
+	    <artifactId>language-detector</artifactId>
+	    <version>0.6</version>
+	</dependency>-->
+  	<!-- LANGUAGE End -->
     
 	
   </dependencies>
