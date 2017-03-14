@@ -1,17 +1,21 @@
 package com.github.jordane_quincy.M2_Cryptographie.Cesar;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.github.jordane_quincy.M2_Cryptographie.Vigenere.Vigenere;
-
 public class Cesar {
 
-	private static final Logger LOG = LogManager.getLogger(Vigenere.class);
+	private static final Logger LOG = LogManager.getLogger(Cesar.class);
 
-	public static final int A = 'A'; // int == 65
-	public static final int Z = 'Z'; // int == 90
-	public static final int NB_LETTER_ALPHABET = 26; // (Z - A) +1
+	private static final List<Character> ALPHABET = Arrays.asList('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
+			'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f',
+			'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', ' ',
+			'!');
+
+	private static final int NB_LETTER_ALPHABET = ALPHABET.size();
 
 	public static String decode(String encodedText, char key) {
 		return encodeDecode(encodedText, key, false);
@@ -25,10 +29,10 @@ public class Cesar {
 		final StringBuilder sb = new StringBuilder();
 		LOG.debug("Cesar " + (encode ? "encode" : "decode"));
 		// obtain the shift
-		final int shift = Character.toUpperCase(key) - A;
+		final int shift = ALPHABET.indexOf(key);
 		LOG.debug("input : " + text + " with key : " + key + " (shift : " + shift + ")");
 
-		for (final char letter : text.toUpperCase().toCharArray()) {
+		for (final char letter : text.toCharArray()) {
 			sb.append(encodeDecodeChar(letter, key, encode));
 		}
 
@@ -40,28 +44,37 @@ public class Cesar {
 		final char output;
 		// System.out.println(encode ? "encode" : "decode");
 		// obtain the shift
-		final int shift = Character.toUpperCase(key) - A;
+		final int shift = ALPHABET.indexOf(key);
 		// System.out.println("input : " + letter + " with key : " + key + "
 		// (shift : " + shift + ")");
 
 		int letterCode;
 
 		if (encode) {
+			// // encode
+			// letterCode = letter + shift;
+			// // System.out.println((int) letter + "+" + shift + " = " + (int)
+			// // letterCode + " (" + letterCode + ")");
+			// if (letterCode > Z) {
+			// letterCode = letterCode - this.NB_LETTER_ALPHABET;
+			// }
+
 			// encode
-			letterCode = letter + shift;
-			// System.out.println((int) letter + "+" + shift + " = " + (int)
-			// letterCode + " (" + letterCode + ")");
-			if (letterCode > Z) {
-				letterCode = letterCode - NB_LETTER_ALPHABET;
-			}
+			final int letterInCode = ALPHABET.indexOf(letter);
+
+			letterCode = ALPHABET.get((letterInCode + shift) % NB_LETTER_ALPHABET);
+
 		} else {
+			// // decode
+			// letterCode = letter - shift;
+			// // System.out.println((int) letter + "-" + shift + " = " + (int)
+			// // letterCode + " (" + letterCode + ")");
+			// if (letterCode < A) {
+			// letterCode = letterCode + this.NB_LETTER_ALPHABET;
+			// }
+
 			// decode
-			letterCode = letter - shift;
-			// System.out.println((int) letter + "-" + shift + " = " + (int)
-			// letterCode + " (" + letterCode + ")");
-			if (letterCode < A) {
-				letterCode = letterCode + NB_LETTER_ALPHABET;
-			}
+			letterCode = -1; // FIXME:
 		}
 
 		output = (char) letterCode;
