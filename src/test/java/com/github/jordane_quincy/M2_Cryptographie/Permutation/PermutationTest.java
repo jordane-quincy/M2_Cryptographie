@@ -7,6 +7,18 @@ import junit.framework.Assert;
 public class PermutationTest {
 
 	@Test
+	public void test_encode() {
+		final String sourceText = "Texte en francais";
+
+		final String oldAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		final String newAlphabet = "rgecvjuaspoimbwdtzxfhyklnq";
+
+		final String encodedText = Permutation.decode(sourceText, oldAlphabet, newAlphabet);
+
+		Assert.assertEquals("FVLFVVBJZRBERSX", encodedText);
+	}
+
+	@Test
 	public void testCM1_slide10_decode() {
 		final String sourceText = "YVBSYSCSYSES";
 

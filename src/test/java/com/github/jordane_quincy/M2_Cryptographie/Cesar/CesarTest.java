@@ -70,30 +70,30 @@ public class CesarTest {
 	}
 
 	@Test
-	public void testEncode() {
+	public void testEncodeWhenLowercase() {
 		final String sourceText = "abcd";
 		final char key = 'b';
 
 		final String encodedText = Cesar.encode(sourceText, key);
 
 		// assert encoding
-		Assert.assertEquals("BCDE", encodedText);
+		Assert.assertEquals("bcde", encodedText);
 	}
 
 	@Test
-	public void testEncodeWhenLowercase() {
+	public void testEncodeWhenLowercaseWithKeyUppercase() {
 		final String sourceText = "abcd";
-		final char key = 'a';
+		final char key = 'A'; // no shift
 
 		final String encodedText = Cesar.encode(sourceText, key);
 
-		Assert.assertEquals("ABCD", encodedText);
+		Assert.assertEquals("abcd", encodedText);
 	}
 
 	@Test
-	public void testEncodeWhenUppercase() {
+	public void testEncodeWhenUppercaseWithKeyUppercase() {
 		final String sourceText = "ABCD";
-		final char key = 'A';
+		final char key = 'A'; // no shift
 
 		final String encodedText = Cesar.encode(sourceText, key);
 
