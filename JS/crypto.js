@@ -57,6 +57,22 @@ const alphabet = [
     "!"
 ];
 
+
+/**
+ * Fonction cryptant la lettre en fonction du décallage voulez-vous
+ * @param  {char} letter lettre à crypter
+ * @param  {int}  shift  Décallage voulu
+ * @return {char}        lettre crypté
+ */
+var encryptLetter = (letter, shift) => {
+    let letterInCode = _.indexOf(alphabet, letter);
+    if (letterInCode === -1) {
+        // La lettre n'est pas dans l'alphabet
+        return null;
+    }
+    return alphabet[(letterInCode + shift) % alphabet.length];
+}
+
 var vigenereEncryption = () => {
     console.log("test");
     const rl = readline.createInterface({
@@ -83,9 +99,7 @@ var vigenereEncryption = () => {
             console.log("la clé est : " + keyToCrypt);
             var shift = _.indexOf(alphabet, keyToCrypt);
             for (var i = 0; i < textToCrypt.length; i++) {
-                let letterInCode = _.indexOf(alphabet, textToCrypt[i]);
-                let encryptedLetterInCode = (letterInCode + shift) % alphabet.length;
-                encryptedText += alphabet[encryptedLetterInCode];
+                encryptedText += encryptLetter(textToCrypt[i], shift);
             }
             console.log(`le text crypté est : "${encryptedText}"`);
 
