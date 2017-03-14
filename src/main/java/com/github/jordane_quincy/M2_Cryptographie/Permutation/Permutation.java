@@ -3,12 +3,11 @@ package com.github.jordane_quincy.M2_Cryptographie.Permutation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.github.jordane_quincy.M2_Cryptographie.Vigenere.Vigenere;
 import com.github.jordane_quincy.M2_Cryptographie.utils.Util;
 
 public class Permutation {
 
-	private static final Logger LOG = LogManager.getLogger(Vigenere.class);
+	private static final Logger LOG = LogManager.getLogger(Permutation.class);
 
 	private static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -20,9 +19,9 @@ public class Permutation {
 		final StringBuilder sb = new StringBuilder();
 		final String sourceText = Util.removeAllNonAlphabeticalCharacters(sourceTextOriginal);
 		final String newAlphabet = Util.removeAllNonAlphabeticalCharacters(newAlphabetOriginal);
-		LOG.debug("sourceText : " + sourceText);
+		LOG.info("sourceText : " + sourceText);
 
-		for (final char letter : sourceText.toUpperCase().toCharArray()) {
+		for (final char letter : sourceText.toCharArray()) {
 
 			// On retrouve l'index de la lettre à coder dans l'alphabet clair
 			final int indexLetter = ALPHABET.indexOf(letter);
@@ -32,7 +31,7 @@ public class Permutation {
 			sb.append(letterConverted);
 		}
 
-		LOG.debug("Permuted text : " + sb.toString());
+		LOG.info("Permuted text : " + sb.toString());
 		return sb.toString();
 	}
 
