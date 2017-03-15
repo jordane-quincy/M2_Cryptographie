@@ -1,6 +1,5 @@
 package com.github.jordane_quincy.M2_Cryptographie.Cesar;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -10,45 +9,40 @@ public class Cesar {
 
 	private static final Logger LOG = LogManager.getLogger(Cesar.class);
 
-	private static final List<Character> ALPHABET = Arrays.asList('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
-			'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f',
-			'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', ' ',
-			'!');
-
-	private static final int NB_LETTER_ALPHABET = ALPHABET.size();
-
-	public static String decode(String encodedText, char key) {
-		return encodeDecode(encodedText, key, false);
+	public static String decode(String encodedText, List<Character> alphabet, char key) {
+		return encodeDecode(encodedText, alphabet, key, false);
 	}
 
-	public static String encode(String sourceText, char key) {
-		return encodeDecode(sourceText, key, true);
+	public static String encode(String sourceText, List<Character> alphabet, char key) {
+		return encodeDecode(sourceText, alphabet, key, true);
 	}
 
-	public static String encodeDecode(String text, char key, boolean encode) {
+	public static String encodeDecode(String text, List<Character> alphabet, char key, boolean encode) {
 		final StringBuilder sb = new StringBuilder();
 		LOG.debug("Cesar " + (encode ? "encode" : "decode"));
 		// obtain the shift
-		final int shift = ALPHABET.indexOf(key);
+		final int shift = alphabet.indexOf(key);
 		LOG.debug("input : " + text + " with key : " + key + " (shift : " + shift + ")");
 
 		for (final char letter : text.toCharArray()) {
-			sb.append(encodeDecodeChar(letter, key, encode));
+			sb.append(encodeDecodeChar(letter, alphabet, key, encode));
 		}
 
 		LOG.debug("output: " + sb.toString());
 		return sb.toString();
 	}
 
-	public static char encodeDecodeChar(char letter, char key, boolean encode) {
+	public static char encodeDecodeChar(char letter, List<Character> alphabet, char key, boolean encode) {
 		final char output;
-		// System.out.println(encode ? "encode" : "decode");
+
 		// obtain the shift
-		final int shift = ALPHABET.indexOf(key);
-		// System.out.println("input : " + letter + " with key : " + key + "
-		// (shift : " + shift + ")");
+		final int shift = alphabet.indexOf(key);
+		// LOG.debug("shift :" + shift);
 
 		int letterCode;
+
+		final int letterIndex = alphabet.indexOf(letter);
+		// LOG.debug("letter : " + letter + ", letterIndex : " + letterIndex);
 
 		if (encode) {
 			// // encode
@@ -60,9 +54,7 @@ public class Cesar {
 			// }
 
 			// encode
-			final int letterInCode = ALPHABET.indexOf(letter);
-
-			letterCode = ALPHABET.get((letterInCode + shift) % NB_LETTER_ALPHABET);
+			letterCode = alphabet.get((letterIndex + shift) % alphabet.size());
 
 		} else {
 			// // decode
@@ -73,8 +65,14 @@ public class Cesar {
 			// letterCode = letterCode + this.NB_LETTER_ALPHABET;
 			// }
 
+			int tmpLetterCode = (letterIndex - shift) % alphabet.size();
+
+			if (tmpLetterCode < 0) {
+				tmpLetterCode = tmpLetterCode + alphabet.size();
+			}
+
 			// decode
-			letterCode = -1; // FIXME:
+			letterCode = alphabet.get(tmpLetterCode);
 		}
 
 		output = (char) letterCode;
