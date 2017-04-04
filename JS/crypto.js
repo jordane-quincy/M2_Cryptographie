@@ -8,13 +8,17 @@ const encryptologyServices = require('services/encryptologyServices');
 var menu = () => {
     console.log("Quel service voulez-vous utilisez ?");
     console.log("1 - Chiffrer un text en donnant une clé avec l'algorithme de César");
+    console.log("2 - Déchiffrer un text en donnant la clé avec l'algorithme de César");
     console.log("0 - Quitter");
     var readline1 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: false});
     readline1.question("Faites-votre choix : ", (answer) => {
         readline1.close();
         switch (answer) {
             case "1":
-                encryptologyServices.cesarEncryption(menu);
+                encryptologyServices.cesarEncoding(menu);
+                break;
+            case "2":
+                encryptologyServices.cesarDecoding(menu);
                 break;
             case "0":
                 console.log("Au revoir");
