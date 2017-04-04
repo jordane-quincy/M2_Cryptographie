@@ -11,7 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.github.jordane_quincy.M2_Cryptographie.Cesar.Cesar;
-import com.github.jordane_quincy.M2_Cryptographie.Permutation.Permutation;
+import com.github.jordane_quincy.M2_Cryptographie.Switch.Permutation;
 import com.github.jordane_quincy.M2_Cryptographie.Vigenere.Vigenere;
 import com.github.jordane_quincy.M2_Cryptographie.utils.Util;
 

@@ -3,8 +3,6 @@ package com.github.jordane_quincy.M2_Cryptographie.Switch;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.github.jordane_quincy.M2_Cryptographie.utils.Util;
-
 public class Permutation {
 
 	private static final Logger LOG = LogManager.getLogger(Permutation.class);
@@ -20,19 +18,23 @@ public class Permutation {
 	public static String encodeDecode(String sourceTextOriginal, String oldAlphabetOriginal, String newAlphabetOriginal,
 			boolean encode) {
 		final StringBuilder sb = new StringBuilder();
-		final String sourceText = Util.removeAllNonAlphabeticalCharacters(sourceTextOriginal);
-		final String newAlphabet = Util.removeAllNonAlphabeticalCharacters(newAlphabetOriginal);
-		final String oldAlphabet = Util.removeAllNonAlphabeticalCharacters(oldAlphabetOriginal);
+		final String sourceText = sourceTextOriginal;
+		final String newAlphabet = newAlphabetOriginal;
+		final String oldAlphabet = oldAlphabetOriginal;
 		LOG.info("sourceText : " + sourceText);
 
 		for (final char letter : sourceText.toCharArray()) {
 
 			// On retrouve l'index de la lettre à coder dans l'alphabet clair
 			final int indexLetter = oldAlphabet.indexOf(letter);
-			final char letterConverted = newAlphabet.substring(indexLetter, indexLetter + 1).charAt(0);
+			if (indexLetter == -1) {
+				LOG.debug("letter '" + letter + "' not found in :" + oldAlphabet);
+			} else {
+				final char letterConverted = newAlphabet.substring(indexLetter, indexLetter + 1).charAt(0);
 
-			LOG.debug("letter '" + letter + "' : '" + letterConverted + "'");
-			sb.append(letterConverted);
+				LOG.debug("letter '" + letter + "' : '" + letterConverted + "'");
+				sb.append(letterConverted);
+			}
 		}
 
 		LOG.info("Permuted text : " + sb.toString());
