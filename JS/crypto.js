@@ -14,7 +14,7 @@ var menu = () => {
         readline1.close();
         switch (answer) {
             case "1":
-                encryptologyServices.cesarEncryption(menu);
+                encryptologyServices.cesarEncoding(menu);
                 break;
             case "0":
                 console.log("Au revoir");
