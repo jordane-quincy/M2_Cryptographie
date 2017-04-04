@@ -98,6 +98,6 @@ var cesarDecoding = (next) => {
 module.exports = {
     encodeLetter,
     decodeLetter,
-    cesarEncryption,
+    cesarEncoding,
     cesarDecoding
 };
