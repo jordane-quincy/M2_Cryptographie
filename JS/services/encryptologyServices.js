@@ -9,7 +9,7 @@ const menu = require('crypto');
  * @param  {int}  shift  Décallage voulu
  * @return {char}        lettre crypté
  */
-var encodeLetter = (letter, shift) => {
+const encodeLetter = (letter, shift) => {
     let letterIndex = _.indexOf(alphabet, letter);
     if (letterIndex === -1) {
         // La lettre n'est pas dans l'alphabet
@@ -18,7 +18,7 @@ var encodeLetter = (letter, shift) => {
     return alphabet[(letterIndex + shift) % alphabet.length];
 };
 
-var decodeLetter = (letter, shift) => {
+const decodeLetter = (letter, shift) => {
     let letterIndex = _.indexOf(alphabet, letter);
     if (letterIndex === -1) {
         return null;
@@ -33,23 +33,22 @@ var decodeLetter = (letter, shift) => {
     ];
 }
 
-var cesarEncoding = (next) => {
+const cesarEncoding = (next) => {
     const rl = readline.createInterface({input: process.stdin, output: process.stdout, terminal: false});
-    var textToEncode;
-    var usedKey;
-    var encodedText = "";
     rl.question("Quel texte voulez-vous chiffrer ? ", (answer) => {
+        let textToEncode;
         textToEncode = answer;
         rl.close();
         const r2 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: false});
-
         r2.question("Avec quelle clé voulez-vous chiffrer ? ", (answer) => {
+            let usedKey;
+            let encodedText = "";
             usedKey = answer;
             r2.close();
             console.log("le text est : " + textToEncode);
             console.log("la clé est : " + usedKey);
-            var shift = _.indexOf(alphabet, usedKey);
-            for (var i = 0; i < textToEncode.length; i++) {
+            let shift = _.indexOf(alphabet, usedKey);
+            for (let i = 0; i < textToEncode.length; i++) {
                 let encodedLetter = encodeLetter(textToEncode[i], shift);
                 if (!encodedLetter) {
                     // La lettre n'est pas dans l'alphabet il faut le dire à l'utilisateur et sortir du programme
@@ -64,23 +63,22 @@ var cesarEncoding = (next) => {
     });
 };
 
-var cesarDecoding = (next) => {
-    const rl = readline.createInterface({input: process.stdin, output: process.stdout, terminal: false});
-    var textToDecode;
-    var usedKey;
-    var decodedText = "";
+const cesarDecoding = (next) => {
+    const rl = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
     rl.question("Quel texte voulez-vous déchiffrer ? ", (answer) => {
+        let textToDecode;
         textToDecode = answer;
         rl.close();
-        const r2 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: false});
-
+        const r2 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
         r2.question("Avec quelle clé le texte a été chiffré ? ", (answer) => {
+            let usedKey;
+            let decodedText = "";
             usedKey = answer;
             r2.close();
             console.log("le text est : " + textToDecode);
             console.log("la clé est : " + usedKey);
-            var shift = _.indexOf(alphabet, usedKey);
-            for (var i = 0; i < textToDecode.length; i++) {
+            let shift = _.indexOf(alphabet, usedKey);
+            for (let i = 0; i < textToDecode.length; i++) {
                 let decodedLetter = decodeLetter(textToDecode[i], shift);
                 if (!decodedLetter) {
                     // La lettre n'est pas dans l'alphabet il faut le dire à l'utilisateur et sortir du programme
@@ -94,6 +92,12 @@ var cesarDecoding = (next) => {
         });
     });
 };
+
+var permuttationEncoding = (next) => {
+    const r1 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
+    let te
+}
+
 
 module.exports = {
     encodeLetter,
