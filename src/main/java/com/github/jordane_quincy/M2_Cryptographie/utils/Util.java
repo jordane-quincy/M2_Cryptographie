@@ -28,6 +28,9 @@ public class Util {
 	public static final List<Character> ALPHABET_FR_MIN = Arrays.asList('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
 			'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z');
 
+	public static final String QUIT = "quit";
+	public static final String PIPE = "|";
+
 	public static String convertCharacterListToString(List<Character> charList) {
 		final StringBuilder sb = new StringBuilder();
 
@@ -105,5 +108,12 @@ public class Util {
 		}
 
 		return result;
+	}
+
+	public static String switchChar(char oldChar, char newChar, String text) {
+		// On utilise un charactere temporaire
+		final char forbiddenChar = Util.PIPE.charAt(0);
+
+		return text.replace(newChar, forbiddenChar).replace(oldChar, newChar).replace(forbiddenChar, oldChar);
 	}
 }

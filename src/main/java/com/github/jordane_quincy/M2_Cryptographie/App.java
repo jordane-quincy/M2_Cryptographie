@@ -110,30 +110,50 @@ public class App {
 				Permutation.decode(sourceText, keyString, alphabet_fr);
 				break;
 			case 3:
-				System.out.println("\tSaisir 'quit' pour quitter.");
+				System.out.println("\tSaisir '" + Util.QUIT + "' pour quitter.");
 				String decryptedText = "";
-				final String saisie = "";
-				int i = 0;
+				// pour avoir les mêmes caracteres dans l'ancien et le nouvel alphabet au début
+				keyString = Util.convertCharacterListToString(Util.ALPHABET_FR_FULL);
+				String saisie = "";
+				int nbLetterDecrypted = 0;
+				char letterDecrypted = ' ';
 				final Set<Entry<Character, Integer>> entryLetterOccurence = Util.countLetterOccurence(sourceText)
 						.entrySet();
 				final Iterator<Entry<Character, Integer>> letterOccurenceIterator = entryLetterOccurence.iterator();
 				final List<Character> listOccurenceCharReference = Arrays.asList('e', 'a', 's', 'n', 'r', 't', 'i', 'u',
 						'o', 'l', 'p', 'd', 'c', 'm', 'v', 'b', 'q', 'f', 'g', 'h', 'j', 'y', 'w', 'k', 'x', 'z');
-				while (i < sourceText.length() && !saisie.equalsIgnoreCase("quit")) {
+				while (nbLetterDecrypted < sourceText.length() && !Util.QUIT.equalsIgnoreCase(saisie)) {
 					final Entry<Character, Integer> letterOccurence = letterOccurenceIterator.next();
 					final char letterCrypted = letterOccurence.getKey();
 
-					final char letterDecryptedProposed = listOccurenceCharReference.get(i);
-					keyString += letterDecryptedProposed;
+					final char letterDecryptedProposed = listOccurenceCharReference.get(nbLetterDecrypted);
+					// par défaut, la letterDecrypted est celle proposé par le programme
+					letterDecrypted = letterDecryptedProposed;
+					System.out.println("Remplacer '" + letterCrypted + "' par '" + letterDecryptedProposed + "' ?");
+					saisie = sc.next();
+					if (Util.PIPE.equalsIgnoreCase(saisie)) {
+						nbLetterDecrypted--;
+					} else {
+						if (saisie.length() > 0) {
+							// mais si l'utilisateur saisie quelque chose
+							// (hormis
+							// Entrée), on prend sa lettre
+							letterDecrypted = saisie.charAt(0);
+						}
 
-					decryptedText = Permutation.decode(sourceText, keyString, alphabet_fr);
+						keyString = Util.switchChar(letterCrypted, letterDecrypted, keyString);
 
-					System.out.print("sourceText : " + sourceText + "\n" + //
-							"letterCrypted : " + letterCrypted + "\n" + //
-							"letterDecryptedProposed : " + letterDecryptedProposed + "\n" + //
-							"decryptedText : " + decryptedText + "\n" //
-					);
-					i++;
+						decryptedText = Permutation.decode(sourceText, alphabet_fr, keyString);
+
+						System.out.print("sourceText : " + sourceText + "\n" + //
+								"letterCrypted : " + letterCrypted + "\n" + //
+								"letterDecrypted : " + letterDecrypted + "\n" + //
+								"keyString : " + keyString + "\n" + //
+								"decryptedText : " + decryptedText + "\n" //
+						);
+
+						nbLetterDecrypted++;
+					}
 				}
 
 				System.out.println("decryptedText : " + decryptedText);
