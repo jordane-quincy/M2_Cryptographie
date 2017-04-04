@@ -53,8 +53,13 @@ public class Cesar {
 			// letterCode = letterCode - this.NB_LETTER_ALPHABET;
 			// }
 
+			int tmpLetterCode = (letterIndex + shift) % alphabet.size();
+			if (tmpLetterCode < 0) {
+				tmpLetterCode = letterIndex - shift;
+			}
+
 			// encode
-			letterCode = alphabet.get((letterIndex + shift) % alphabet.size());
+			letterCode = alphabet.get(tmpLetterCode);
 
 		} else {
 			// // decode

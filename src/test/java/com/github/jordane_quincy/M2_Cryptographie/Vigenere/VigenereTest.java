@@ -2,6 +2,8 @@ package com.github.jordane_quincy.M2_Cryptographie.Vigenere;
 
 import org.junit.Test;
 
+import com.github.jordane_quincy.M2_Cryptographie.utils.Util;
+
 import junit.framework.Assert;
 
 public class VigenereTest {
@@ -11,10 +13,10 @@ public class VigenereTest {
 		final String encodedText = "b";
 		final String key = "b";
 
-		final String sourceText = Vigenere.decode(encodedText, key);
+		final String sourceText = Vigenere.decode(encodedText, key, Util.ALPHABET_FR_MIN);
 
 		// assert encoding
-		Assert.assertEquals("A", sourceText);
+		Assert.assertEquals("a", sourceText);
 	}
 
 	@Test
@@ -23,7 +25,7 @@ public class VigenereTest {
 				+ "KEGACCJPKKTTPRGIFVQRGEBPKKPTOF" + "LICZRQTLGHURGIGKGCEVJPKK";
 		final String key = "CRYP";
 
-		final String encodedText = Vigenere.decode(sourceText, key);
+		final String encodedText = Vigenere.decode(sourceText, key, Util.ALPHABET_FR_MAJ);
 
 		// assert encoding
 		Assert.assertEquals("GAVROCHECOMPLETEMENTENVOLEETRA" + "DIEUXSETAITCHARGEDELAMISEENTRAI"
@@ -35,10 +37,10 @@ public class VigenereTest {
 		final String sourceText = "a";
 		final String key = "b";
 
-		final String encodedText = Vigenere.encode(sourceText, key);
+		final String encodedText = Vigenere.encode(sourceText, key, Util.ALPHABET_FR_MIN);
 
 		// assert encoding
-		Assert.assertEquals("B", encodedText);
+		Assert.assertEquals("b", encodedText);
 	}
 
 	@Test
@@ -46,7 +48,7 @@ public class VigenereTest {
 		final String sourceText = "CAMARCHE";
 		final String key = "ROI";
 
-		final String encodedText = Vigenere.encode(sourceText, key);
+		final String encodedText = Vigenere.encode(sourceText, key, Util.ALPHABET_FR_MAJ);
 
 		// assert encoding
 		Assert.assertEquals("TOURFKYS", encodedText);
@@ -57,7 +59,7 @@ public class VigenereTest {
 		final String sourceText = "LACRYPTOESTSYMPA";
 		final String key = "ABC";
 
-		final String encodedText = Vigenere.encode(sourceText, key);
+		final String encodedText = Vigenere.encode(sourceText, key, Util.ALPHABET_FR_MAJ);
 
 		// assert encoding
 		Assert.assertEquals("LBERZRTPGSUUYNRA", encodedText);
@@ -68,10 +70,10 @@ public class VigenereTest {
 		final String sourceText = "aaa";
 		final String key = "b";
 
-		final String encodedText = Vigenere.encode(sourceText, key);
+		final String encodedText = Vigenere.encode(sourceText, key, Util.ALPHABET_FR_MIN);
 
 		// assert encoding
-		Assert.assertEquals("BBB", encodedText);
+		Assert.assertEquals("bbb", encodedText);
 	}
 
 	@Test
@@ -79,10 +81,10 @@ public class VigenereTest {
 		final String sourceText = "aaa";
 		final String key = "bc";
 
-		final String encodedText = Vigenere.encode(sourceText, key);
+		final String encodedText = Vigenere.encode(sourceText, key, Util.ALPHABET_FR_MIN);
 
 		// assert encoding
-		Assert.assertEquals("BCB", encodedText);
+		Assert.assertEquals("bcb", encodedText);
 	}
 
 }

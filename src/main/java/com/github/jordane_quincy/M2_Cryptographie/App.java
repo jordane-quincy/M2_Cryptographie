@@ -148,10 +148,16 @@ public class App {
 		case 3:
 			switch (operation) {
 			case 1:
-				Vigenere.encode(sourceText, keyString);
+				Vigenere.encode(sourceText, keyString, Util.ALPHABET_FR_MIN); // TODO:
+																				// pouvoir
+																				// changer
+																				// d'alphabet
 				break;
 			case 2:
-				Vigenere.decode(sourceText, keyString);
+				Vigenere.decode(sourceText, keyString, Util.ALPHABET_FR_MIN); // TODO:
+																				// pouvoir
+																				// changer
+																				// d'alphabet
 				break;
 			default:
 				break;
