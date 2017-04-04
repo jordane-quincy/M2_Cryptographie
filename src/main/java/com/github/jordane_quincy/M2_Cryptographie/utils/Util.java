@@ -17,6 +17,18 @@ public class Util {
 
 	private static final Logger LOG = LogManager.getLogger(Util.class);
 
+	public static final List<Character> ALPHABET_FR_FULL = Arrays.asList('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
+			'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', //
+			'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u',
+			'v', 'w', 'x', 'y', 'z', //
+			' ', '!');
+
+	public static final List<Character> ALPHABET_FR_MAJ = Arrays.asList('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
+			'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
+
+	public static final List<Character> ALPHABET_FR_MIN = Arrays.asList('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
+			'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z');
+
 	public static String convertCharacterListToString(List<Character> charList) {
 		final StringBuilder sb = new StringBuilder();
 

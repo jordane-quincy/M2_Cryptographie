@@ -87,10 +87,12 @@ public class App {
 		case 1:
 			switch (operation) {
 			case 1:
-				Cesar.encode(sourceText, keyString.charAt(0));
+				// FIXME: pouvoir select l'alphabet
+				Cesar.encode(sourceText, Util.ALPHABET_FR_MAJ, keyString.charAt(0));
 				break;
 			case 2:
-				Cesar.decode(sourceText, keyString.charAt(0));
+				// FIXME: pouvoir select l'alphabet
+				Cesar.decode(sourceText, Util.ALPHABET_FR_MAJ, keyString.charAt(0));
 				break;
 			default:
 				break;

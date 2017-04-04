@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.github.jordane_quincy.M2_Cryptographie.Cesar.Cesar;
+import com.github.jordane_quincy.M2_Cryptographie.utils.Util;
 
 public class Vigenere {
 
@@ -30,7 +31,8 @@ public class Vigenere {
 			final char keyLetter = key.charAt(i % key.length());
 			// System.out.println(letter + " " + keyLetter);
 
-			final char car = Cesar.encodeDecodeChar(letter, keyLetter, encode);
+			// FIXME: pouvoir changer d'alphabet
+			final char car = Cesar.encodeDecodeChar(letter, Util.ALPHABET_FR_MAJ, keyLetter, encode);
 
 			sb.append(car);
 		}
