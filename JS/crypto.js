@@ -1,3 +1,4 @@
+'use strict'
 const appModulePath = require('app-module-path');
 appModulePath.addPath('./');
 const readline = require('readline');
