@@ -200,7 +200,7 @@ const askKeyForPermuttationEncoding = (textToEncode, callback, finalCallback) =>
 };
 
 const permuttationEncodingSuite = (key, textToEncode, next) => {
-    console.log(`La clé qui va être utilisée est donc : ${key}`);
+    console.log(`La clé qui va être utilisée est donc : "${key}"`);
     let encodedText = "";
     for (let i = 0; i < textToEncode.length; i++) {
         // On récupère l'index de la lettre à encoder dans notre alphabet
@@ -214,7 +214,7 @@ const permuttationEncodingSuite = (key, textToEncode, next) => {
         let encodedLetter = key[_.indexOf(alphabet, textToEncode[i])];
         encodedText += encodedLetter;
     }
-    console.log(`le text crypté est : "${encodedText}"\n\n\n`);
+    console.log(`le texte crypté est : "${encodedText}"\n\n\n`);
     next();
 };
 
@@ -260,8 +260,22 @@ const permuttationDecoding = (next) => {
             L'ordre de la clé suivra l'ordre des lettres de l'alphabet donnée juste en dessous
             L'alphabet supporté est : ${(alphabet.join("|"))} `, answer => {
             const usedKey = answer;
-            console.log(usedKey);
-            next();
+            r2.close();
+            // On teste si la clé donnée est correcte
+            if (!isGoodPermuttationKey(usedKey)) {
+                console.log("La clé que vous venez de donner n'est pas conforme, on recommence !!");
+                permuttationDecoding(next);
+            }
+            else {
+                // La clé est correcte on peut faire le déchiffrement
+                let decodedText = "";
+                for (let i = 0; i < textToDecode.length; i++) {
+                    let indexOfLetterToDecode = usedKey.indexOf(textToDecode[i]);
+                    decodedText += alphabet[indexOfLetterToDecode];
+                }
+                console.log(`Le texte décrypté est : "${decodedText}"\n\n\n`);
+                next();
+            }
         });
     });
 };
