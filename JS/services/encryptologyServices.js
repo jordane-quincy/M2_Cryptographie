@@ -137,7 +137,7 @@ const cesarDecrypting = (next) => {
         //On est en français donc la letter qui apparait le plus dans le texte chiffré est un 'e' dans le texte en clair
 
         let shiftLetterMaxOccurence = _.indexOf(alphabet, letterMaxOccurence);
-        let shiftLetterE = _.indexOf(alphabet, 'E');
+        let shiftLetterE = _.indexOf(alphabet, 'E');//FIXME: prendre la premiere lettre du tableau de fréquence
 
         let shift = ((shiftLetterMaxOccurence - shiftLetterE) % alphabet.length);
         // console.log(`shift : "${shift}"\n`);
