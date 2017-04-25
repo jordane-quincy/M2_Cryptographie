@@ -1,5 +1,6 @@
 'use strict'
 const alphabet = require('config/config').alphabet;
+const freqApparitionLetter = require('config/config').freqApparitionLetter;
 const readline = require('readline');
 const _ = require('lodash');
 const menu = require('crypto');
