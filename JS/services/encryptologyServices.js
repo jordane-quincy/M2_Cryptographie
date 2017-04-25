@@ -266,9 +266,6 @@ const permuttationDecoding = (next) => {
     });
 };
 
-
-
-
 module.exports = {
     encodeLetter,
     decodeLetter,
