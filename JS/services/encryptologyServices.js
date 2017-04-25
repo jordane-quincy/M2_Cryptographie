@@ -69,7 +69,7 @@ const cesarDecoding = (next) => {
         let textToDecode = answer;
         rl.close();
         const r2 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
-        r2.question("Avec quelle clé le texte a été chiffré ? ", (answer) => {
+        r2.question("Avec quelle clé le texte a été chiffré ? ", answer => {
             let usedKey;
             let decodedText = "";
             usedKey = answer;
@@ -247,7 +247,7 @@ const askKeyForPermuttationEncoding = (textToEncode, callback, finalCallback) =>
     const r3 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
     console.log(`Votre clé doit faire la taille de l'alphabet de l'algorithme.
     Une lettre correspond à une autre (2 lettres ne peuvent pas être chiffrées avec la même lettre)
-    L'ordre de la clé suivra l'ordre des lettres de l'alphabet donnée juste en dessous\n
+    L'ordre de la clé suivra l'ordre des lettres de l'alphabet donnée juste en dessous
     L'alphabet supporté est : ${(alphabet.join("|"))}`);
     r3.question("Donner votre clé : ", (answer) => {
         let isGoodKey = isGoodPermuttationKey(answer);
@@ -265,7 +265,7 @@ const askKeyForPermuttationEncoding = (textToEncode, callback, finalCallback) =>
 };
 
 const permuttationEncodingSuite = (key, textToEncode, next) => {
-    console.log(`La clé qui va être utilisée est donc : ${key}`);
+    console.log(`La clé qui va être utilisée est donc : "${key}"`);
     let encodedText = "";
     for (let i = 0; i < textToEncode.length; i++) {
         // On récupère l'index de la lettre à encoder dans notre alphabet
@@ -279,13 +279,13 @@ const permuttationEncodingSuite = (key, textToEncode, next) => {
         let encodedLetter = key[_.indexOf(alphabet, textToEncode[i])];
         encodedText += encodedLetter;
     }
-    console.log(`le text crypté est : "${encodedText}"\n\n\n`);
+    console.log(`le texte crypté est : "${encodedText}"\n\n\n`);
     next();
 };
 
 const permuttationEncoding = (next) => {
     const r1 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
-    r1.question("Quel text voulez-vous chiffrer ?", (answer) => {
+    r1.question("Quel text voulez-vous chiffrer ?", answer => {
         let textToEncode = answer;
         r1.close();
         const r2 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
@@ -312,16 +312,47 @@ const permuttationEncoding = (next) => {
     });
 };
 
+const permuttationDecoding = (next) => {
+    const r1 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
+    r1.question("Quel text voulez-vous déchiffrer ?", answer => {
+        let textToDecode = answer;
+        r1.close();
+        const r2 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
 
-
+        r2.question(`Avec quelle clé le texte a été chiffré ?
+            La clé doit faire la taille de l'alphabet de l'algorithme.
+            Une lettre correspond à une autre (2 lettres ne peuvent pas être chiffrées avec la même lettre)
+            L'ordre de la clé suivra l'ordre des lettres de l'alphabet donnée juste en dessous
+            L'alphabet supporté est : ${(alphabet.join("|"))} `, answer => {
+            const usedKey = answer;
+            r2.close();
+            // On teste si la clé donnée est correcte
+            if (!isGoodPermuttationKey(usedKey)) {
+                console.log("La clé que vous venez de donner n'est pas conforme, on recommence !!");
+                permuttationDecoding(next);
+            }
+            else {
+                // La clé est correcte on peut faire le déchiffrement
+                let decodedText = "";
+                for (let i = 0; i < textToDecode.length; i++) {
+                    let indexOfLetterToDecode = usedKey.indexOf(textToDecode[i]);
+                    decodedText += alphabet[indexOfLetterToDecode];
+                }
+                console.log(`Le texte décrypté est : "${decodedText}"\n\n\n`);
+                next();
+            }
+        });
+    });
+};
 
 module.exports = {
     encodeLetter,
     decodeLetter,
     cesarEncoding,
     cesarDecoding,
+    cesarDecrypting,
     vigenereEncoding,
     vigenereDecoding,
-    cesarDecrypting,
-    permuttationEncoding
+    permuttationEncoding,
+    permuttationDecoding
 };
