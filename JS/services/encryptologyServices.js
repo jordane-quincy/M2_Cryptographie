@@ -315,7 +315,7 @@ const permuttationEncoding = (next) => {
 
 const permuttationDecoding = (next) => {
     const r1 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
-    r1.question("Quel text voulez-vous déchiffrer ?", answer => {
+    r1.question("Quel texte voulez-vous déchiffrer ?", answer => {
         let textToDecode = answer;
         r1.close();
         const r2 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
@@ -346,6 +346,42 @@ const permuttationDecoding = (next) => {
     });
 };
 
+// Récupérer tableau ordonnée des lettres de la plus présente dans le texte à la moins présente en partant de la map
+const getTabOccurenceLetter = mapLetterOccurence => {
+    let tabLetterOccurence = [];
+    for (let [letter, countLetter] of mapLetterOccurence) {
+        tabLetterOccurence.push(
+            {
+                letter,
+                countLetter
+            }
+        );
+    }
+    tabLetterOccurence.sort((a, b) => {
+        return b.countLetter - a.countLetter;
+    });
+    return tabLetterOccurence;
+};
+
+const permuttationDecrypting = next => {
+    const r1 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
+    r1.question("Quel texte voulez-vous décrypter ?", answer => {
+        let textToDecrypt = answer;
+        r1.close();
+        let mapLetterOccurence = countLetterOccurence(textToDecrypt);
+        let tabLetterOccurence = getTabOccurenceLetter(mapLetterOccurence);
+        tabLetterOccurence.forEach((letterToReplace, index) => {
+            console.log(letterToReplace);
+            console.log(index);
+            let replacedLetter = freqApparitionLetter[index];
+            console.log(replacedLetter);
+            textToDecrypt = textToDecrypt.replace(new RegExp(letterToReplace.letter, 'g'), replacedLetter);
+            console.log("Etape " + (index + 1) + "texte décrypté = " + textToDecrypt);
+        });
+        next();
+    });
+}
+
 module.exports = {
     encodeLetter,
     decodeLetter,
@@ -355,5 +391,6 @@ module.exports = {
     vigenereEncoding,
     vigenereDecoding,
     permuttationEncoding,
-    permuttationDecoding
+    permuttationDecoding,
+    permuttationDecrypting
 };
