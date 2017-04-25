@@ -31,16 +31,15 @@ const decodeLetter = (letter, shift) => {
                 ((letterIndex - shift) % alphabet.length) + alphabet.length
         )
     ];
-}
+};
 
 const cesarEncoding = (next) => {
     const rl = readline.createInterface({input: process.stdin, output: process.stdout, terminal: false});
-    rl.question("Quel texte voulez-vous chiffrer ? ", (answer) => {
-        let textToEncode;
-        textToEncode = answer;
+    rl.question("Quel texte voulez-vous chiffrer ? ", answer => {
+        let textToEncode = answer;
         rl.close();
-        const r2 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: false});
-        r2.question("Avec quelle clé voulez-vous chiffrer ? ", (answer) => {
+        const r2 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
+        r2.question("Avec quelle clé voulez-vous chiffrer ? ", answer => {
             let usedKey;
             let encodedText = "";
             usedKey = answer;
@@ -65,9 +64,8 @@ const cesarEncoding = (next) => {
 
 const cesarDecoding = (next) => {
     const rl = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
-    rl.question("Quel texte voulez-vous déchiffrer ? ", (answer) => {
-        let textToDecode;
-        textToDecode = answer;
+    rl.question("Quel texte voulez-vous déchiffrer ? ", answer => {
+        let textToDecode = answer;
         rl.close();
         const r2 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
         r2.question("Avec quelle clé le texte a été chiffré ? ", (answer) => {
@@ -93,15 +91,93 @@ const cesarDecoding = (next) => {
     });
 };
 
-var permuttationEncoding = (next) => {
+
+const generatePermutationKey = () => {
+    // On va générer une clé au hasard en inversant les lettres de l'alphabet
+    let key = "";
+    let copiedAlphabet = [...alphabet];
+    while (copiedAlphabet.length > 0) {
+        // On choisi un nombre random entre 0 et la taille de l'alphabet
+        let random = Math.floor(Math.random() * copiedAlphabet.length);
+        key += copiedAlphabet[random];
+        copiedAlphabet.splice(random, 1);
+    }
+    return key;
+};
+
+
+const isGoodPermuttationKey = (key) => {
+    // On vérifie si la clé donnée est bonne (2 lettres ne peuvent pas être chiffrer par la même lettre)
+    if (key.length !== alphabet.length) {
+        return false;
+    }
+    return alphabet.every(letter => {
+        var reg = new RegExp("[^" + letter + "]", "g");
+        return key.replace(reg, "").length === 1;
+    });
+};
+
+const askKeyForPermuttationEncoding = (textToEncode, callback, finalCallback) => {
+    const r3 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
+    console.log(`Votre clé doit faire la taille de l'alphabet de l'algorithme.
+    Une lettre correspond à une autre (2 lettres ne peuvent pas être chiffrées avec la même lettre)
+    L'alphabet supporté est : ${(alphabet.join("|"))}`);
+    r3.question("Donner votre clé : ", (answer) => {
+        let isGoodKey = isGoodPermuttationKey(answer);
+        console.log("is good key : " + isGoodKey);
+        console.log("the key is : " + answer);
+        r3.close();
+        if (!isGoodKey) {
+            console.log("La clé que vous venez de rentrer n'est pas conforme");
+            askKeyForPermuttationEncoding(textToEncode, callback, finalCallback);
+        }
+        else {
+            callback(answer, textToEncode, finalCallback);
+        }
+    });
+};
+
+const permuttationEncodingSuite = (key, textToEncode, next) => {
+    console.log(`La clé qui va être utilisée est donc : ${key}`);
+    next();
+};
+
+const permuttationEncoding = (next) => {
     const r1 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
-    let te
-}
+    r1.question("Quel text voulez-vous chiffrer ?", (answer) => {
+        let textToEncode = answer;
+        r1.close();
+        const r2 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
+        console.log("Vous avez le choix entre donner votre clé, ou laisse l'algorithme générer la clé !");
+        console.log("1 - Laisser l'algorithme générer la clé");
+        console.log("2 - Donner une clé");
+        r2.question("Quel est votre choix ?", answer => {
+            let choix = answer;
+            r2.close();
+            let key;
+            switch (choix) {
+                case "1":
+                    key = generatePermutationKey();
+                    permuttationEncodingSuite(key, textToEncode, next);
+                    break;
+                case "2":
+                    askKeyForPermuttationEncoding(textToEncode, permuttationEncodingSuite, next);
+                    break;
+                default:
+                    console.log("Mauvais choix on recommence !!!");
+                    permuttationEncoding(next);
+            };
+        });
+    });
+};
+
+
 
 
 module.exports = {
     encodeLetter,
     decodeLetter,
     cesarEncoding,
-    cesarDecoding
+    cesarDecoding,
+    permuttationEncoding
 };
