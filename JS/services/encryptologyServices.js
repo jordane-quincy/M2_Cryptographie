@@ -92,6 +92,71 @@ const cesarDecoding = (next) => {
     });
 };
 
+
+const countLetterOccurence = (textToDecrypt) => {
+  var mapLetterOccurence = new Map();
+  for (let i = 0; i < textToDecrypt.length; i++) {
+    let letterCurrent = textToDecrypt[i];
+    // console.log(`letterCurrent : "${letterCurrent}"\n`);
+    let countLetter = mapLetterOccurence.get(letterCurrent) === undefined ? 0 : mapLetterOccurence.get(letterCurrent);
+    // console.log(`countLetter : "${countLetter}"\n`);
+
+    countLetter++;
+    mapLetterOccurence.set(letterCurrent, countLetter);
+  }
+
+  return mapLetterOccurence;
+};
+
+const analyseFrequence = (textToDecrypt) => {
+  let mapLetterOccurence = countLetterOccurence(textToDecrypt);
+
+  var maxOccurence = 0;
+  var letterMaxOccurence = '';
+  for (var [letter, countLetter] of mapLetterOccurence) {
+    // console.log(`mapLetterOccurence : "${letter}" = "${countLetter}"`);
+    if(countLetter > maxOccurence){
+      maxOccurence = countLetter;
+      letterMaxOccurence = letter;
+    }
+  }
+
+  console.log(`letterMaxOccurence : "${letterMaxOccurence}" ("${maxOccurence}")\n`);
+
+  return letterMaxOccurence;
+};
+
+const cesarDecrypting = (next) => {
+    const rl = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
+    rl.question("Quel texte voulez-vous décrypter ? ", answer => {
+        let textToDecrypt = answer;
+        rl.close();
+
+        let letterMaxOccurence = analyseFrequence(textToDecrypt);
+        //On est en français donc la letter qui apparait le plus dans le texte chiffré est un 'e' dans le texte en clair
+
+        let shiftLetterMaxOccurence = _.indexOf(alphabet, letterMaxOccurence);
+        let shiftLetterE = _.indexOf(alphabet, 'E');
+
+        let shift = ((shiftLetterMaxOccurence - shiftLetterE) % alphabet.length);
+        // console.log(`shift : "${shift}"\n`);
+
+        var decodedText = '';
+        for (let i = 0; i < textToDecrypt.length; i++) {
+            let decodedLetter = decodeLetter(textToDecrypt[i], shift);
+            // console.log(`textToDecrypt[i] : "${textToDecrypt[i]}" = "${decodedLetter}"\n`);
+            if (!decodedLetter) {
+                // La lettre n'est pas dans l'alphabet il faut le dire à l'utilisateur et sortir du programme
+                console.log(`Nous ne pouvons pas continuer car le caractère ${textToDecode[i]} de votre texte ne se trouve pas dans l'alphabet`);
+                process.exit(1);
+            }
+            decodedText += decodedLetter;
+        }
+        console.log(`le texte déchiffré est : "${decodedText}"\n\n\n`);
+        next();
+    });
+};
+
 const vigenereEncoding = (next) => {
     const rl = readline.createInterface({input: process.stdin, output: process.stdout, terminal: false});
     rl.question("Quel texte voulez-vous chiffrer ? ", answer => {
@@ -257,5 +322,6 @@ module.exports = {
     cesarDecoding,
     vigenereEncoding,
     vigenereDecoding,
+    cesarDecrypting,
     permuttationEncoding
 };
