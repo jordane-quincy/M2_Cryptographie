@@ -69,7 +69,7 @@ const cesarDecoding = (next) => {
         let textToDecode = answer;
         rl.close();
         const r2 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
-        r2.question("Avec quelle clé le texte a été chiffré ? ", (answer) => {
+        r2.question("Avec quelle clé le texte a été chiffré ? ", answer => {
             let usedKey;
             let decodedText = "";
             usedKey = answer;
@@ -152,7 +152,7 @@ const askKeyForPermuttationEncoding = (textToEncode, callback, finalCallback) =>
     const r3 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
     console.log(`Votre clé doit faire la taille de l'alphabet de l'algorithme.
     Une lettre correspond à une autre (2 lettres ne peuvent pas être chiffrées avec la même lettre)
-    L'ordre de la clé suivra l'ordre des lettres de l'alphabet donnée juste en dessous\n
+    L'ordre de la clé suivra l'ordre des lettres de l'alphabet donnée juste en dessous
     L'alphabet supporté est : ${(alphabet.join("|"))}`);
     r3.question("Donner votre clé : ", (answer) => {
         let isGoodKey = isGoodPermuttationKey(answer);
@@ -190,7 +190,7 @@ const permuttationEncodingSuite = (key, textToEncode, next) => {
 
 const permuttationEncoding = (next) => {
     const r1 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
-    r1.question("Quel text voulez-vous chiffrer ?", (answer) => {
+    r1.question("Quel text voulez-vous chiffrer ?", answer => {
         let textToEncode = answer;
         r1.close();
         const r2 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
@@ -217,6 +217,24 @@ const permuttationEncoding = (next) => {
     });
 };
 
+const permuttationDecoding = (next) => {
+    const r1 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
+    r1.question("Quel text voulez-vous déchiffrer ?", answer => {
+        let textToDecode = answer,
+        r1.close();
+        const r2 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
+
+        r2.question(`Avec quelle clé le texte a été chiffré ?
+            La clé doit faire la taille de l'alphabet de l'algorithme.
+            Une lettre correspond à une autre (2 lettres ne peuvent pas être chiffrées avec la même lettre)
+            L'ordre de la clé suivra l'ordre des lettres de l'alphabet donnée juste en dessous
+            L'alphabet supporté est : ${(alphabet.join("|"))} `, answer => {
+            const usedKey = answer;
+            console.log(usedKey);
+        });
+    });
+};
+
 
 
 
@@ -226,5 +244,6 @@ module.exports = {
     cesarEncoding,
     cesarDecoding,
     vigenereEncoding,
-    permuttationEncoding
+    permuttationEncoding,
+    permuttationDecoding
 };
