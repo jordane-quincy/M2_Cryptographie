@@ -123,6 +123,36 @@ const vigenereEncoding = (next) => {
     });
 };
 
+
+const vigenereDecoding = (next) => {
+    const rl = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
+    rl.question("Quel texte voulez-vous déchiffrer ? ", answer => {
+        let textToDecode = answer;
+        rl.close();
+        const r2 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
+        r2.question("Avec quelle clé le texte a été chiffré ? ", (answer) => {
+            let usedKey;
+            let decodedText = "";
+            usedKey = answer;
+            r2.close();
+            console.log("le text est : " + textToDecode);
+            console.log("la clé est : " + usedKey);
+            for (let i = 0; i < textToDecode.length; i++) {
+                let shift = _.indexOf(alphabet, usedKey[i % usedKey.length]);
+                let decodedLetter = decodeLetter(textToDecode[i], shift);
+                if (!decodedLetter) {
+                    // La lettre n'est pas dans l'alphabet il faut le dire à l'utilisateur et sortir du programme
+                    console.log(`Nous ne pouvons pas continuer car le caractère ${textToDecode[i]} de votre texte ne se trouve pas dans l'alphabet`);
+                    process.exit(1);
+                }
+                decodedText += decodedLetter;
+            }
+            console.log(`le text crypté est : "${decodedText}"\n\n\n`);
+            next();
+        });
+    });
+};
+
 const generatePermutationKey = () => {
     // On va générer une clé au hasard en inversant les lettres de l'alphabet
     let key = "";
@@ -244,6 +274,7 @@ module.exports = {
     cesarEncoding,
     cesarDecoding,
     vigenereEncoding,
+    vigenereDecoding,
     permuttationEncoding,
     permuttationDecoding
 };
