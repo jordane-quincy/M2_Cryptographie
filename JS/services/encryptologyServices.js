@@ -250,7 +250,7 @@ const permuttationEncoding = (next) => {
 const permuttationDecoding = (next) => {
     const r1 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
     r1.question("Quel text voulez-vous déchiffrer ?", answer => {
-        let textToDecode = answer,
+        let textToDecode = answer;
         r1.close();
         const r2 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
 
@@ -261,6 +261,7 @@ const permuttationDecoding = (next) => {
             L'alphabet supporté est : ${(alphabet.join("|"))} `, answer => {
             const usedKey = answer;
             console.log(usedKey);
+            next();
         });
     });
 };
