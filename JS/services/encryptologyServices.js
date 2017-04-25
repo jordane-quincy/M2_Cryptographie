@@ -85,7 +85,7 @@ const cesarDecoding = (next) => {
                 }
                 decodedText += decodeLetter(textToDecode[i], shift);
             }
-            console.log(`le text crypté est : "${decodedText}"\n\n\n`);
+            console.log(`le text décrypté est : "${decodedText}"\n\n\n`);
             next();
         });
     });
@@ -121,6 +121,7 @@ const askKeyForPermuttationEncoding = (textToEncode, callback, finalCallback) =>
     const r3 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
     console.log(`Votre clé doit faire la taille de l'alphabet de l'algorithme.
     Une lettre correspond à une autre (2 lettres ne peuvent pas être chiffrées avec la même lettre)
+    L'ordre de la clé suivra l'ordre des lettres de l'alphabet donnée juste en dessous\n
     L'alphabet supporté est : ${(alphabet.join("|"))}`);
     r3.question("Donner votre clé : ", (answer) => {
         let isGoodKey = isGoodPermuttationKey(answer);
@@ -139,6 +140,20 @@ const askKeyForPermuttationEncoding = (textToEncode, callback, finalCallback) =>
 
 const permuttationEncodingSuite = (key, textToEncode, next) => {
     console.log(`La clé qui va être utilisée est donc : ${key}`);
+    let encodedText = "";
+    for (let i = 0; i < textToEncode.length; i++) {
+        // On récupère l'index de la lettre à encoder dans notre alphabet
+        let indexOfLetterToEncode = _.indexOf(alphabet, textToEncode[i]);
+        // On vérifie que la lettre se trouve bien dans l'alphabet
+        if (indexOfLetterToEncode < 0) {
+            console.log(`Nous ne pouvons pas continuer car le caractère ${textToDecode[i]} de votre texte ne se trouve pas dans l'alphabet`);
+            process.exit(1);
+        }
+        // Avec l'index on remplace tout simplement la lettre par la lettre correspondante présente dans la clé
+        let encodedLetter = key[_.indexOf(alphabet, textToEncode[i])];
+        encodedText += encodedLetter;
+    }
+    console.log(`le text crypté est : "${encodedText}"\n\n\n`);
     next();
 };
 
