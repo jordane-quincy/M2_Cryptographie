@@ -119,6 +119,19 @@ const textForDecryptingPermuttation = "SOUFFREZQUUNCAVALIERCOMBATLESHAINESQUELQU
 const key = "BCITHMVUGORQZSDWFXKPJALEYN";
 const textEncoding = "KDJMMXHNFJJSIBABQGHXIDZCBPQHKUBGSHKFJHQFJHIUDKHFJGQSHPHSBGPWBKBIHXHVBXTHPJSHKHTJIPGDSGXXHKGKPGCQHTBSKQBZDJKPBIUHZDJXDSKOHJSHKPDJKTHJETHQBABSIHMBGPHKQJGHSPHSTXHFJHKGHQQHKHPBGHSPZDGSKQBXVHKZDGSKTHPXDGKDJTHIGSFUHJXHKIDSSBGKKBSPQBPHSTBSIHTHKZDSDZBSGBFJHKBKHVXDJWHXBJPDJXTHIHXPBGSKWDGSPKBJZDSTHFJGHIXGAHBKBMHZZHQHSPHZHSPWBXHGQQHBQBZGHSSH";
 
+
+const permutation_encode_MAJ_text_uncrypted = 'VENIVIDIVICI';
+const permutation_encode_MAJ_alphabet = 'RGECVJUASPOIMBWDTZXFHYKLNQ';
+const permutation_encode_MAJ_text_crypted = 'YVBSYSCSYSES';
+
+const permutation_encode_min_text_uncrypted = 'venividivici';
+const permutation_encode_min_alphabet = 'rgecvjuaspoimbwdtzxfhyklnq';
+const permutation_encode_min_text_crypted = 'yvbsyscsyses';
+
+const permutation_encode_mix_text_uncrypted = 'VeniVidiVici';
+const permutation_encode_mix_alphabet = 'RGECVJUASPOIMBWDTZXFHYKLNQrgecvjuaspoimbwdtzxfhyklnq';
+const permutation_encode_min_text_crypted = 'YvbsYscsYses';
+
 module.exports = {
     alphabet,
     freqApparitionLetter
