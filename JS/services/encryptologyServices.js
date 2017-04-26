@@ -600,6 +600,37 @@ const merkleHellmanEncoding = next => {
     });
 };
 
+
+const calculateMultiplicativeInverse = (m, p) => {
+    let u = [1, 0];
+    let v = [0, 1];
+    let r = [m, p];
+    let q = [];
+    let cpt = 0;
+    while(r[r.length - 1] !== 0) {
+        // On calcule le reste
+        r.push(r[cpt] % r[cpt + 1]);
+        // On calcule le quotient
+        q.push(Math.trunc(r[cpt] / r[cpt + 1]));
+        // On calcule u et v
+        if (r[r.length - 1] !== 0) {
+            u.push(u[cpt] - (q[cpt] * u[cpt + 1]));
+            v.push(v[cpt] - (q[cpt] * v[cpt + 1]));
+        }
+        cpt++;
+    }
+    return u[u.length - 1] > 0 ? u[u.length -1] : v[v.length - 1];
+};
+
+const merkleHellmanDecoding = next => {
+    const rl = readline.createInterface({input: process.stdin, output: process.stdout, terminal: false});
+    rl.question("Quelle séquence voulez-vous déchiffrer ? Séparez la séquence par des virgules sans espace (ex : 12,154,23,65)\n", answer => {
+        let textToDecode = answer;
+        rl.close();
+        console.log(calculateMultiplicativeInverse(155, 27));
+    });
+};
+
 module.exports = {
     encodeLetter,
     decodeLetter,
@@ -612,5 +643,6 @@ module.exports = {
     permuttationEncoding,
     permuttationDecoding,
     permuttationDecrypting,
-    merkleHellmanEncoding
+    merkleHellmanEncoding,
+    merkleHellmanDecoding
 };

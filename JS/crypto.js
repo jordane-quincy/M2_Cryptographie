@@ -18,6 +18,7 @@ var menu = () => {
     console.log("10 - Décrypter un texte avec l'algorithme de Permutation");
     console.log("11 - Chiffrer un texte avec l'algorithme de Merkle - Hellman");
     console.log("12 - Décrypter un texte avec l'algorithme de Vigènere (via Indice de coïncidence)");
+    console.log("13 - Déchiffrer une séquence avec l'algorithme de Merkle - Hellman");
     console.log("0 - Quitter");
     var readline1 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: false});
     readline1.question("Faites-votre choix : ", (answer) => {
@@ -52,6 +53,9 @@ var menu = () => {
                 break;
             case "12":
                 encryptologyServices.vigenereDecrypting(menu);
+                break;
+            case "13":
+                encryptologyServices.merkleHellmanDecoding(menu);
                 break;
             case "0":
                 console.log("Au revoir");
