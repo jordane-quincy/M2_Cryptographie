@@ -1,6 +1,7 @@
 'use strict'
-const alphabet = require('config/config').alphabet;
-const freqApparitionLetter = require('config/config').freqApparitionLetter;
+const config = require('config/config');
+// const alphabet = config.alphabet;
+const freqApparitionLetter = config.freqApparitionLetter;
 const readline = require('readline');
 const _ = require('lodash');
 const menu = require('crypto');
@@ -11,7 +12,7 @@ const menu = require('crypto');
  * @param  {int}  shift  Décallage voulu
  * @return {char}        lettre crypté
  */
-const encodeLetter = (letter, shift) => {
+const encodeLetter = (letter, alphabet, shift) => {
     let letterIndex = _.indexOf(alphabet, letter);
     if (letterIndex === -1) {
         // La lettre n'est pas dans l'alphabet
@@ -20,7 +21,7 @@ const encodeLetter = (letter, shift) => {
     return alphabet[(letterIndex + shift) % alphabet.length];
 };
 
-const decodeLetter = (letter, shift) => {
+const decodeLetter = (letter, alphabet, shift) => {
     let letterIndex = _.indexOf(alphabet, letter);
     if (letterIndex === -1) {
         return null;
@@ -48,9 +49,10 @@ const cesarEncoding = (next) => {
             r2.close();
             console.log("le text est : " + textToEncode);
             console.log("la clé est : " + usedKey);
+            let alphabet = config.getAlphabet(textToEncode);
             let shift = _.indexOf(alphabet, usedKey);
             for (let i = 0; i < textToEncode.length; i++) {
-                let encodedLetter = encodeLetter(textToEncode[i], shift);
+                let encodedLetter = encodeLetter(textToEncode[i], alphabet, shift);
                 if (!encodedLetter) {
                     // La lettre n'est pas dans l'alphabet il faut le dire à l'utilisateur et sortir du programme
                     console.log(`Nous ne pouvons pas continuer car le caractère ${textToEncode[i]} de votre texte ne se trouve pas dans l'alphabet`);
@@ -77,9 +79,10 @@ const cesarDecoding = (next) => {
             r2.close();
             console.log("le text est : " + textToDecode);
             console.log("la clé est : " + usedKey);
+            let alphabet = config.getAlphabet(textToDecode);
             let shift = _.indexOf(alphabet, usedKey);
             for (let i = 0; i < textToDecode.length; i++) {
-                let decodedLetter = decodeLetter(textToDecode[i], shift);
+                let decodedLetter = decodeLetter(textToDecode[i], alphabet, shift);
                 if (!decodedLetter) {
                     // La lettre n'est pas dans l'alphabet il faut le dire à l'utilisateur et sortir du programme
                     console.log(`Nous ne pouvons pas continuer car le caractère ${textToDecode[i]} de votre texte ne se trouve pas dans l'alphabet`);
@@ -87,7 +90,7 @@ const cesarDecoding = (next) => {
                 }
                 decodedText += decodedLetter;
             }
-            console.log(`le text décrypté est : "${decodedText}"\n\n\n`);
+            console.log(`le texte déchiffré est : "${decodedText}"\n\n\n`);
             next();
         });
     });
@@ -136,6 +139,8 @@ const cesarDecrypting = (next) => {
         let letterMaxOccurence = analyseFrequence(textToDecrypt);
         //On est en français donc la letter qui apparait le plus dans le texte chiffré est un 'e' dans le texte en clair
 
+        let alphabet = config.getAlphabet(textToDecrypt);
+
         let shiftLetterMaxOccurence = _.indexOf(alphabet, letterMaxOccurence);
         let shiftLetterE = _.indexOf(alphabet, 'E');//FIXME: prendre la premiere lettre du tableau de fréquence
 
@@ -171,10 +176,11 @@ const vigenereEncoding = (next) => {
             r2.close();
             console.log("le text est : " + textToEncode);
             console.log("la clé est : " + usedKey);
+            let alphabet = config.getAlphabet(textToEncode);
             for (let i = 0; i < textToEncode.length; i++) {
                 let shift = _.indexOf(alphabet, usedKey[i % usedKey.length]);
                 //console.log(`usedKey : "${usedKey[i % usedKey.length]}"\n`);
-                let encodedLetter = encodeLetter(textToEncode[i], shift);
+                let encodedLetter = encodeLetter(textToEncode[i], alphabet, shift);
                 if (!encodedLetter) {
                     // La lettre n'est pas dans l'alphabet il faut le dire à l'utilisateur et sortir du programme
                     console.log(`Nous ne pouvons pas continuer car le caractère ${textToEncode[i]} de votre texte ne se trouve pas dans l'alphabet`);
@@ -203,9 +209,10 @@ const vigenereDecoding = (next) => {
             r2.close();
             console.log("le text est : " + textToDecode);
             console.log("la clé est : " + usedKey);
+            let alphabet = config.getAlphabet(textToDecode);
             for (let i = 0; i < textToDecode.length; i++) {
                 let shift = _.indexOf(alphabet, usedKey[i % usedKey.length]);
-                let decodedLetter = decodeLetter(textToDecode[i], shift);
+                let decodedLetter = decodeLetter(textToDecode[i], alphabet, shift);
                 if (!decodedLetter) {
                     // La lettre n'est pas dans l'alphabet il faut le dire à l'utilisateur et sortir du programme
                     console.log(`Nous ne pouvons pas continuer car le caractère ${textToDecode[i]} de votre texte ne se trouve pas dans l'alphabet`);

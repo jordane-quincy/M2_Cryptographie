@@ -84,6 +84,37 @@ const freqApparitionLetter = [
     "Z"
 ];
 
+const getAlphabet = (textToAnalyse) => {
+   if (textToAnalyse == textToAnalyse.toUpperCase()) {
+     console.log('UPPERCASE');
+
+     let alphabetUpperCase = [];
+     for (let i = 0; i < alphabet.length; i++) {
+       alphabetUpperCase.push(alphabet[i].toUpperCase());
+     }
+     return alphabetUpperCase;
+   }else if (textToAnalyse == textToAnalyse.toLowerCase()) {
+     console.log('lowercase');
+
+     let alphabetLowerCase = [];
+     for (let i = 0; i < alphabet.length; i++) {
+       alphabetLowerCase.push(alphabet[i].toLowerCase());
+     }
+     return alphabetLowerCase;
+   }else {
+     console.log('Case Mixed');
+     let alphabetUpperCase = [];
+     for (let i = 0; i < alphabet.length; i++) {
+       alphabetUpperCase.push(alphabet[i].toUpperCase());
+     }
+     let alphabetLowerCase = [];
+     for (let i = 0; i < alphabet.length; i++) {
+       alphabetLowerCase.push(alphabet[i].toLowerCase());
+     }
+     return alphabetUpperCase.concat(alphabetLowerCase);
+   }
+};
+
 const textForDecryptingPermuttation = "SOUFFREZQUUNCAVALIERCOMBATLESHAINESQUELQUECHOSEQUILNETENAITPASACEREGARDETUNESEDUCTIONIRRESISTIBLEDANSLAMOUSTACHEMOURONSJEUNESTOUSDEUXDELAVANCEFAITESLUIENTENDREQUESIELLESETAIENTMOINSLARGESMOINSDETROISOUDECINQHEURESCONNAISSANTLATENDANCEDESMONOMANIAQUESASEGROUPERAUTOURDECERTAINSPOINTSAUMONDEQUIECRIVEASAFEMMELENTEMENTPAREILLEALAMIENNE";
 const key = "BCITHMVUGORQZSDWFXKPJALEYN";
 const textEncoding = "KDJMMXHNFJJSIBABQGHXIDZCBPQHKUBGSHKFJHQFJHIUDKHFJGQSHPHSBGPWBKBIHXHVBXTHPJSHKHTJIPGDSGXXHKGKPGCQHTBSKQBZDJKPBIUHZDJXDSKOHJSHKPDJKTHJETHQBABSIHMBGPHKQJGHSPHSTXHFJHKGHQQHKHPBGHSPZDGSKQBXVHKZDGSKTHPXDGKDJTHIGSFUHJXHKIDSSBGKKBSPQBPHSTBSIHTHKZDSDZBSGBFJHKBKHVXDJWHXBJPDJXTHIHXPBGSKWDGSPKBJZDSTHFJGHIXGAHBKBMHZZHQHSPHZHSPWBXHGQQHBQBZGHSSH";
@@ -91,4 +122,5 @@ const textEncoding = "KDJMMXHNFJJSIBABQGHXIDZCBPQHKUBGSHKFJHQFJHIUDKHFJGQSHPHSBG
 module.exports = {
     alphabet,
     freqApparitionLetter
+    , getAlphabet
 };
