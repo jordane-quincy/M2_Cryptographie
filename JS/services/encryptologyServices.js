@@ -233,14 +233,50 @@ const vigenereDecrypting = (next) => {
         let textToDecrypt = 'IRTGQTFTEFKENVRTOVLIGETDNVCITRBXGLVHGKYXVTFPTXCSGCYBKJCTPKPPKEGACCJPKKTTPRGIFVQRGEBPKKPTOFLICZRQTLGHURGIGKGCEVJPKK'; //FIXME: remettre : answer;
         rl.close();
 
-        let sumIc = 0;
-        let mapLetterOccurence = countLetterOccurence(textToDecrypt);
-        for (let [letter, countLetter] of mapLetterOccurence) {
-          let icCurrentLetter = (countLetter * (countLetter -1) ) / (textToDecrypt.length * (textToDecrypt.length -1));
-          console.log('icCurrentLetter', letter, ':', icCurrentLetter);
-          sumIc += icCurrentLetter;
+        let tab = [];
+        let longueurCle = 4;
+        for (let i = 0; i < longueurCle; i++) {
+          //init
+          tab.push([]);
         }
-        console.log('sumIc :', sumIc);
+
+        //on place chaque lettre dans le tableau correspondant
+        for (let i = 0; i < textToDecrypt.length; i++) {
+          let letterCurrent = textToDecrypt[i];
+          //console.log('letterCurrent', letterCurrent, (i % longueurCle) );
+
+          tab[i % longueurCle].push(letterCurrent);
+        }
+
+        //on calcule l'ic pour chaque partie du texte
+        for (let i = 0; i < longueurCle; i++) {
+          // console.log('tab['+ i +']', tab[i]);
+          let partTextToDecrypt = tab[i].join('');
+          console.log('['+ i +'] partTextToDecrypt:', partTextToDecrypt);
+
+          let sumIc = 0;
+          let mapLetterOccurence = countLetterOccurence(partTextToDecrypt);
+          for (let [letter, countLetter] of mapLetterOccurence) {
+            let icCurrentLetter = (countLetter * (countLetter -1) ) / (partTextToDecrypt.length * (partTextToDecrypt.length -1));
+            // console.log('icCurrentLetter', letter, ':', icCurrentLetter);
+            sumIc += icCurrentLetter;
+          }
+          console.log('sumIc pour ['+ i +']', sumIc);
+
+        }
+
+
+
+
+        // let sumIc = 0;
+        // let mapLetterOccurence = countLetterOccurence(textToDecrypt);
+        // for (let [letter, countLetter] of mapLetterOccurence) {
+        //   let icCurrentLetter = (countLetter * (countLetter -1) ) / (textToDecrypt.length * (textToDecrypt.length -1));
+        //   console.log('icCurrentLetter', letter, ':', icCurrentLetter);
+        //   sumIc += icCurrentLetter;
+        // }
+        // console.log('sumIc :', sumIc);
+
 
 
         // const r2 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
