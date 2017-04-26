@@ -389,7 +389,30 @@ const permuttationDecrypting = next => {
         });
         next();
     });
-}
+};
+
+const generateSuperGrowingList = listSize => {
+    let superGrowingList = [];
+    for (let i = 0; i < listSize; i++) {
+        let randomNumber = Math.floor(Math.random() * listSize) + 1;
+        if (i === 0) {
+            superGrowingList.push(randomNumber);
+        }
+        else {
+            superGrowingList.push(randomNumber + _.sum(superGrowingList));
+        }
+    }
+    console.log(superGrowingList);
+};
+
+const merkleHellmanEncoding = next => {
+    const rl = readline.createInterface({input: process.stdin, output: process.stdout, terminal: false});
+    rl.question("Quel texte voulez-vous chiffrer ? ", answer => {
+        let textToEncode = answer;
+        rl.close();
+        generateSuperGrowingList(24);
+    });
+};
 
 module.exports = {
     encodeLetter,
@@ -401,5 +424,6 @@ module.exports = {
     vigenereDecoding,
     permuttationEncoding,
     permuttationDecoding,
-    permuttationDecrypting
+    permuttationDecrypting,
+    merkleHellmanEncoding
 };
