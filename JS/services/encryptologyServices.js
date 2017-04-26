@@ -1,5 +1,6 @@
 'use strict'
 const config = require('config/config');
+const gcd = require('gcd');
 // const alphabet = config.alphabet;
 const freqApparitionLetter = config.freqApparitionLetter;
 const readline = require('readline');
@@ -391,6 +392,20 @@ const permuttationDecrypting = next => {
     });
 };
 
+const getNumberOfBytesDependOnAlphabet = alphabet => {
+    let numberOfBytes;
+    if (alphabet.length <= 31) {
+        numberOfBytes = 5;
+    }
+    else if (alphabet.length <= 63) {
+        numberOfBytes = 6
+    }
+    else if (alphabet.length <= 127) {
+        numberOfBytes = 7
+    }
+    return numberOfBytes
+};
+
 const generateSuperGrowingList = listSize => {
     let superGrowingList = [];
     for (let i = 0; i < listSize; i++) {
@@ -402,9 +417,20 @@ const generateSuperGrowingList = listSize => {
             superGrowingList.push(randomNumber + _.sum(superGrowingList));
         }
     }
-    console.log("Liste super croissante");
-    console.log(superGrowingList);
     return superGrowingList;
+};
+
+const generateM = superGrowingList => {
+    let randomNumber = Math.floor(Math.random() * superGrowingList.length) + 1;
+    return _.sum(superGrowingList) + randomNumber;
+};
+
+const generatePWithM = m => {
+    let p = Math.floor(m / 3);
+    while (gcd(m, p) !== 1) {
+        p++;
+    }
+    return p;
 };
 
 const generateNonSuperGrowingSequence = (p, m, superGrowingList) => {
@@ -412,9 +438,35 @@ const generateNonSuperGrowingSequence = (p, m, superGrowingList) => {
     superGrowingList.forEach(element => {
         nonSuperGrowingSequence.push((element * p) % m);
     });
-    console.log("Suite non super croissante");
-    console.log(nonSuperGrowingSequence);
     return nonSuperGrowingSequence;
+};
+
+const transformTextToEncodeInBytes = (textToEncode, numberOfBytes, alphabet) => {
+    let textToEncodeInBytes = "";
+    for (let i = 0; i < textToEncode.length; i++) {
+        let letterInBytes = (_.indexOf(alphabet, textToEncode[i])).toString(2);
+        if (letterInBytes.length < numberOfBytes) {
+            let complement = "";
+            for (let j = 0; j < (numberOfBytes - letterInBytes.length); j++) {
+                complement += "0";
+            }
+            letterInBytes = complement + letterInBytes;
+        }
+        textToEncodeInBytes += letterInBytes + ((i < textToEncode.length - 1) ? "|" : "");
+    }
+    return textToEncodeInBytes;
+};
+
+const encodeTabOfBlocks = (tabOfBlocksInBytes, nonSuperGrowingSequence) => {
+    let encodedTabOfBlocks = [];
+    tabOfBlocksInBytes.forEach(block => {
+        let encodedBlock = 0;
+        for (let i = 0; i < block.length; i++) {
+            encodedBlock += +block[i] * nonSuperGrowingSequence[i];
+        }
+        encodedTabOfBlocks.push(encodedBlock);
+    });
+    return encodedTabOfBlocks;
 };
 
 const merkleHellmanEncoding = next => {
@@ -422,8 +474,24 @@ const merkleHellmanEncoding = next => {
     rl.question("Quel texte voulez-vous chiffrer ? ", answer => {
         let textToEncode = answer;
         rl.close();
-        generateNonSuperGrowingSequence(7, 12, generateSuperGrowingList(24));
-
+        // On récupère l'alphabet en fonction du texte donné en entrée
+        let alphabet = config.getAlphabet(textToEncode);
+        // On récupère le nombre de bits utilisé pour la transformation en bits des lettres du texte
+        let numberOfBytes = getNumberOfBytesDependOnAlphabet(alphabet);
+        // On génère la suite super croissante
+        let superGrowingList = generateSuperGrowingList(numberOfBytes);
+        // On génère les clé m et p
+        let m = generateM(superGrowingList);
+        let p = generatePWithM(m);
+        // On génère la clé publique (suite non super croissante à partir de p et m et de la suite super croissante)
+        let nonSuperGrowingSequence = generateNonSuperGrowingSequence(p, m, superGrowingList);
+        console.log(`Clé m utilisée : ${m}`);
+        console.log(`Clé m utilisée : ${p}`);
+        let textToEncodeInBytes = transformTextToEncodeInBytes(textToEncode, numberOfBytes, alphabet);
+        let tabOfBlocksInBytes = textToEncodeInBytes.split("|");
+        console.log(tabOfBlocksInBytes);
+        let encodedTabOfBlocks = encodeTabOfBlocks(tabOfBlocksInBytes, nonSuperGrowingSequence);
+        console.log(`Message chiffré : ${encodedTabOfBlocks}`);
     });
 };
 
