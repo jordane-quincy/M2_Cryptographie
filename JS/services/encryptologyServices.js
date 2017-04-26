@@ -402,7 +402,19 @@ const generateSuperGrowingList = listSize => {
             superGrowingList.push(randomNumber + _.sum(superGrowingList));
         }
     }
+    console.log("Liste super croissante");
     console.log(superGrowingList);
+    return superGrowingList;
+};
+
+const generateNonSuperGrowingSequence = (p, m, superGrowingList) => {
+    let nonSuperGrowingSequence = [];
+    superGrowingList.forEach(element => {
+        nonSuperGrowingSequence.push((element * p) % m);
+    });
+    console.log("Suite non super croissante");
+    console.log(nonSuperGrowingSequence);
+    return nonSuperGrowingSequence;
 };
 
 const merkleHellmanEncoding = next => {
@@ -410,7 +422,8 @@ const merkleHellmanEncoding = next => {
     rl.question("Quel texte voulez-vous chiffrer ? ", answer => {
         let textToEncode = answer;
         rl.close();
-        generateSuperGrowingList(24);
+        generateNonSuperGrowingSequence(7, 12, generateSuperGrowingList(24));
+
     });
 };
 
