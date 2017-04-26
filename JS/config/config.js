@@ -85,16 +85,16 @@ const freqApparitionLetter = [
 ];
 
 const getAlphabet = (textToAnalyse) => {
-   if (textToAnalyse == textToAnalyse.toUpperCase()) {
-     console.log('UPPERCASE');
+   if (textToAnalyse === textToAnalyse.toUpperCase()) {
+     console.log('getAlphabet : UPPERCASE');
 
      let alphabetUpperCase = [];
      for (let i = 0; i < alphabet.length; i++) {
        alphabetUpperCase.push(alphabet[i].toUpperCase());
      }
      return alphabetUpperCase;
-   }else if (textToAnalyse == textToAnalyse.toLowerCase()) {
-     console.log('lowercase');
+   }else if (textToAnalyse === textToAnalyse.toLowerCase()) {
+     console.log('getAlphabet : lowercase');
 
      let alphabetLowerCase = [];
      for (let i = 0; i < alphabet.length; i++) {
@@ -102,7 +102,7 @@ const getAlphabet = (textToAnalyse) => {
      }
      return alphabetLowerCase;
    }else {
-     console.log('Case Mixed');
+     console.log('getAlphabet : Case Mixed');
      let alphabetUpperCase = [];
      for (let i = 0; i < alphabet.length; i++) {
        alphabetUpperCase.push(alphabet[i].toUpperCase());

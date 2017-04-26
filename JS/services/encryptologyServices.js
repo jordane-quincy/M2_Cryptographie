@@ -125,7 +125,7 @@ const analyseFrequence = (textToDecrypt) => {
     }
   }
 
-  console.log(`letterMaxOccurence : "${letterMaxOccurence}" ("${maxOccurence}")\n`);
+  console.log(`letterMaxOccurence : "${letterMaxOccurence}" (${maxOccurence})\n`);
 
   return letterMaxOccurence;
 };
@@ -135,14 +135,14 @@ const cesarDecrypting = (next) => {
     rl.question("Quel texte voulez-vous décrypter ? ", answer => {
         let textToDecrypt = answer;
         rl.close();
-
-        let letterMaxOccurence = analyseFrequence(textToDecrypt);
-        //On est en français donc la letter qui apparait le plus dans le texte chiffré est un 'e' dans le texte en clair
-
         let alphabet = config.getAlphabet(textToDecrypt);
 
+        //On est en français donc la letter qui apparait le plus dans le texte chiffré est un 'e' dans le texte en clair
+        let letterMaxOccurence = analyseFrequence(textToDecrypt);
+
         let shiftLetterMaxOccurence = _.indexOf(alphabet, letterMaxOccurence);
-        let shiftLetterE = _.indexOf(alphabet, 'E');//FIXME: prendre la premiere lettre du tableau de fréquence
+
+        let shiftLetterE = 4; // le 'E' ou 'e' est toujours à la cinquième place (alphabet[4]) que l'on soit en majuscule ou minuscule
 
         let shift = ((shiftLetterMaxOccurence - shiftLetterE) % alphabet.length);
         // console.log(`shift : "${shift}"\n`);
