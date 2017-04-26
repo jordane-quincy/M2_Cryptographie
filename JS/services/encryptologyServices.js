@@ -567,7 +567,6 @@ const merkleHellmanEncoding = next => {
         console.log(`Clé m utilisée : ${p}`);
         let textToEncodeInBytes = transformTextToEncodeInBytes(textToEncode, numberOfBytes, alphabet);
         let tabOfBlocksInBytes = textToEncodeInBytes.split("|");
-        console.log(tabOfBlocksInBytes);
         let encodedTabOfBlocks = encodeTabOfBlocks(tabOfBlocksInBytes, nonSuperGrowingSequence);
         console.log(`Message chiffré : ${encodedTabOfBlocks}`);
     });
@@ -581,9 +580,9 @@ module.exports = {
     cesarDecrypting,
     vigenereEncoding,
     vigenereDecoding,
+    vigenereDecrypting,
     permuttationEncoding,
     permuttationDecoding,
     permuttationDecrypting,
-    merkleHellmanEncoding,
-    vigenereDecrypting
+    merkleHellmanEncoding
 };
