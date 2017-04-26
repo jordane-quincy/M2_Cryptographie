@@ -227,6 +227,84 @@ const vigenereDecoding = (next) => {
     });
 };
 
+
+const vigenereDecrypting = (next) => {
+    const rl = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
+    rl.question("Quel texte voulez-vous décrypter ? ", answer => {
+        let textToDecrypt = 'IRTGQTFTEFKENVRTOVLIGETDNVCITRBXGLVHGKYXVTFPTXCSGCYBKJCTPKPPKEGACCJPKKTTPRGIFVQRGEBPKKPTOFLICZRQTLGHURGIGKGCEVJPKK'; //FIXME: remettre : answer;
+        rl.close();
+
+        let tab = [];
+        let longueurCle = 4;
+        for (let i = 0; i < longueurCle; i++) {
+          //init
+          tab.push([]);
+        }
+
+        //on place chaque lettre dans le tableau correspondant
+        for (let i = 0; i < textToDecrypt.length; i++) {
+          let letterCurrent = textToDecrypt[i];
+          //console.log('letterCurrent', letterCurrent, (i % longueurCle) );
+
+          tab[i % longueurCle].push(letterCurrent);
+        }
+
+        //on calcule l'ic pour chaque partie du texte
+        for (let i = 0; i < longueurCle; i++) {
+          // console.log('tab['+ i +']', tab[i]);
+          let partTextToDecrypt = tab[i].join('');
+          console.log('['+ i +'] partTextToDecrypt:', partTextToDecrypt);
+
+          let sumIc = 0;
+          let mapLetterOccurence = countLetterOccurence(partTextToDecrypt);
+          for (let [letter, countLetter] of mapLetterOccurence) {
+            let icCurrentLetter = (countLetter * (countLetter -1) ) / (partTextToDecrypt.length * (partTextToDecrypt.length -1));
+            // console.log('icCurrentLetter', letter, ':', icCurrentLetter);
+            sumIc += icCurrentLetter;
+          }
+          console.log('sumIc pour ['+ i +']', sumIc);
+
+        }
+
+
+
+
+        // let sumIc = 0;
+        // let mapLetterOccurence = countLetterOccurence(textToDecrypt);
+        // for (let [letter, countLetter] of mapLetterOccurence) {
+        //   let icCurrentLetter = (countLetter * (countLetter -1) ) / (textToDecrypt.length * (textToDecrypt.length -1));
+        //   console.log('icCurrentLetter', letter, ':', icCurrentLetter);
+        //   sumIc += icCurrentLetter;
+        // }
+        // console.log('sumIc :', sumIc);
+
+
+
+        // const r2 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
+        // r2.question("Avec quelle clé le texte a été chiffré ? ", (answer) => {
+        //     let usedKey;
+        //     let decodedText = "";
+        //     usedKey = answer;
+        //     r2.close();
+        //     console.log("le texte est : " + textToDecode);
+        //     console.log("la clé est : " + usedKey);
+        //     let alphabet = config.getAlphabet(textToDecode);
+        //     for (let i = 0; i < textToDecode.length; i++) {
+        //         let shift = _.indexOf(alphabet, usedKey[i % usedKey.length]);
+        //         let decodedLetter = decodeLetter(textToDecode[i], alphabet, shift);
+        //         if (!decodedLetter) {
+        //             // La lettre n'est pas dans l'alphabet il faut le dire à l'utilisateur et sortir du programme
+        //             console.log(`Nous ne pouvons pas continuer car le caractère ${textToDecode[i]} de votre texte ne se trouve pas dans l'alphabet`);
+        //             process.exit(1);
+        //         }
+        //         decodedText += decodedLetter;
+        //     }
+        //     console.log(`le texte crypté est : "${decodedText}"\n\n\n`);
+        //     next();
+        // });
+    });
+};
+
 const generatePermutationKey = (alphabet) => {
     // On va générer une clé au hasard en inversant les lettres de l'alphabet
     let key = "";
@@ -506,5 +584,6 @@ module.exports = {
     permuttationEncoding,
     permuttationDecoding,
     permuttationDecrypting,
-    merkleHellmanEncoding
+    merkleHellmanEncoding,
+    vigenereDecrypting
 };
