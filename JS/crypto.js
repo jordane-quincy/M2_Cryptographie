@@ -15,7 +15,7 @@ var menu = () => {
     console.log("7 - Chiffrer un texte en donnant une clé avec l'algorithme de Vigènere");
     console.log("8 - Déchiffrer un texte en donnant la clé avec l'algorithme de Vigènere");
     console.log("9 - Décrypter un texte avec l'algorithme de César");
-    console.log("10 - Décrypter un texte avec l'algorithme de Permuttation");
+    console.log("10 - Décrypter un texte avec l'algorithme de Permutation");
     console.log("0 - Quitter");
     var readline1 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: false});
     readline1.question("Faites-votre choix : ", (answer) => {

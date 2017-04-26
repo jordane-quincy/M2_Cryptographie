@@ -47,7 +47,7 @@ const cesarEncoding = (next) => {
             let encodedText = "";
             usedKey = answer;
             r2.close();
-            console.log("le text est : " + textToEncode);
+            console.log("le texte est : " + textToEncode);
             console.log("la clé est : " + usedKey);
             let alphabet = config.getAlphabet(textToEncode);
             let shift = _.indexOf(alphabet, usedKey);
@@ -60,7 +60,7 @@ const cesarEncoding = (next) => {
                 }
                 encodedText += encodedLetter;
             }
-            console.log(`le text crypté est : "${encodedText}"\n\n\n`);
+            console.log(`le texte crypté est : "${encodedText}"\n\n\n`);
             next();
         });
     });
@@ -77,7 +77,7 @@ const cesarDecoding = (next) => {
             let decodedText = "";
             usedKey = answer;
             r2.close();
-            console.log("le text est : " + textToDecode);
+            console.log("le texte est : " + textToDecode);
             console.log("la clé est : " + usedKey);
             let alphabet = config.getAlphabet(textToDecode);
             let shift = _.indexOf(alphabet, usedKey);
@@ -174,7 +174,7 @@ const vigenereEncoding = (next) => {
             let encodedText = "";
             usedKey = answer;
             r2.close();
-            console.log("le text est : " + textToEncode);
+            console.log("le texte est : " + textToEncode);
             console.log("la clé est : " + usedKey);
             let alphabet = config.getAlphabet(textToEncode);
             for (let i = 0; i < textToEncode.length; i++) {
@@ -189,7 +189,7 @@ const vigenereEncoding = (next) => {
                 encodedText += encodedLetter;
                 //console.log(`encodedText : "${encodedText}"\n`);
             }
-            console.log(`le text crypté est : "${encodedText}"\n\n\n`);
+            console.log(`le texte crypté est : "${encodedText}"\n\n\n`);
             next();
         });
     });
@@ -207,7 +207,7 @@ const vigenereDecoding = (next) => {
             let decodedText = "";
             usedKey = answer;
             r2.close();
-            console.log("le text est : " + textToDecode);
+            console.log("le texte est : " + textToDecode);
             console.log("la clé est : " + usedKey);
             let alphabet = config.getAlphabet(textToDecode);
             for (let i = 0; i < textToDecode.length; i++) {
@@ -220,7 +220,7 @@ const vigenereDecoding = (next) => {
                 }
                 decodedText += decodedLetter;
             }
-            console.log(`le text crypté est : "${decodedText}"\n\n\n`);
+            console.log(`le texte crypté est : "${decodedText}"\n\n\n`);
             next();
         });
     });
@@ -293,7 +293,7 @@ const permuttationEncodingSuite = (key, textToEncode, alphabet, next) => {
 
 const permuttationEncoding = (next) => {
     const r1 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
-    r1.question("Quel text voulez-vous chiffrer ?", answer => {
+    r1.question("Quel texte voulez-vous chiffrer ?", answer => {
         let textToEncode = answer;
         let alphabet = config.getAlphabet(textToEncode);
         r1.close();
