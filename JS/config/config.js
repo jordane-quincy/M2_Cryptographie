@@ -130,7 +130,7 @@ const permutation_encode_min_text_crypted = 'yvbsyscsyses';
 
 const permutation_encode_mix_text_uncrypted = 'VeniVidiVici';
 const permutation_encode_mix_alphabet = 'RGECVJUASPOIMBWDTZXFHYKLNQrgecvjuaspoimbwdtzxfhyklnq';
-const permutation_encode_min_text_crypted = 'YvbsYscsYses';
+const permutation_encode_mix_text_crypted = 'YvbsYscsYses';
 
 module.exports = {
     alphabet,
