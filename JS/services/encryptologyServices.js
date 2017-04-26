@@ -149,7 +149,7 @@ const cesarDecrypting = (next) => {
 
         var decodedText = '';
         for (let i = 0; i < textToDecrypt.length; i++) {
-            let decodedLetter = decodeLetter(textToDecrypt[i], shift);
+            let decodedLetter = decodeLetter(textToDecrypt[i], alphabet, shift);
             // console.log(`textToDecrypt[i] : "${textToDecrypt[i]}" = "${decodedLetter}"\n`);
             if (!decodedLetter) {
                 // La lettre n'est pas dans l'alphabet il faut le dire à l'utilisateur et sortir du programme
@@ -226,7 +226,7 @@ const vigenereDecoding = (next) => {
     });
 };
 
-const generatePermutationKey = () => {
+const generatePermutationKey = (alphabet) => {
     // On va générer une clé au hasard en inversant les lettres de l'alphabet
     let key = "";
     let copiedAlphabet = [...alphabet];
@@ -240,7 +240,7 @@ const generatePermutationKey = () => {
 };
 
 
-const isGoodPermuttationKey = (key) => {
+const isGoodPermuttationKey = (key, alphabet) => {
     // On vérifie si la clé donnée est bonne (2 lettres ne peuvent pas être chiffrer par la même lettre)
     if (key.length !== alphabet.length) {
         return false;
@@ -251,7 +251,7 @@ const isGoodPermuttationKey = (key) => {
     });
 };
 
-const askKeyForPermuttationEncoding = (textToEncode, callback, finalCallback) => {
+const askKeyForPermuttationEncoding = (textToEncode, alphabet, callback, finalCallback) => {
     const r3 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
     console.log(`Votre clé doit faire la taille de l'alphabet de l'algorithme.
     Une lettre correspond à une autre (2 lettres ne peuvent pas être chiffrées avec la même lettre)
@@ -264,7 +264,7 @@ const askKeyForPermuttationEncoding = (textToEncode, callback, finalCallback) =>
         r3.close();
         if (!isGoodKey) {
             console.log("La clé que vous venez de rentrer n'est pas conforme");
-            askKeyForPermuttationEncoding(textToEncode, callback, finalCallback);
+            askKeyForPermuttationEncoding(textToEncode, alphabet, callback, finalCallback);
         }
         else {
             callback(answer, textToEncode, finalCallback);
@@ -272,7 +272,7 @@ const askKeyForPermuttationEncoding = (textToEncode, callback, finalCallback) =>
     });
 };
 
-const permuttationEncodingSuite = (key, textToEncode, next) => {
+const permuttationEncodingSuite = (key, textToEncode, alphabet, next) => {
     console.log(`La clé qui va être utilisée est donc : "${key}"`);
     let encodedText = "";
     for (let i = 0; i < textToEncode.length; i++) {
@@ -295,6 +295,7 @@ const permuttationEncoding = (next) => {
     const r1 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
     r1.question("Quel text voulez-vous chiffrer ?", answer => {
         let textToEncode = answer;
+        let alphabet = config.getAlphabet(textToEncode);
         r1.close();
         const r2 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
         console.log("Vous avez le choix entre donner votre clé, ou laisse l'algorithme générer la clé !");
@@ -306,11 +307,11 @@ const permuttationEncoding = (next) => {
             let key;
             switch (choix) {
                 case "1":
-                    key = generatePermutationKey();
-                    permuttationEncodingSuite(key, textToEncode, next);
+                    key = generatePermutationKey(alphabet);
+                    permuttationEncodingSuite(key, textToEncode, alphabet, next);
                     break;
                 case "2":
-                    askKeyForPermuttationEncoding(textToEncode, permuttationEncodingSuite, next);
+                    askKeyForPermuttationEncoding(textToEncode, alphabet, permuttationEncodingSuite, next);
                     break;
                 default:
                     console.log("Mauvais choix on recommence !!!");
@@ -324,6 +325,7 @@ const permuttationDecoding = (next) => {
     const r1 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
     r1.question("Quel texte voulez-vous déchiffrer ?", answer => {
         let textToDecode = answer;
+        let alphabet = config.getAlphabet(textToDecode);
         r1.close();
         const r2 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
 
