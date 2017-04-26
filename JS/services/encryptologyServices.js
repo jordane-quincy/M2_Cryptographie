@@ -258,7 +258,7 @@ const askKeyForPermuttationEncoding = (textToEncode, alphabet, callback, finalCa
     L'ordre de la clé suivra l'ordre des lettres de l'alphabet donnée juste en dessous
     L'alphabet supporté est : ${(alphabet.join("|"))}`);
     r3.question("Donner votre clé : ", (answer) => {
-        let isGoodKey = isGoodPermuttationKey(answer);
+        let isGoodKey = isGoodPermuttationKey(answer, alphabet);
         console.log("is good key : " + isGoodKey);
         console.log("the key is : " + answer);
         r3.close();
@@ -267,7 +267,7 @@ const askKeyForPermuttationEncoding = (textToEncode, alphabet, callback, finalCa
             askKeyForPermuttationEncoding(textToEncode, alphabet, callback, finalCallback);
         }
         else {
-            callback(answer, textToEncode, finalCallback);
+            callback(answer, textToEncode, alphabet, finalCallback);
         }
     });
 };
@@ -280,7 +280,7 @@ const permuttationEncodingSuite = (key, textToEncode, alphabet, next) => {
         let indexOfLetterToEncode = _.indexOf(alphabet, textToEncode[i]);
         // On vérifie que la lettre se trouve bien dans l'alphabet
         if (indexOfLetterToEncode < 0) {
-            console.log(`Nous ne pouvons pas continuer car le caractère ${textToDecode[i]} de votre texte ne se trouve pas dans l'alphabet`);
+            console.log(`Nous ne pouvons pas continuer car le caractère ${textToEncode[i]} de votre texte ne se trouve pas dans l'alphabet`);
             process.exit(1);
         }
         // Avec l'index on remplace tout simplement la lettre par la lettre correspondante présente dans la clé
@@ -337,7 +337,7 @@ const permuttationDecoding = (next) => {
             const usedKey = answer;
             r2.close();
             // On teste si la clé donnée est correcte
-            if (!isGoodPermuttationKey(usedKey)) {
+            if (!isGoodPermuttationKey(usedKey, alphabet)) {
                 console.log("La clé que vous venez de donner n'est pas conforme, on recommence !!");
                 permuttationDecoding(next);
             }
