@@ -105,16 +105,18 @@ const countLetterOccurence = (textToDecrypt) => {
     let letterCurrent = textToDecrypt[i];
     // console.log(`letterCurrent : "${letterCurrent}"\n`);
     let countLetter = mapLetterOccurence.get(letterCurrent) === undefined ? 0 : mapLetterOccurence.get(letterCurrent);
-    // console.log(`countLetter : "${countLetter}"\n`);
 
     countLetter++;
+    // console.log(`countLetter "${letterCurrent}" : "${countLetter}"`);
     mapLetterOccurence.set(letterCurrent, countLetter);
   }
+
+  console.log('mapLetterOccurence ', mapLetterOccurence);
 
   return mapLetterOccurence;
 };
 
-const analyseFrequence = (textToDecrypt) => {
+const getLetterWithMaxOccurence = (textToDecrypt) => {
   let mapLetterOccurence = countLetterOccurence(textToDecrypt);
 
   var maxOccurence = 0;
@@ -127,7 +129,7 @@ const analyseFrequence = (textToDecrypt) => {
     }
   }
 
-  console.log(`letterMaxOccurence : "${letterMaxOccurence}" (${maxOccurence})\n`);
+  console.log('letterMaxOccurence : ', letterMaxOccurence);
 
   return letterMaxOccurence;
 };
@@ -140,7 +142,7 @@ const cesarDecrypting = (next) => {
         let alphabet = config.getAlphabet(textToDecrypt);
 
         //On est en français donc la letter qui apparait le plus dans le texte chiffré est un 'e' dans le texte en clair
-        let letterMaxOccurence = analyseFrequence(textToDecrypt);
+        let letterMaxOccurence = getLetterWithMaxOccurence(textToDecrypt);
 
         let shiftLetterMaxOccurence = _.indexOf(alphabet, letterMaxOccurence);
 
@@ -232,13 +234,13 @@ const vigenereDecoding = (next) => {
 const vigenereDecrypting = (next) => {
     const rl = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
     rl.question("Quel texte voulez-vous décrypter ? ", answer => {
-        let textToDecrypt = 'QODBSWWOFOLOFMWMSZFKHSEESFWCSKJOFSTSSBEESVSCPKGOGCCXHKQAISGOG'; //'IRTGQTFTEFKENVRTOVLIGETDNVCITRBXGLVHGKYXVTFPTXCSGCYBKJCTPKPPKEGACCJPKKTTPRGIFVQRGEBPKKPTOFLICZRQTLGHURGIGKGCEVJPKK'; //FIXME: remettre : answer;
+        let textToDecrypt = 'SSGNBJNGHDSTNRVLFPYHRPSUNJZNBKEFRRAVWHTQFFWCGQOXNSKOOJCWURSLGQRAAFWWDYZVVSECOKRCEMCZCOMXWIZIVUELNGGACSUSDNGRUCIBELNAFWFRRGFWBVVSECGJNASUSVCFVQCIBRVLOLBSDJWJRZWJIKCCLSCLAGMNFZOWVAQVBFVBICCOKBSKYSIBSMNFVARRWGCJGFDTWAOELS'; //'POEFXQQSLCVDUSCSVSWHNBECUSNHAOMWNIGGNHJWCQQOAUNRNZJARGNSWHAORBRZJZUORHESWORHMSBQNBMORHASVCWHJWCPAIRGBORHNHRBLSUORH'; 'IRTGQTFTEFKENVRTOVLIGETDNVCITRBXGLVHGKYXVTFPTXCSGCYBKJCTPKPPKEGACCJPKKTTPRGIFVQRGEBPKKPTOFLICZRQTLGHURGIGKGCEVJPKK'; //FIXME: remettre : answer;
         rl.close();
 
         let alphabet = config.getAlphabet(textToDecrypt);
 
         let tab = [];
-        let longueurCleMax = 2; //FIXME: pouvoir saisir la longeur de la clé (ou plutôt demandé si on reboucle en incrémentant la longueur de la cle)
+        let longueurCleMax = 3; //FIXME: pouvoir saisir la longeur de la clé (ou plutôt demandé si on reboucle en incrémentant la longueur de la cle)
         for (let i = 0; i < longueurCleMax; i++) {
           //init
           tab.push([]);
@@ -272,13 +274,9 @@ const vigenereDecrypting = (next) => {
 
 
           //On trouve la lettre avec le + d'occurence
-          let letterMaxOccurence = analyseFrequence(partTextToDecrypt);
-
-          // let shiftLetterMaxOccurence = _.indexOf(alphabet, letterMaxOccurence);
+          let letterMaxOccurence = getLetterWithMaxOccurence(partTextToDecrypt);
 
           let shiftLetterE = 4; // le 'E' ou 'e' est toujours à la cinquième place (alphabet[4]) que l'on soit en majuscule ou minuscule
-
-          // let shift = alphabet[(shiftLetterMaxOccurence - shiftLetterE) % alphabet.length];
 
           let decodedLetter = decodeLetter(letterMaxOccurence, alphabet, shiftLetterE);
           console.log(`letterMaxOccurence : "${letterMaxOccurence}" = "${decodedLetter}"\n`);
