@@ -132,6 +132,16 @@ const permutation_encode_mix_text_uncrypted = 'VeniVidiVici';
 const permutation_encode_mix_alphabet = 'RGECVJUASPOIMBWDTZXFHYKLNQrgecvjuaspoimbwdtzxfhyklnq';
 const permutation_encode_mix_text_crypted = 'YvbsYscsYses';
 
+
+const vigenere_encode_MAJ_text_uncrypted  = 'CEPREMIEREXERCICEPRATIQUEVISEAVERIFIERQUELESBASESSONTACQUISES';
+const vigenere_encode_MAJ_cle = 'OK';
+const vigenere_encode_MAJ_text_crypted = 'QODBSWWOFOLOFMWMSZFKHSEESFWCSKJOFSTSSBEESVSCPKGOGCCXHKQAISGOG';
+
+const vigenere_encode_MAJ_text_uncrypted_4  = 'GAVROCHECOMPLETEMENTENVOLEETRADIEUXSETAITCHARGEDELAMISEENTRAINILALLAITVENAITDESCENDAITREMONTAITBRUISSAITETINCELAIT';
+const vigenere_encode_MAJ_cle_4 = 'CRYP';
+const vigenere_encode_MAJ_text_crypted_4 = 'IRTGQTFTEFKENVRTOVLIGETDNVCITRBXGLVHGKYXVTFPTXCSGCYBKJCTPKPPKEGACCJPKKTTPRGIFVQRGEBPKKPTOFLICZRQTLGHURGIGKGCEVJPKK';
+
+
 module.exports = {
     alphabet,
     freqApparitionLetter
