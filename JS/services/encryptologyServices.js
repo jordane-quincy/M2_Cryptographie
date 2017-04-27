@@ -39,7 +39,7 @@ const decodeLetter = (letter, alphabet, shift) => {
 };
 
 const cesarEncoding = (next) => {
-    const rl = readline.createInterface({input: process.stdin, output: process.stdout, terminal: false});
+    const rl = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
     rl.question("Quel texte voulez-vous chiffrer ? ", answer => {
         let textToEncode = answer;
         rl.close();
@@ -168,7 +168,7 @@ const cesarDecrypting = (next) => {
 };
 
 const vigenereEncoding = (next) => {
-    const rl = readline.createInterface({input: process.stdin, output: process.stdout, terminal: false});
+    const rl = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
     rl.question("Quel texte voulez-vous chiffrer ? ", answer => {
         let textToEncode = answer;
         rl.close();
@@ -526,7 +526,11 @@ const generateSuperGrowingList = listSize => {
 
 const generateM = superGrowingList => {
     let randomNumber = Math.floor(Math.random() * superGrowingList.length) + 1;
-    return _.sum(superGrowingList) + randomNumber;
+    let m = _.sum(superGrowingList) + randomNumber;
+    if (m % 2 === 0) {
+        m++;
+    }
+    return m;
 };
 
 const generatePWithM = m => {
@@ -556,7 +560,7 @@ const transformTextToEncodeInBytes = (textToEncode, numberOfBytes, alphabet) => 
             }
             letterInBytes = complement + letterInBytes;
         }
-        textToEncodeInBytes += letterInBytes + ((i < textToEncode.length - 1) ? "|" : "");
+        textToEncodeInBytes += letterInBytes;
     }
     return textToEncodeInBytes;
 };
@@ -574,7 +578,7 @@ const encodeTabOfBlocks = (tabOfBlocksInBytes, nonSuperGrowingSequence) => {
 };
 
 const merkleHellmanEncoding = next => {
-    const rl = readline.createInterface({input: process.stdin, output: process.stdout, terminal: false});
+    const rl = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
     rl.question("Quel texte voulez-vous chiffrer ? ", answer => {
         let textToEncode = answer;
         rl.close();
@@ -582,6 +586,7 @@ const merkleHellmanEncoding = next => {
         let alphabet = config.getAlphabet(textToEncode);
         // On récupère le nombre de bits utilisé pour la transformation en bits des lettres du texte
         let numberOfBytes = getNumberOfBytesDependOnAlphabet(alphabet);
+        console.log(`nombre de bits pour les lettres : ${numberOfBytes}`);
         // On génère la suite super croissante
         let superGrowingList = generateSuperGrowingList(numberOfBytes);
         // On génère les clé m et p
@@ -590,11 +595,37 @@ const merkleHellmanEncoding = next => {
         // On génère la clé publique (suite non super croissante à partir de p et m et de la suite super croissante)
         let nonSuperGrowingSequence = generateNonSuperGrowingSequence(p, m, superGrowingList);
         console.log(`Clé m utilisée : ${m}`);
-        console.log(`Clé m utilisée : ${p}`);
+        console.log(`Clé p utilisée : ${p}`);
+        console.log(`Clé privé utilisée : ${superGrowingList}`);
+        console.log(`Clé publique utilisée : ${nonSuperGrowingSequence}`);
         let textToEncodeInBytes = transformTextToEncodeInBytes(textToEncode, numberOfBytes, alphabet);
-        let tabOfBlocksInBytes = textToEncodeInBytes.split("|");
+        // Tranfrom textToEncodeInBytes in tabOfBlocksInBytes
+        let cpt = 1;
+        let tabOfBlocksInBytes = [];
+        let cptTable = 0;
+        for (let i = 0; i < textToEncodeInBytes.length; i++) {
+            if (cpt <= superGrowingList.length) {
+                tabOfBlocksInBytes[cptTable] = (tabOfBlocksInBytes[cptTable] ? tabOfBlocksInBytes[cptTable] : "") + textToEncodeInBytes[i];
+                cpt++;
+            }
+            else {
+                cpt = 1;
+                cptTable++;
+                tabOfBlocksInBytes[cptTable] = (tabOfBlocksInBytes[cptTable] ? tabOfBlocksInBytes[cptTable] : "") + textToEncodeInBytes[i];
+                cpt++;
+            }
+        }
+        // Ajout de 0 à la fin si nécessaire
+        if (tabOfBlocksInBytes[tabOfBlocksInBytes.length - 1].length !== superGrowingList.length) {
+            let diff = "";
+            for (let j = 0; j < superGrowingList.length - tabOfBlocksInBytes[tabOfBlocksInBytes.length - 1].length; j++) {
+                diff += "0";
+            }
+            tabOfBlocksInBytes[tabOfBlocksInBytes.length - 1] += diff;
+        }
         let encodedTabOfBlocks = encodeTabOfBlocks(tabOfBlocksInBytes, nonSuperGrowingSequence);
         console.log(`Message chiffré : ${encodedTabOfBlocks}`);
+        next();
     });
 };
 
@@ -617,15 +648,103 @@ const calculateMultiplicativeInverse = (m, p) => {
         }
         cpt++;
     }
-    return u[u.length - 1] > 0 ? u[u.length -1] : v[v.length - 1];
+    return v[v.length - 1] > 0 ? v[v.length -1] : (v[v.length -1] + m);
+};
+
+const sumDecodedBlock = (decodedBlock) => {
+    let sum = 0;
+    decodedBlock.forEach(block => {
+        if (block.isToTake) {
+            sum += block.number;
+        }
+    });
+    return sum;
 };
 
 const merkleHellmanDecoding = next => {
-    const rl = readline.createInterface({input: process.stdin, output: process.stdout, terminal: false});
+    const rl = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
     rl.question("Quelle séquence voulez-vous déchiffrer ? Séparez la séquence par des virgules sans espace (ex : 12,154,23,65)\n", answer => {
         let textToDecode = answer;
         rl.close();
-        console.log(calculateMultiplicativeInverse(155, 27));
+        const r2 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
+        r2.question("Quelle est la clé m avec laquelle le texte a été chiffré ?\n", answer => {
+            let m = +answer;
+            r2.close();
+            const r3 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
+            r3.question("Quelle est la clé p avec laquelle le texte a été chiffré ?\n", answer => {
+                let p = +answer;
+                r3.close();
+                const r4 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
+                r4.question("Quelle est la clé privé ? (la suite super croissant, à séparer par des virgules (ex : 1,3,8))", answer => {
+                    let superGrowingList = answer.split(",");
+                    r4.close();
+                    const r5 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
+                    r5.question("Enfin sur combien de bits ont été codés les lettres lors du chiffrage de ce message ?", answer => {
+                        let numberOfByteForLetter = +answer;
+                        r5.close();
+                        // Trick alphabet
+                        let alphabet = config.getAlphabet("abc");
+                        let multiplicativeInverse = calculateMultiplicativeInverse(m, p);
+                        let encodedTabOfBlocks = textToDecode.split(",");
+                        console.log(`Inverse multiplicatif = ${multiplicativeInverse}`);
+                        let baseDecodedBlock = [];
+                        superGrowingList.forEach((number) => {
+                            baseDecodedBlock.push({
+                                number: +number,
+                                isToTake: false
+                            });
+                        });
+                        let decodedTextInBytes = "";
+                        encodedTabOfBlocks.forEach((encodedBlock) => {
+                            let decodedBlock = _.cloneDeep(baseDecodedBlock);
+                            let tmpNumber = (+encodedBlock * multiplicativeInverse) % m;
+                            let cpt = 0;
+                            console.log("tmpNumber : " + tmpNumber);
+                            while (sumDecodedBlock(decodedBlock) !== tmpNumber) {
+                                if (sumDecodedBlock(decodedBlock) + (+superGrowingList[(superGrowingList.length - 1) - cpt]) <= tmpNumber) {
+                                    decodedBlock[(superGrowingList.length - 1) - cpt].isToTake = true;
+                                }
+                                cpt++;
+                            }
+                            let decodedBlockInByte = "";
+                            for (let i = decodedBlock.length - 1; i >= 0; i--) {
+                                if (decodedBlock[i].isToTake) {
+                                    decodedBlockInByte = "1" + decodedBlockInByte;
+                                }
+                                else {
+                                    decodedBlockInByte = "0" + decodedBlockInByte;
+                                }
+                            }
+                            decodedTextInBytes += decodedBlockInByte;
+                        });
+                        // Tranfrom decodedTextInBytes in decodedText
+                        let cpt = 1;
+                        let decodedTextInTable = [];
+                        let cptTable = 0;
+                        for (let i = 0; i < decodedTextInBytes.length; i++) {
+                            if (cpt <= numberOfByteForLetter) {
+                                decodedTextInTable[cptTable] = (decodedTextInTable[cptTable] ? decodedTextInTable[cptTable] : "") + decodedTextInBytes[i];
+                                cpt++;
+                            }
+                            else {
+                                cpt = 1;
+                                cptTable++;
+                                decodedTextInTable[cptTable] = (decodedTextInTable[cptTable] ? decodedTextInTable[cptTable] : "") + decodedTextInBytes[i];
+                                cpt++;
+                            }
+                        }
+                        let decodedText = "";
+                        decodedTextInTable.forEach(letterInBytes => {
+                            if (letterInBytes.length === numberOfByteForLetter) {
+                                decodedText += alphabet[parseInt(letterInBytes, 2)];
+                            }
+                        });
+                        console.log(`Le texte déchiffré est : ${decodedText}`);
+                        next();
+                    });
+                });
+            });
+        });
     });
 };
 
