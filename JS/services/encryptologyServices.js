@@ -1,7 +1,6 @@
 'use strict'
 const config = require('config/config');
 const gcd = require('gcd');
-// const alphabet = config.alphabet;
 const freqApparitionLetter = config.freqApparitionLetter;
 const readline = require('readline');
 const _ = require('lodash');
@@ -111,8 +110,7 @@ const countLetterOccurence = (textToDecrypt) => {
     mapLetterOccurence.set(letterCurrent, countLetter);
   }
 
-  console.log('mapLetterOccurence ', mapLetterOccurence);
-
+  // console.log('mapLetterOccurence ', mapLetterOccurence);
   return mapLetterOccurence;
 };
 
@@ -129,8 +127,7 @@ const getLetterWithMaxOccurence = (textToDecrypt) => {
     }
   }
 
-  console.log('letterMaxOccurence : ', letterMaxOccurence);
-
+  // console.log('letterMaxOccurence : ', letterMaxOccurence);
   return letterMaxOccurence;
 };
 
@@ -234,13 +231,13 @@ const vigenereDecoding = (next) => {
 const vigenereDecrypting = (next) => {
     const rl = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
     rl.question("Quel texte voulez-vous décrypter ? ", answer => {
-        let textToDecrypt = 'SSGNBJNGHDSTNRVLFPYHRPSUNJZNBKEFRRAVWHTQFFWCGQOXNSKOOJCWURSLGQRAAFWWDYZVVSECOKRCEMCZCOMXWIZIVUELNGGACSUSDNGRUCIBELNAFWFRRGFWBVVSECGJNASUSVCFVQCIBRVLOLBSDJWJRZWJIKCCLSCLAGMNFZOWVAQVBFVBICCOKBSKYSIBSMNFVARRWGCJGFDTWAOELS'; //'POEFXQQSLCVDUSCSVSWHNBECUSNHAOMWNIGGNHJWCQQOAUNRNZJARGNSWHAORBRZJZUORHESWORHMSBQNBMORHASVCWHJWCPAIRGBORHNHRBLSUORH'; 'IRTGQTFTEFKENVRTOVLIGETDNVCITRBXGLVHGKYXVTFPTXCSGCYBKJCTPKPPKEGACCJPKKTTPRGIFVQRGEBPKKPTOFLICZRQTLGHURGIGKGCEVJPKK'; //FIXME: remettre : answer;
+        let textToDecrypt = 'IRTGQTFTEFKENVRTOVLIGETDNVCITRBXGLVHGKYXVTFPTXCSGCYBKJCTPKPPKEGACCJPKKTTPRGIFVQRGEBPKKPTOFLICZRQTLGHURGIGKGCEVJPKKGAUVKQNRGIGKPTNRNDWIJTPTMJTRETOVLIFVRDWJYKCZRXNLLPKXSXNCMCQLGRGIRTUJYBKJCGGRTPKKGAFVQPKCCHQLGRGIRTUJYYQZCVCMPDEYCTVRGIWERDWIZXNCMCPVKTPKMCNVTDARGIURLHEVQHGFLAGERTPUYXVKMJLFSGUZJGGDNAKJQPKKJPKICICERECIRDWKYACWMXUTCICZRJPVCHRVATFLZXSLGIGGPTUHSTKIPXVRLIGGYHFRPGGKNDUJGQNVYKGTJJKCCCQIKTDRPGKTYSGCCHGERPKKQJTJYRTFSEGZJVGEYXVCCHHCYCGLPHKCCMEZRPKKJTUGYGGJQTWOGATRLXORGINVQUCKGVWVQXNZKECKGTPKYXVCCHRVLHKWQBGKRPKKJTULLHGEEPKVRTNVQPWKPTUVLWCCCXPVJTURSITVQTPTMAGICIQLQTPDMJXVKTPKNXSLYXVLLTVLBXCERBQIBPKKSCQLTGKVPHGGMHCZRHCIPTVRGITVNPTKYXVMMACZRPWUCHULQSWKSBWCRTGKBTNVDUQIRHCLRPKKBTEVSMEZYRGLVACDSGOLPPKKZDWIBDPEYXVVRWCIATNRGIVFSINRRIGCYVGDMJEYCSGCGBOVLHGTMRJVPTXFJJVZMCPRGGGCCBQLTTOVLIRVPEGKSTNVRPKKBPPJQTUGCIKKQQTRQTVCYRNRKTWINTTGCIWVJAGUYCUJCHRVRXVJNDWDMCUYYGFZCCEFPTFVQECMCHGEADTVBTUKMCPVYJZVLRQICSGJKPEYGCUFSNGEYIKCSCGYMIVVCSGGJPVIYHRFSGOVZDWTFTTTCITFSACTCHVKMJVGCIKKTDVICQCIPXERBTKCDPWKOJGTYBQERTOVRIGQWIQLRUNRLFWVXNVFSIHZAWGQWIQLRRCJQTBCYBCZQDPLLTDRPGKTYSGTCHVCCIJVBTNRKTTVEXDFSIGECOXFGACLLTRFPIGMGITVCRGTGUKKCMECYBGIJTUKPPXRGANVSGULLTRFPIGMGITVCFWVQIEVOJGKSKGLVFWFLUCJQTFLLTRFPIGMGITVCIWSCGELJTJVPRWCCHXFSHOVKTUIGEQJRPIRTGQTFTWECEQIRTXZRGGVBPPJSCGSYGTZAPFVATUKCMEVJAGERRCECBRVAWGGYHFVJPVKYFWVPBCZQRCXCCGGMJTCYETVLSTVTDWJLPXVXSQEAYCDYXUTFXRVBTUGMBOVQECIBTUJSHWEKJTFSXNPYKCZRSGJAJNJBTDFSIGZJAGJSCGGMGVVTXVICTERADWGCAGJADTJYJZGGTFJBTNREPTUCCCKGDPRJTSLYCFVJAGMCJVDMCVVPHWISCGSYGTZAPFVNPTUGAGMCGTVCHVKPPKKPTCYAPXFSHPRTTBGYHWECXOREXPRRXQECUHICCGVKTUTYBCIYSGJ'; //'POEFXQQSLCVDUSCSVSWHNBECUSNHAOMWNIGGNHJWCQQOAUNRNZJARGNSWHAORBRZJZUORHESWORHMSBQNBMORHASVCWHJWCPAIRGBORHNHRBLSUORH'; 'IRTGQTFTEFKENVRTOVLIGETDNVCITRBXGLVHGKYXVTFPTXCSGCYBKJCTPKPPKEGACCJPKKTTPRGIFVQRGEBPKKPTOFLICZRQTLGHURGIGKGCEVJPKK'; //FIXME: remettre : answer;
         rl.close();
 
         let alphabet = config.getAlphabet(textToDecrypt);
 
         let tab = [];
-        let longueurCleMax = 3; //FIXME: pouvoir saisir la longeur de la clé (ou plutôt demandé si on reboucle en incrémentant la longueur de la cle)
+        let longueurCleMax = 4; //FIXME: pouvoir saisir la longeur de la clé (ou plutôt demandé si on reboucle en incrémentant la longueur de la cle)
         for (let i = 0; i < longueurCleMax; i++) {
           //init
           tab.push([]);
@@ -269,7 +266,7 @@ const vigenereDecrypting = (next) => {
             // console.log('icCurrentLetter', letter, ':', icCurrentLetter);
             sumIc += icCurrentLetter;
           }
-          console.log('sumIc pour ['+ i +']', sumIc);
+          console.log('sumIc pour partTextToDecrypt['+ i +']', sumIc);
 
 
 
@@ -279,7 +276,7 @@ const vigenereDecrypting = (next) => {
           let shiftLetterE = 4; // le 'E' ou 'e' est toujours à la cinquième place (alphabet[4]) que l'on soit en majuscule ou minuscule
 
           let decodedLetter = decodeLetter(letterMaxOccurence, alphabet, shiftLetterE);
-          console.log(`letterMaxOccurence : "${letterMaxOccurence}" = "${decodedLetter}"\n`);
+          console.log(`letterMaxOccurence : "${letterMaxOccurence}" ==> "${decodedLetter}"\n`);
 
           if (!decodedLetter) {
               // La lettre n'est pas dans l'alphabet il faut le dire à l'utilisateur et sortir du programme
@@ -293,41 +290,6 @@ const vigenereDecrypting = (next) => {
 
         console.log(`Nous proposons la clé "${cle}"`);
 
-
-
-        // let sumIc = 0;
-        // let mapLetterOccurence = countLetterOccurence(textToDecrypt);
-        // for (let [letter, countLetter] of mapLetterOccurence) {
-        //   let icCurrentLetter = (countLetter * (countLetter -1) ) / (textToDecrypt.length * (textToDecrypt.length -1));
-        //   console.log('icCurrentLetter', letter, ':', icCurrentLetter);
-        //   sumIc += icCurrentLetter;
-        // }
-        // console.log('sumIc :', sumIc);
-
-
-
-        // const r2 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
-        // r2.question("Avec quelle clé le texte a été chiffré ? ", (answer) => {
-        //     let usedKey;
-        //     let decodedText = "";
-        //     usedKey = answer;
-        //     r2.close();
-        //     console.log("le texte est : " + textToDecode);
-        //     console.log("la clé est : " + usedKey);
-        //     let alphabet = config.getAlphabet(textToDecode);
-        //     for (let i = 0; i < textToDecode.length; i++) {
-        //         let shift = _.indexOf(alphabet, usedKey[i % usedKey.length]);
-        //         let decodedLetter = decodeLetter(textToDecode[i], alphabet, shift);
-        //         if (!decodedLetter) {
-        //             // La lettre n'est pas dans l'alphabet il faut le dire à l'utilisateur et sortir du programme
-        //             console.log(`Nous ne pouvons pas continuer car le caractère ${textToDecode[i]} de votre texte ne se trouve pas dans l'alphabet`);
-        //             process.exit(1);
-        //         }
-        //         decodedText += decodedLetter;
-        //     }
-        //     console.log(`le texte crypté est : "${decodedText}"\n\n\n`);
-        //     next();
-        // });
     });
 };
 
