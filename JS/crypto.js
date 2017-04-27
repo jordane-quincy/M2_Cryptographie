@@ -1,4 +1,4 @@
-'use strict' 
+'use strict'
 const appModulePath = require('app-module-path');
 appModulePath.addPath('./');
 const readline = require('readline');
@@ -12,12 +12,12 @@ var menu = () => {
     console.log("2 - Déchiffrer un texte en donnant la clé avec l'algorithme de César");
     console.log("3 - Chiffrer un texte en donnant une clé avec l'algorithme de Permutation");
     console.log("4 - Déchiffrer un texte en donnant la clé avec l'algorithme de Permutation");
-    console.log("7 - Chiffrer un texte en donnant une clé avec l'algorithme de Vigènere");
-    console.log("8 - Déchiffrer un texte en donnant la clé avec l'algorithme de Vigènere");
+    console.log("7 - Chiffrer un texte en donnant une clé avec l'algorithme de Vigenère");
+    console.log("8 - Déchiffrer un texte en donnant la clé avec l'algorithme de Vigenère");
     console.log("9 - Décrypter un texte avec l'algorithme de César");
     console.log("10 - Décrypter un texte avec l'algorithme de Permutation");
     console.log("11 - Chiffrer un texte avec l'algorithme de Merkle - Hellman");
-    console.log("12 - Décrypter un texte avec l'algorithme de Vigènere (via Indice de coïncidence)");
+    console.log("12 - Décrypter un texte avec l'algorithme de Vigenère (via Indice de coïncidence)");
     console.log("13 - Déchiffrer une séquence avec l'algorithme de Merkle - Hellman");
     console.log("0 - Quitter");
     var readline1 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: false});
