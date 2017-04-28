@@ -10,15 +10,15 @@ var menu = () => {
     console.log("Quel service voulez-vous utilisez ?");
     console.log("1 - Chiffrer un texte en donnant une clé avec l'algorithme de César");
     console.log("2 - Déchiffrer un texte en donnant la clé avec l'algorithme de César");
-    console.log("3 - Chiffrer un texte en donnant une clé avec l'algorithme de Permutation");
-    console.log("4 - Déchiffrer un texte en donnant la clé avec l'algorithme de Permutation");
+    console.log("3 - Décrypter un texte avec l'algorithme de César");
+    console.log("4 - Chiffrer un texte en donnant une clé avec l'algorithme de Permutation");
+    console.log("5 - Déchiffrer un texte en donnant la clé avec l'algorithme de Permutation");
+    console.log("6 - Décrypter un texte avec l'algorithme de Permutation");
     console.log("7 - Chiffrer un texte en donnant une clé avec l'algorithme de Vigenère");
     console.log("8 - Déchiffrer un texte en donnant la clé avec l'algorithme de Vigenère");
-    console.log("9 - Décrypter un texte avec l'algorithme de César");
-    console.log("10 - Décrypter un texte avec l'algorithme de Permutation");
-    console.log("11 - Chiffrer un texte avec l'algorithme de Merkle - Hellman");
-    console.log("12 - Décrypter un texte avec l'algorithme de Vigenère (via Indice de coïncidence)");
-    console.log("13 - Déchiffrer une séquence avec l'algorithme de Merkle - Hellman");
+    console.log("9 - Décrypter un texte avec l'algorithme de Vigenère (via Indice de coïncidence)");
+    console.log("10 - Chiffrer un texte avec l'algorithme de Merkle - Hellman");
+    console.log("11 - Déchiffrer une séquence avec l'algorithme de Merkle - Hellman");
     console.log("0 - Quitter");
     var readline1 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: false});
     readline1.question("Faites-votre choix : ", (answer) => {
@@ -31,10 +31,16 @@ var menu = () => {
                 encryptologyServices.cesarDecoding(menu);
                 break;
             case "3":
-                encryptologyServices.permuttationEncoding(menu);
+                encryptologyServices.cesarDecrypting(menu);
                 break;
             case "4":
+                encryptologyServices.permuttationEncoding(menu);
+                break;
+            case "5":
                 encryptologyServices.permuttationDecoding(menu);
+                break;
+            case "6":
+                encryptologyServices.permuttationDecrypting(menu);
                 break;
             case "7":
                 encryptologyServices.vigenereEncoding(menu);
@@ -43,18 +49,12 @@ var menu = () => {
                 encryptologyServices.vigenereDecoding(menu);
                 break;
             case "9":
-                encryptologyServices.cesarDecrypting(menu);
-                break;
-            case "10":
-                encryptologyServices.permuttationDecrypting(menu);
-                break;
-            case "11":
-                encryptologyServices.merkleHellmanEncoding(menu);
-                break;
-            case "12":
                 encryptologyServices.vigenereDecrypting(menu);
                 break;
-            case "13":
+            case "10":
+                encryptologyServices.merkleHellmanEncoding(menu);
+                break;
+            case "11":
                 encryptologyServices.merkleHellmanDecoding(menu);
                 break;
             case "0":
