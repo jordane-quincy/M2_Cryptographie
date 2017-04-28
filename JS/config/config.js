@@ -1,4 +1,4 @@
-const alphabet = [
+const alphabetMAJ = [
     "A",
     "B",
     "C",
@@ -25,34 +25,37 @@ const alphabet = [
     "X",
     "Y",
     "Z"
-    // "a",
-    // "b",
-    // "c",
-    // "d",
-    // "e",
-    // "f",
-    // "g",
-    // "h",
-    // "i",
-    // "j",
-    // "k",
-    // "l",
-    // "m",
-    // "n",
-    // "o",
-    // "p",
-    // "q",
-    // "r",
-    // "s",
-    // "t",
-    // "u",
-    // "v",
-    // "w",
-    // "x",
-    // "y",
-    // "z",
     // " ",
     // "!"
+]
+
+const alphabetMin = [
+  "a",
+  "b",
+  "c",
+  "d",
+  "e",
+  "f",
+  "g",
+  "h",
+  "i",
+  "j",
+  "k",
+  "l",
+  "m",
+  "n",
+  "o",
+  "p",
+  "q",
+  "r",
+  "s",
+  "t",
+  "u",
+  "v",
+  "w",
+  "x",
+  "y",
+  "z"
 ]
 
 const freqApparitionLetter = [
@@ -87,30 +90,16 @@ const freqApparitionLetter = [
 const getAlphabet = (textToAnalyse) => {
    if (textToAnalyse === textToAnalyse.toUpperCase()) {
      console.log('getAlphabet : UPPERCASE');
-
-     let alphabetUpperCase = [];
-     for (let i = 0; i < alphabet.length; i++) {
-       alphabetUpperCase.push(alphabet[i].toUpperCase());
-     }
-     return alphabetUpperCase;
+     return alphabetMAJ;
    }else if (textToAnalyse === textToAnalyse.toLowerCase()) {
      console.log('getAlphabet : lowercase');
-
-     let alphabetLowerCase = [];
-     for (let i = 0; i < alphabet.length; i++) {
-       alphabetLowerCase.push(alphabet[i].toLowerCase());
-     }
-     return alphabetLowerCase;
+     return alphabetMin;
    }else {
      console.log('getAlphabet : Case Mixed');
-     let alphabetUpperCase = [];
-     for (let i = 0; i < alphabet.length; i++) {
-       alphabetUpperCase.push(alphabet[i].toUpperCase());
-     }
-     let alphabetLowerCase = [];
-     for (let i = 0; i < alphabet.length; i++) {
-       alphabetLowerCase.push(alphabet[i].toLowerCase());
-     }
+     let alphabetUpperCase = alphabetMAJ;
+
+     let alphabetLowerCase = alphabetMin;
+
      return alphabetUpperCase.concat(alphabetLowerCase);
    }
 };
@@ -148,7 +137,6 @@ const vigenere_encode_MAJ_text_crypted_4 = 'IRTGQTFTEFKENVRTOVLIGETDNVCITRBXGLVH
 
 
 module.exports = {
-    alphabet,
-    freqApparitionLetter
-    , getAlphabet
+    freqApparitionLetter,
+    getAlphabet
 };

@@ -48,8 +48,8 @@ const cesarEncoding = (next) => {
             let encodedText = "";
             usedKey = answer;
             r2.close();
-            console.log("le texte est : " + textToEncode);
-            console.log("la clé est : " + usedKey);
+            // console.log("le texte est : " + textToEncode);
+            // console.log("la clé est : " + usedKey);
             let alphabet = config.getAlphabet(textToEncode);
             let shift = _.indexOf(alphabet, usedKey);
             for (let i = 0; i < textToEncode.length; i++) {
@@ -240,7 +240,7 @@ const getICPartText = (partTextToDecrypt) => {
   return sumIc;
 };
 
-const getKey = (textToDecrypt, longueurCle) => {
+const vigenereDecryptKey = (textToDecrypt, longueurCle, next) => {
   let cle = '';
 
   let tab = getPartText(textToDecrypt, longueurCle);
@@ -269,7 +269,9 @@ const getKey = (textToDecrypt, longueurCle) => {
 
   }
 
-  console.log(`Nous proposons la clé "${cle}"`);
+  console.log(`Nous proposons la clé "${cle}"\n\n\n`);
+
+  next();
 };
 
 const getPartText = (textToDecrypt, longueurCle) => {
@@ -290,7 +292,7 @@ const getPartText = (textToDecrypt, longueurCle) => {
   return tab;
 };
 
-const askKeyLengthForVigenereDecrypting = (textToDecrypt) => {
+const askKeyLengthForVigenereDecrypting = (textToDecrypt, next) => {
     const r3 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
     r3.question("Quelle est la longueur de clé à essayer ?", (answer) => {
         let longueurCle = answer;
@@ -298,11 +300,11 @@ const askKeyLengthForVigenereDecrypting = (textToDecrypt) => {
         r3.close();
         if (!isGoodKeyLength) {
             console.log(`La longueur que vous venez de rentrer n'est pas conforme, elle doit être comprise entre 1 et ${textToDecrypt.length}`);
-            askKeyLengthForVigenereDecrypting(textToDecrypt);
+            askKeyLengthForVigenereDecrypting(textToDecrypt, next);
         }
         else {
-          //maintenant qu'on a la longeur de cle, on l'utilise pour la déchiffrer
-          getKey(textToDecrypt, longueurCle);
+          //maintenant qu'on a la longueur de cle, on l'utilise pour la déchiffrer
+          vigenereDecryptKey(textToDecrypt, longueurCle, next);
         }
     });
 };
@@ -325,11 +327,13 @@ const vigenereDecrypting = (next) => {
           let longueurCle;
           switch (choix) {
                   case "1":
+                      //il va falloir calculer plusieurs IC pour utiliser la longueur de clé la plus probable
+
                       //L'indice de coïncidence différe selon les sources
                       let ICRefFR = 0.0778;
 
                       let longueurCleLaPlusProbable = 0;
-                      let bestIC = 999;
+                      let bestIC = 999; //pour être sûr d'être plus loin que les autres
 
                       let longueurMaxToTest = Math.min(textToDecrypt.length, 6);
                       console.log(`Nous allons tester des longueurs de clé de 1 à ${longueurMaxToTest}`);
@@ -365,12 +369,12 @@ const vigenereDecrypting = (next) => {
 
                       console.log(`La longueur de la clé la plus probable [IC=${bestIC}] est ${longueurCleLaPlusProbable}.`);
 
-                      //maintenant qu'on a la longeur de cle, on l'utilise pour la déchiffrer
-                      getKey(textToDecrypt, longueurCleLaPlusProbable);
+                      //maintenant qu'on a la longueur de cle, on l'utilise pour la déchiffrer
+                      vigenereDecryptKey(textToDecrypt, longueurCleLaPlusProbable, next);
 
                       break;
                   case "2":
-                      askKeyLengthForVigenereDecrypting(textToDecrypt);
+                      askKeyLengthForVigenereDecrypting(textToDecrypt, next);
                       break;
                   default:
                       console.log("Mauvais choix on recommence !!!");
@@ -379,52 +383,6 @@ const vigenereDecrypting = (next) => {
         });
     });
 };
-
-        // let longueurCle = 4; //FIXME: pouvoir saisir la longeur de la clé (ou plutôt demandé si on reboucle en incrémentant la longueur de la cle)
-        //
-        // let tab = getPartText(textToDecrypt, longueurCle);
-        //
-        // let cle = '';
-        //
-        // //on calcule l'ic pour chaque partie du texte
-        // for (let i = 0; i < longueurCle; i++) {
-        //   // console.log('tab['+ i +']', tab[i]);
-        //   let partTextToDecrypt = tab[i].join('');
-        //   console.log('['+ i +'] partTextToDecrypt:', partTextToDecrypt);
-        //
-        //   let sumIc = 0;
-        //   let mapLetterOccurence = countLetterOccurence(partTextToDecrypt);
-        //   for (let [letter, countLetter] of mapLetterOccurence) {
-        //     let icCurrentLetter = (countLetter * (countLetter -1) ) / (partTextToDecrypt.length * (partTextToDecrypt.length -1));
-        //     // console.log('icCurrentLetter', letter, ':', icCurrentLetter);
-        //     sumIc += icCurrentLetter;
-        //   }
-        //   console.log('sumIc pour partTextToDecrypt['+ i +']', sumIc);
-        //
-        //
-        //
-        //   //On trouve la lettre avec le + d'occurence
-        //   let letterMaxOccurence = getLetterWithMaxOccurence(partTextToDecrypt);
-        //
-        //   let shiftLetterE = 4; // le 'E' ou 'e' est toujours à la cinquième place (alphabet[4]) que l'on soit en majuscule ou minuscule
-        //
-        //   let decodedLetter = decodeLetter(letterMaxOccurence, alphabet, shiftLetterE);
-        //   console.log(`letterMaxOccurence : "${letterMaxOccurence}" ==> "${decodedLetter}"\n`);
-        //
-        //   if (!decodedLetter) {
-        //       // La lettre n'est pas dans l'alphabet il faut le dire à l'utilisateur et sortir du programme
-        //       console.log(`Nous ne pouvons pas continuer car le caractère ${letterMaxOccurence} de votre texte ne se trouve pas dans l'alphabet`);
-        //       process.exit(1);
-        //   }
-        //
-        //   cle += decodedLetter;
-        //
-        // }
-        //
-        // console.log(`Nous proposons la clé "${cle}"`);
-//
-    // });
-// };
 
 const generatePermutationKey = (alphabet) => {
     // On va générer une clé au hasard en inversant les lettres de l'alphabet
