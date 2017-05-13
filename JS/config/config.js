@@ -108,6 +108,10 @@ const getAlphabetFull = (textToAnalyse) => {
   return alphabetMAJ.concat(alphabetMin).concat(ponctuation).concat(caracteresAccentues);
 };
 
+const getAlphabetMAJ = (textToAnalyse) => {
+  return alphabetMAJ;
+};
+
 const getAlphabet = (textToAnalyse) => {
   //  if (textToAnalyse === textToAnalyse.toUpperCase()) {
   //    console.log('getAlphabet : UPPERCASE');
@@ -162,5 +166,6 @@ const vigenere_encode_MAJ_text_crypted_4 = 'IRTGQTFTEFKENVRTOVLIGETDNVCITRBXGLVH
 module.exports = {
     freqApparitionLetter,
     getAlphabet,
-    getAlphabetFull
+    getAlphabetFull,
+    getAlphabetMAJ
 };

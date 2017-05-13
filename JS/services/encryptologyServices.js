@@ -149,16 +149,17 @@ const getLetterWithMaxOccurence = (textToDecrypt) => {
 const cesarDecrypting = (next) => {
     const rl = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
     rl.question("Quel texte voulez-vous décrypter ? ", answer => {
-        let textToDecrypt = answer;
+        let textToDecrypt = cleanInput(answer);
+        console.log('textToDecrypt :', textToDecrypt); //FIXME; to remove
         rl.close();
-        let alphabet = config.getAlphabet(textToDecrypt);
+        let alphabet = config.getAlphabetMAJ(); //config.getAlphabet(textToDecrypt);
 
         //On est en français donc la letter qui apparait le plus dans le texte chiffré est un 'e' dans le texte en clair
         let letterMaxOccurence = getLetterWithMaxOccurence(textToDecrypt);
 
         let shiftLetterMaxOccurence = _.indexOf(alphabet, letterMaxOccurence);
 
-        let shiftLetterE = 4; // le 'E' ou 'e' est toujours à la cinquième place (alphabet[4]) que l'on soit en majuscule ou minuscule
+        let shiftLetterE = 4; // le 'E' est à la cinquième place dans l'alphabet (alphabet[4])
 
         let shift = ((shiftLetterMaxOccurence - shiftLetterE) % alphabet.length);
         // console.log(`shift : "${shift}"\n`);
@@ -169,7 +170,7 @@ const cesarDecrypting = (next) => {
             // console.log(`textToDecrypt[i] : "${textToDecrypt[i]}" = "${decodedLetter}"\n`);
             if (!decodedLetter) {
                 // La lettre n'est pas dans l'alphabet il faut le dire à l'utilisateur et sortir du programme
-                console.log(`Nous ne pouvons pas continuer car le caractère ${textToDecode[i]} de votre texte ne se trouve pas dans l'alphabet`);
+                console.log(`Nous ne pouvons pas continuer car le caractère ${textToDecrypt[i]} de votre texte ne se trouve pas dans l'alphabet`);
                 process.exit(1);
             }
             decodedText += decodedLetter;
@@ -823,7 +824,7 @@ const merkleHellmanDecoding = next => {
  */
 const cleanInput = (dirtyInput) => {
     var regex = new RegExp("[^a-zA-Z]", "g");
-    return dirtyInput.replace(regex, "");
+    return dirtyInput.replace(regex, "").toUpperCase();
 };
 
 module.exports = {
