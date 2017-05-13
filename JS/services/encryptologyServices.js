@@ -106,7 +106,7 @@ const cesarDecoding = (next) => {
                 }
                 decodedText += decodedLetter;
             }
-            console.log(`le texte déchiffré est : "${decodedText}"\n\n\n`);
+            console.log(`Le texte déchiffré est : "${decodedText}"\n\n\n`);
             next();
         });
     });
@@ -175,7 +175,7 @@ const cesarDecrypting = (next) => {
             }
             decodedText += decodedLetter;
         }
-        console.log(`le texte déchiffré est : "${decodedText}"\n\n\n`);
+        console.log(`Le texte déchiffré est : "${decodedText}"\n\n\n`);
         next();
     });
 };
@@ -237,7 +237,7 @@ const vigenereDecoding = (next) => {
                 }
                 decodedText += decodedLetter;
             }
-            console.log(`Le texte chiffré est : "${decodedText}"\n\n\n`);
+            console.log(`Le texte déchiffré est : "${decodedText}"\n\n\n`);
             next();
         });
     });
@@ -256,11 +256,10 @@ const getICPartText = (partTextToDecrypt) => {
   return sumIc;
 };
 
-const vigenereDecryptKey = (textToDecrypt, longueurCle, next) => {
+const vigenereDecryptKey = (textToDecrypt, alphabet, longueurCle, next) => {
   let cle = '';
 
   let tab = getPartText(textToDecrypt, longueurCle);
-  let alphabet = config.getAlphabet(textToDecrypt);
 
   //on calcule l'ic pour chaque partie du texte
   for (let i = 0; i < longueurCle; i++) {
@@ -281,7 +280,7 @@ const vigenereDecryptKey = (textToDecrypt, longueurCle, next) => {
         process.exit(1);
     }
 
-    cle += decodedLetter;
+    cle += decodedLetter.toUpperCase();
 
   }
 
@@ -308,7 +307,7 @@ const getPartText = (textToDecrypt, longueurCle) => {
   return tab;
 };
 
-const askKeyLengthForVigenereDecrypting = (textToDecrypt, next) => {
+const askKeyLengthForVigenereDecrypting = (textToDecrypt, alphabet, next) => {
     const r3 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
     r3.question("Quelle est la longueur de clé à essayer ?", (answer) => {
         let longueurCle = answer;
@@ -316,11 +315,11 @@ const askKeyLengthForVigenereDecrypting = (textToDecrypt, next) => {
         r3.close();
         if (!isGoodKeyLength) {
             console.log(`La longueur que vous venez de rentrer n'est pas conforme, elle doit être comprise entre 1 et ${textToDecrypt.length}`);
-            askKeyLengthForVigenereDecrypting(textToDecrypt, next);
+            askKeyLengthForVigenereDecrypting(textToDecrypt, alphabet, next);
         }
         else {
           //maintenant qu'on a la longueur de cle, on l'utilise pour la déchiffrer
-          vigenereDecryptKey(textToDecrypt, longueurCle, next);
+          vigenereDecryptKey(textToDecrypt, alphabet, longueurCle, next);
         }
     });
 };
@@ -331,7 +330,7 @@ const vigenereDecrypting = (next) => {
         let textToDecrypt = answer;
         rl.close();
 
-        let alphabet = config.getAlphabet(textToDecrypt);
+        let alphabet = config.getAlphabetFull(); //config.getAlphabet(textToDecrypt);
 
         const r2 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
         console.log("Vous avez le choix entre donner votre longueur de clé ou laisser l'algorithme chercher la longueur de la clé.");
@@ -386,11 +385,11 @@ const vigenereDecrypting = (next) => {
                       console.log(`La longueur de la clé la plus probable [IC=${bestIC}] est ${longueurCleLaPlusProbable}.`);
 
                       //maintenant qu'on a la longueur de cle, on l'utilise pour la déchiffrer
-                      vigenereDecryptKey(textToDecrypt, longueurCleLaPlusProbable, next);
+                      vigenereDecryptKey(textToDecrypt, alphabet, longueurCleLaPlusProbable, next);
 
                       break;
                   case "2":
-                      askKeyLengthForVigenereDecrypting(textToDecrypt, next);
+                      askKeyLengthForVigenereDecrypting(textToDecrypt, alphabet, next);
                       break;
                   default:
                       console.log("Mauvais choix on recommence !!!");
