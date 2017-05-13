@@ -149,10 +149,9 @@ const getLetterWithMaxOccurence = (textToDecrypt) => {
 const cesarDecrypting = (next) => {
     const rl = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
     rl.question("Quel texte voulez-vous décrypter ? ", answer => {
-        let textToDecrypt = cleanInput(answer);
-        console.log('textToDecrypt :', textToDecrypt); //FIXME; to remove
+        let textToDecrypt = answer;
         rl.close();
-        let alphabet = config.getAlphabetMAJ(); //config.getAlphabet(textToDecrypt);
+        let alphabet = config.getAlphabetFull(); //config.getAlphabet(textToDecrypt);
 
         //On est en français donc la letter qui apparait le plus dans le texte chiffré est un 'e' dans le texte en clair
         let letterMaxOccurence = getLetterWithMaxOccurence(textToDecrypt);
