@@ -15,6 +15,10 @@ const menu = require('crypto');
  */
 const encodeLetter = (letter, alphabet, shift) => {
     let letterIndex = _.indexOf(alphabet, letter);
+    // //FIXME: to remove
+    // console.log('letter', letter, 'shift', shift, 'letterIndex', letterIndex, 'alphabet', `${alphabet.join('')}`,
+    // '\n (letterIndex + shift)', (letterIndex + shift), 'alphabet.length', alphabet.length ,'(letterIndex + shift) % alphabet.length]', ((letterIndex + shift) % alphabet.length), 'alphabet[(letterIndex + shift) % alphabet.length] ', alphabet[(letterIndex + shift) % alphabet.length] );
+
     if (letterIndex === -1) {
         // La lettre n'est pas dans l'alphabet
         return null;
@@ -24,6 +28,17 @@ const encodeLetter = (letter, alphabet, shift) => {
 
 const decodeLetter = (letter, alphabet, shift) => {
     let letterIndex = _.indexOf(alphabet, letter);
+
+    // //FIXME: to remove
+    // console.log('letter', letter, 'shift', shift, 'letterIndex', letterIndex, ' ==> ', alphabet[
+    //     (
+    //         (letterIndex - shift) % alphabet.length >= 0 ?
+    //             (letterIndex - shift) % alphabet.length
+    //             :
+    //             ((letterIndex - shift) % alphabet.length) + alphabet.length
+    //     )
+    // ]);
+
     if (letterIndex === -1) {
         return null;
     }
@@ -50,7 +65,7 @@ const cesarEncoding = (next) => {
             r2.close();
             // console.log("le texte est : " + textToEncode);
             // console.log("la clé est : " + usedKey);
-            let alphabet = config.getAlphabet(textToEncode);
+            let alphabet = config.getAlphabetFull(); //config.getAlphabet(textToEncode);
             let shift = _.indexOf(alphabet, usedKey);
             for (let i = 0; i < textToEncode.length; i++) {
                 let encodedLetter = encodeLetter(textToEncode[i], alphabet, shift);
@@ -61,7 +76,7 @@ const cesarEncoding = (next) => {
                 }
                 encodedText += encodedLetter;
             }
-            console.log(`le texte crypté est : "${encodedText}"\n\n\n`);
+            console.log(`Le texte chiffré est : "${encodedText}"\n\n\n`);
             next();
         });
     });
@@ -78,9 +93,9 @@ const cesarDecoding = (next) => {
             let decodedText = "";
             usedKey = answer;
             r2.close();
-            console.log("le texte est : " + textToDecode);
-            console.log("la clé est : " + usedKey);
-            let alphabet = config.getAlphabet(textToDecode);
+            // console.log("le texte est : " + textToDecode);
+            // console.log("la clé est : " + usedKey);
+            let alphabet = config.getAlphabetFull(); //config.getAlphabet(textToDecode);
             let shift = _.indexOf(alphabet, usedKey);
             for (let i = 0; i < textToDecode.length; i++) {
                 let decodedLetter = decodeLetter(textToDecode[i], alphabet, shift);
@@ -175,9 +190,9 @@ const vigenereEncoding = (next) => {
             let encodedText = "";
             usedKey = answer;
             r2.close();
-            console.log("le texte est : " + textToEncode);
-            console.log("la clé est : " + usedKey);
-            let alphabet = config.getAlphabet(textToEncode);
+            // console.log("le texte est : " + textToEncode);
+            // console.log("la clé est : " + usedKey);
+            let alphabet = config.getAlphabetFull(); //config.getAlphabet(textToEncode);
             for (let i = 0; i < textToEncode.length; i++) {
                 let shift = _.indexOf(alphabet, usedKey[i % usedKey.length]);
                 //console.log(`usedKey : "${usedKey[i % usedKey.length]}"\n`);
@@ -190,7 +205,7 @@ const vigenereEncoding = (next) => {
                 encodedText += encodedLetter;
                 //console.log(`encodedText : "${encodedText}"\n`);
             }
-            console.log(`le texte crypté est : "${encodedText}"\n\n\n`);
+            console.log(`Le texte chiffré est : "${encodedText}"\n\n\n`);
             next();
         });
     });
@@ -208,9 +223,9 @@ const vigenereDecoding = (next) => {
             let decodedText = "";
             usedKey = answer;
             r2.close();
-            console.log("le texte est : " + textToDecode);
-            console.log("la clé est : " + usedKey);
-            let alphabet = config.getAlphabet(textToDecode);
+            // console.log("le texte est : " + textToDecode);
+            // console.log("la clé est : " + usedKey);
+            let alphabet = config.getAlphabetFull(); //config.getAlphabet(textToDecode);
             for (let i = 0; i < textToDecode.length; i++) {
                 let shift = _.indexOf(alphabet, usedKey[i % usedKey.length]);
                 let decodedLetter = decodeLetter(textToDecode[i], alphabet, shift);
@@ -221,7 +236,7 @@ const vigenereDecoding = (next) => {
                 }
                 decodedText += decodedLetter;
             }
-            console.log(`le texte crypté est : "${decodedText}"\n\n\n`);
+            console.log(`Le texte chiffré est : "${decodedText}"\n\n\n`);
             next();
         });
     });
@@ -445,7 +460,7 @@ const permuttationEncodingSuite = (key, textToEncode, alphabet, next) => {
         let encodedLetter = key[_.indexOf(alphabet, textToEncode[i])];
         encodedText += encodedLetter;
     }
-    console.log(`le texte crypté est : "${encodedText}"\n\n\n`);
+    console.log(`Le texte chiffré est : "${encodedText}"\n\n\n`);
     next();
 };
 
@@ -799,6 +814,16 @@ const merkleHellmanDecoding = next => {
             });
         });
     });
+};
+
+/**
+ * Fonction retirant tous les caracteres non alphabetique (chiffre, espace, accentuation, etc.)
+ * @param  {String} dirtyInput texte a nettoyer
+ * @return {String} texte nettoye
+ */
+const cleanInput = (dirtyInput) => {
+    var regex = new RegExp("[^a-zA-Z]", "g");
+    return dirtyInput.replace(regex, "");
 };
 
 module.exports = {

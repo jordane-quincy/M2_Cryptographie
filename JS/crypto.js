@@ -8,17 +8,17 @@ const encryptologyServices = require('services/encryptologyServices');
 
 var menu = () => {
     console.log("Quel service voulez-vous utilisez ?");
-    console.log("1 - Chiffrer un texte en donnant une clé avec l'algorithme de César");
-    console.log("2 - Déchiffrer un texte en donnant la clé avec l'algorithme de César");
-    console.log("3 - Décrypter un texte avec l'algorithme de César");
-    console.log("4 - Chiffrer un texte en donnant une clé avec l'algorithme de Permutation");
-    console.log("5 - Déchiffrer un texte en donnant la clé avec l'algorithme de Permutation");
-    console.log("6 - Décrypter un texte avec l'algorithme de Permutation");
-    console.log("7 - Chiffrer un texte en donnant une clé avec l'algorithme de Vigenère");
-    console.log("8 - Déchiffrer un texte en donnant la clé avec l'algorithme de Vigenère");
-    console.log("9 - Décrypter un texte avec l'algorithme de Vigenère (via Indice de coïncidence)");
-    console.log("10 - Chiffrer un texte avec l'algorithme de Merkle - Hellman");
-    console.log("11 - Déchiffrer une séquence avec l'algorithme de Merkle - Hellman");
+    console.log("1 - César : Chiffrer un texte en donnant la clé");
+    console.log("2 - César : Déchiffrer un texte en donnant la clé");
+    console.log("3 - César : Décrypter un texte");
+    console.log("4 - Permutation : Chiffrer un texte en donnant la clé");
+    console.log("5 - Permutation : Déchiffrer un texte en donnant la clé");
+    console.log("6 - Permutation : Décrypter un texte");
+    console.log("7 - Vigenère : Chiffrer un texte en donnant la clé");
+    console.log("8 - Vigenère : Déchiffrer un texte en donnant la clé");
+    console.log("9 - Vigenère : Décrypter un texte (via Indice de coïncidence)");
+    console.log("10 - Merkle - Hellman : Chiffrer un texte");
+    console.log("11 - Merkle - Hellman : Déchiffrer une séquence");
     console.log("0 - Quitter");
     var readline1 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: false});
     readline1.question("Faites-votre choix : ", (answer) => {

@@ -25,9 +25,7 @@ const alphabetMAJ = [
     "X",
     "Y",
     "Z"
-    // " ",
-    // "!"
-]
+];
 
 const alphabetMin = [
   "a",
@@ -56,7 +54,26 @@ const alphabetMin = [
   "x",
   "y",
   "z"
-]
+];
+
+const ponctuation = [
+    '_', '´', '`', 'ˆ', '˜', '¨',
+    '-', '–', '—', ',', ';', ':', '!', '?', '.',
+    '…', '’', '‘', '"', '«', '»',
+    '(', ')', '[', ']', '{', '}', '§', '¶',
+    '@','*','/','\\','&','#','%','°','+','±','÷','×','<','=','>','|','$','£','€',
+
+    "'",
+    ' ',
+
+    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
+];
+
+const caracteresAccentues = [
+    'À', 'à', 'Â', 'â', 'Æ', 'æ', 'Ç', 'ç', 'É', 'é', 'È', 'è', 'Ê', 'ê', 'Ë', 'ë',
+    'Î', 'î', 'Ï', 'ï', 'Ñ', 'ñ', 'Ô', 'ô', 'Œ', 'œ',
+    'Ù', 'ù', 'Û', 'û', 'Ü', 'ü', 'Ÿ', 'ÿ'
+];
 
 const freqApparitionLetter = [
     "E",
@@ -87,21 +104,27 @@ const freqApparitionLetter = [
     "Z"
 ];
 
+const getAlphabetFull = (textToAnalyse) => {
+  return alphabetMAJ.concat(alphabetMin).concat(ponctuation).concat(caracteresAccentues);
+};
+
 const getAlphabet = (textToAnalyse) => {
-   if (textToAnalyse === textToAnalyse.toUpperCase()) {
-     console.log('getAlphabet : UPPERCASE');
-     return alphabetMAJ;
-   }else if (textToAnalyse === textToAnalyse.toLowerCase()) {
-     console.log('getAlphabet : lowercase');
-     return alphabetMin;
-   }else {
-     console.log('getAlphabet : Case Mixed');
-     let alphabetUpperCase = alphabetMAJ;
+  //  if (textToAnalyse === textToAnalyse.toUpperCase()) {
+  //    console.log('getAlphabet : UPPERCASE');
+  //    return alphabetMAJ;
+  //  }else if (textToAnalyse === textToAnalyse.toLowerCase()) {
+  //    console.log('getAlphabet : lowercase');
+  //    return alphabetMin;
+  //  }else {
+  //    console.log('getAlphabet : Case Mixed');
+  //    let alphabetUpperCase = alphabetMAJ;
+   //
+  //    let alphabetLowerCase = alphabetMin;
+   //
+  //    return alphabetUpperCase.concat(alphabetLowerCase);
+  //  }
 
-     let alphabetLowerCase = alphabetMin;
-
-     return alphabetUpperCase.concat(alphabetLowerCase);
-   }
+  return alphabetMAJ.concat(alphabetMin);
 };
 
 const textForDecryptingPermuttation = "SOUFFREZQUUNCAVALIERCOMBATLESHAINESQUELQUECHOSEQUILNETENAITPASACEREGARDETUNESEDUCTIONIRRESISTIBLEDANSLAMOUSTACHEMOURONSJEUNESTOUSDEUXDELAVANCEFAITESLUIENTENDREQUESIELLESETAIENTMOINSLARGESMOINSDETROISOUDECINQHEURESCONNAISSANTLATENDANCEDESMONOMANIAQUESASEGROUPERAUTOURDECERTAINSPOINTSAUMONDEQUIECRIVEASAFEMMELENTEMENTPAREILLEALAMIENNE";
@@ -138,5 +161,6 @@ const vigenere_encode_MAJ_text_crypted_4 = 'IRTGQTFTEFKENVRTOVLIGETDNVCITRBXGLVH
 
 module.exports = {
     freqApparitionLetter,
-    getAlphabet
+    getAlphabet,
+    getAlphabetFull
 };
