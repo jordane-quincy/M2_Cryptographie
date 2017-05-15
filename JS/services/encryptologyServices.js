@@ -411,6 +411,13 @@ const generatePermutationKey = (alphabet) => {
     return key;
 };
 
+/** Notre alphabet complet contient des caractères spéciaux qui
+*   s'ils sont appelés dans une regex ont un sens (ex : . ? * [] () etc.)
+*   donc le but est qu'ils ne soient plus interprétés en les échappant.
+*/
+const regexEscape = (text) => {
+  return text.replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
+};
 
 const isGoodPermuttationKey = (key, alphabet) => {
     // On vérifie si la clé donnée est bonne (2 lettres ne peuvent pas être chiffrer par la même lettre)
@@ -418,7 +425,7 @@ const isGoodPermuttationKey = (key, alphabet) => {
         return false;
     }
     return alphabet.every(letter => {
-        var reg = new RegExp("[^" + letter + "]", "g");
+        var reg = new RegExp("[^" + regexEscape(letter) + "]", "g");
         return key.replace(reg, "").length === 1;
     });
 };
@@ -431,8 +438,8 @@ const askKeyForPermuttationEncoding = (textToEncode, alphabet, callback, finalCa
     L'alphabet supporté est : ${(alphabet.join("|"))}`);
     r3.question("Donner votre clé : ", (answer) => {
         let isGoodKey = isGoodPermuttationKey(answer, alphabet);
-        console.log("is good key : " + isGoodKey);
-        console.log("the key is : " + answer);
+        // console.log("is good key : " + isGoodKey);
+        // console.log("the key is : " + answer);
         r3.close();
         if (!isGoodKey) {
             console.log("La clé que vous venez de rentrer n'est pas conforme");
@@ -467,7 +474,7 @@ const permuttationEncoding = (next) => {
     const r1 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
     r1.question("Quel texte voulez-vous chiffrer ?", answer => {
         let textToEncode = answer;
-        let alphabet = config.getAlphabet(textToEncode);
+        let alphabet = config.getAlphabetFull(textToEncode, '');
         r1.close();
         const r2 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
         console.log("Vous avez le choix entre donner votre clé ou laisser l'algorithme générer la clé.");
@@ -497,7 +504,7 @@ const permuttationDecoding = (next) => {
     const r1 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
     r1.question("Quel texte voulez-vous déchiffrer ?", answer => {
         let textToDecode = answer;
-        let alphabet = config.getAlphabet(textToDecode);
+        let alphabet = config.getAlphabetFull(textToDecode, '');
         r1.close();
         const r2 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
 
