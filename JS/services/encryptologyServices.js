@@ -211,6 +211,23 @@ const vigenereEncoding = (next) => {
     });
 };
 
+const vigenereDecode = (textToDecode, usedKey, next) => {
+  let decodedText = "";
+  // console.log("le texte est : " + textToDecode);
+  // console.log("la clé est : " + usedKey);
+  let alphabet = config.getAlphabetFull(textToDecode, usedKey); //config.getAlphabet(textToDecode);
+  for (let i = 0; i < textToDecode.length; i++) {
+      let shift = _.indexOf(alphabet, usedKey[i % usedKey.length]);
+      let decodedLetter = decodeLetter(textToDecode[i], alphabet, shift);
+      if (!decodedLetter) {
+          // La lettre n'est pas dans l'alphabet il faut le dire à l'utilisateur et sortir du programme
+          console.log(`Nous ne pouvons pas continuer car le caractère ${textToDecode[i]} de votre texte ne se trouve pas dans l'alphabet`);
+          process.exit(1);
+      }
+      decodedText += decodedLetter;
+  }
+  console.log(`Le texte déchiffré est : "${decodedText}"\n\n\n`);
+};
 
 const vigenereDecoding = (next) => {
     const rl = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
@@ -219,24 +236,9 @@ const vigenereDecoding = (next) => {
         rl.close();
         const r2 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
         r2.question("Avec quelle clé le texte a été chiffré ? ", (answer) => {
-            let usedKey;
-            let decodedText = "";
-            usedKey = answer;
+            let usedKey = answer;
             r2.close();
-            // console.log("le texte est : " + textToDecode);
-            // console.log("la clé est : " + usedKey);
-            let alphabet = config.getAlphabetFull(textToDecode, usedKey); //config.getAlphabet(textToDecode);
-            for (let i = 0; i < textToDecode.length; i++) {
-                let shift = _.indexOf(alphabet, usedKey[i % usedKey.length]);
-                let decodedLetter = decodeLetter(textToDecode[i], alphabet, shift);
-                if (!decodedLetter) {
-                    // La lettre n'est pas dans l'alphabet il faut le dire à l'utilisateur et sortir du programme
-                    console.log(`Nous ne pouvons pas continuer car le caractère ${textToDecode[i]} de votre texte ne se trouve pas dans l'alphabet`);
-                    process.exit(1);
-                }
-                decodedText += decodedLetter;
-            }
-            console.log(`Le texte déchiffré est : "${decodedText}"\n\n\n`);
+            vigenereDecode(textToDecode, usedKey);
             next();
         });
     });
@@ -283,7 +285,9 @@ const vigenereDecryptKey = (textToDecrypt, alphabet, longueurCle, next) => {
 
   }
 
-  console.log(`Nous proposons la clé "${cle}"\n\n\n`);
+  console.log(`Nous proposons la clé "${cle}"\n`);
+
+  vigenereDecode(textToDecrypt, cle, next);
 
   next();
 };
@@ -559,13 +563,12 @@ const permuttationDecrypting = next => {
         let mapLetterOccurence = countLetterOccurence(textToDecrypt);
         let tabLetterOccurence = getTabOccurenceLetter(mapLetterOccurence);
         tabLetterOccurence.forEach((letterToReplace, index) => {
-            console.log(letterToReplace);
-            console.log(index);
             let replacedLetter = freqApparitionLetter[index];
-            console.log(replacedLetter);
+            console.log(index, letterToReplace, replacedLetter);
             textToDecrypt = textToDecrypt.replace(new RegExp(letterToReplace.letter, 'g'), replacedLetter);
             console.log("Etape " + (index + 1) + "texte décrypté = " + textToDecrypt);
         });
+        console.log(textToDecrypt);
         next();
     });
 };
