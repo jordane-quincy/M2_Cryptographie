@@ -65,7 +65,7 @@ const cesarEncoding = (next) => {
             r2.close();
             // console.log("le texte est : " + textToEncode);
             // console.log("la clé est : " + usedKey);
-            let alphabet = config.getAlphabetFull(); //config.getAlphabet(textToEncode);
+            let alphabet = config.getAlphabetFull(textToEncode, usedKey); //config.getAlphabet(textToEncode);
             let shift = _.indexOf(alphabet, usedKey);
             for (let i = 0; i < textToEncode.length; i++) {
                 let encodedLetter = encodeLetter(textToEncode[i], alphabet, shift);
@@ -95,7 +95,7 @@ const cesarDecoding = (next) => {
             r2.close();
             // console.log("le texte est : " + textToDecode);
             // console.log("la clé est : " + usedKey);
-            let alphabet = config.getAlphabetFull(); //config.getAlphabet(textToDecode);
+            let alphabet = config.getAlphabetFull(textToDecode, usedKey); //config.getAlphabet(textToDecode);
             let shift = _.indexOf(alphabet, usedKey);
             for (let i = 0; i < textToDecode.length; i++) {
                 let decodedLetter = decodeLetter(textToDecode[i], alphabet, shift);
@@ -148,10 +148,10 @@ const getLetterWithMaxOccurence = (textToDecrypt) => {
 
 const cesarDecrypting = (next) => {
     const rl = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
-    rl.question("Quel texte voulez-vous décrypter ? ", answer => {
+    rl.question("Warning : Les caractères du texte clair et la clé doivent être compris dans l'interval [A-Z].\nQuel texte voulez-vous décrypter ? ", answer => {
         let textToDecrypt = answer;
         rl.close();
-        let alphabet = config.getAlphabetFull(); //config.getAlphabet(textToDecrypt);
+        let alphabet = config.getAlphabetMAJ(); //config.getAlphabet(textToDecrypt);
 
         //On est en français donc la letter qui apparait le plus dans le texte chiffré est un 'e' dans le texte en clair
         let letterMaxOccurence = getLetterWithMaxOccurence(textToDecrypt);
@@ -192,7 +192,7 @@ const vigenereEncoding = (next) => {
             r2.close();
             // console.log("le texte est : " + textToEncode);
             // console.log("la clé est : " + usedKey);
-            let alphabet = config.getAlphabetFull(); //config.getAlphabet(textToEncode);
+            let alphabet = config.getAlphabetFull(textToEncode, usedKey); //config.getAlphabet(textToEncode);
             for (let i = 0; i < textToEncode.length; i++) {
                 let shift = _.indexOf(alphabet, usedKey[i % usedKey.length]);
                 //console.log(`usedKey : "${usedKey[i % usedKey.length]}"\n`);
@@ -225,7 +225,7 @@ const vigenereDecoding = (next) => {
             r2.close();
             // console.log("le texte est : " + textToDecode);
             // console.log("la clé est : " + usedKey);
-            let alphabet = config.getAlphabetFull(); //config.getAlphabet(textToDecode);
+            let alphabet = config.getAlphabetFull(textToDecode, usedKey); //config.getAlphabet(textToDecode);
             for (let i = 0; i < textToDecode.length; i++) {
                 let shift = _.indexOf(alphabet, usedKey[i % usedKey.length]);
                 let decodedLetter = decodeLetter(textToDecode[i], alphabet, shift);
@@ -325,11 +325,11 @@ const askKeyLengthForVigenereDecrypting = (textToDecrypt, alphabet, next) => {
 
 const vigenereDecrypting = (next) => {
     const rl = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
-    rl.question("Quel texte voulez-vous décrypter ? ", answer => {
+    rl.question("Warning : Les caractères du texte clair et la clé doivent être compris dans l'interval [A-Z].\nQuel texte voulez-vous décrypter ?", answer => {
         let textToDecrypt = answer;
         rl.close();
 
-        let alphabet = config.getAlphabetFull(); //config.getAlphabet(textToDecrypt);
+        let alphabet = config.getAlphabetMAJ(); //config.getAlphabet(textToDecrypt);
 
         const r2 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
         console.log("Vous avez le choix entre donner votre longueur de clé ou laisser l'algorithme chercher la longueur de la clé.");
@@ -349,7 +349,7 @@ const vigenereDecrypting = (next) => {
                       let longueurCleLaPlusProbable = 0;
                       let bestIC = 999; //pour être sûr d'être plus loin que les autres
 
-                      let longueurMaxToTest = Math.min(textToDecrypt.length, 6);
+                      let longueurMaxToTest = Math.min(textToDecrypt.length, 6); // longeur arbitraire
                       console.log(`Nous allons tester des longueurs de clé de 1 à ${longueurMaxToTest}`);
                       for (let i = 1; i <= longueurMaxToTest; i++) {
                         let tab = getPartText(textToDecrypt, i);
@@ -813,16 +813,6 @@ const merkleHellmanDecoding = next => {
             });
         });
     });
-};
-
-/**
- * Fonction retirant tous les caracteres non alphabetique (chiffre, espace, accentuation, etc.)
- * @param  {String} dirtyInput texte a nettoyer
- * @return {String} texte nettoye
- */
-const cleanInput = (dirtyInput) => {
-    var regex = new RegExp("[^a-zA-Z]", "g");
-    return dirtyInput.replace(regex, "").toUpperCase();
 };
 
 module.exports = {

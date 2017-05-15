@@ -104,32 +104,45 @@ const freqApparitionLetter = [
     "Z"
 ];
 
-const getAlphabetFull = (textToAnalyse) => {
-  return alphabetMAJ.concat(alphabetMin).concat(ponctuation).concat(caracteresAccentues);
+const getAlphabetFull = (textUncrypted, key) => {
+  //if text and key are both in UPPERCASE
+  var regexSpace = new RegExp("[\\s+]", "g");
+  if (textUncrypted === textUncrypted.toUpperCase() && key === key.toUpperCase()
+      && // and there is NO space in text nor key
+      textUncrypted.match(regexSpace) == null && key.match(regexSpace) == null) {
+    console.log('getAlphabet : UPPERCASE'); //FIXME: to remove
+    return alphabetMAJ; // --> to be able to decrypt
+  // }else if (textUncrypted === textUncrypted.toLowerCase() && key === key.toLowerCase()) {
+  //   console.log('getAlphabet : lowercase');
+  //   return alphabetMin;
+  } else {
+    console.log('getAlphabet : Full .'); //FIXME: to remove
+    return alphabetMAJ.concat(alphabetMin).concat(ponctuation).concat(caracteresAccentues);
+  }
 };
 
 const getAlphabetMAJ = (textToAnalyse) => {
   return alphabetMAJ;
 };
 
-const getAlphabet = (textToAnalyse) => {
-  //  if (textToAnalyse === textToAnalyse.toUpperCase()) {
-  //    console.log('getAlphabet : UPPERCASE');
-  //    return alphabetMAJ;
-  //  }else if (textToAnalyse === textToAnalyse.toLowerCase()) {
-  //    console.log('getAlphabet : lowercase');
-  //    return alphabetMin;
-  //  }else {
-  //    console.log('getAlphabet : Case Mixed');
-  //    let alphabetUpperCase = alphabetMAJ;
-   //
-  //    let alphabetLowerCase = alphabetMin;
-   //
-  //    return alphabetUpperCase.concat(alphabetLowerCase);
-  //  }
-
-  return alphabetMAJ.concat(alphabetMin);
-};
+// const getAlphabet = (textToAnalyse) => {
+//   //  if (textToAnalyse === textToAnalyse.toUpperCase()) {
+//   //    console.log('getAlphabet : UPPERCASE');
+//   //    return alphabetMAJ;
+//   //  }else if (textToAnalyse === textToAnalyse.toLowerCase()) {
+//   //    console.log('getAlphabet : lowercase');
+//   //    return alphabetMin;
+//   //  }else {
+//   //    console.log('getAlphabet : Case Mixed');
+//   //    let alphabetUpperCase = alphabetMAJ;
+//    //
+//   //    let alphabetLowerCase = alphabetMin;
+//    //
+//   //    return alphabetUpperCase.concat(alphabetLowerCase);
+//   //  }
+//
+//   return alphabetMAJ.concat(alphabetMin);
+// };
 
 const textForDecryptingPermuttation = "SOUFFREZQUUNCAVALIERCOMBATLESHAINESQUELQUECHOSEQUILNETENAITPASACEREGARDETUNESEDUCTIONIRRESISTIBLEDANSLAMOUSTACHEMOURONSJEUNESTOUSDEUXDELAVANCEFAITESLUIENTENDREQUESIELLESETAIENTMOINSLARGESMOINSDETROISOUDECINQHEURESCONNAISSANTLATENDANCEDESMONOMANIAQUESASEGROUPERAUTOURDECERTAINSPOINTSAUMONDEQUIECRIVEASAFEMMELENTEMENTPAREILLEALAMIENNE";
 const key = "BCITHMVUGORQZSDWFXKPJALEYN";
@@ -165,7 +178,7 @@ const vigenere_encode_MAJ_text_crypted_4 = 'IRTGQTFTEFKENVRTOVLIGETDNVCITRBXGLVH
 
 module.exports = {
     freqApparitionLetter,
-    getAlphabet,
+    // getAlphabet,
     getAlphabetFull,
     getAlphabetMAJ
 };
