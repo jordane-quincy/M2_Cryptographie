@@ -531,7 +531,7 @@ const permuttationDecoding = (next) => {
                     let indexOfLetterToDecode = usedKey.indexOf(textToDecode[i]);
                     decodedText += alphabet[indexOfLetterToDecode];
                 }
-                console.log(`Le texte décrypté est : "${decodedText}"\n\n\n`);
+                console.log(`Le texte déchiffré est : "${decodedText}"\n\n\n`);
                 next();
             }
         });
@@ -562,13 +562,28 @@ const permuttationDecrypting = next => {
         r1.close();
         let mapLetterOccurence = countLetterOccurence(textToDecrypt);
         let tabLetterOccurence = getTabOccurenceLetter(mapLetterOccurence);
+        let tabDecrypted = textToDecrypt.split(''); //meme longeur
+        let decryptedText = '';
         tabLetterOccurence.forEach((letterToReplace, index) => {
             let replacedLetter = freqApparitionLetter[index];
-            console.log(index, letterToReplace, replacedLetter);
-            textToDecrypt = textToDecrypt.replace(new RegExp(letterToReplace.letter, 'g'), replacedLetter);
-            console.log("Etape " + (index + 1) + "texte décrypté = " + textToDecrypt);
+            // console.log(index, letterToReplace, replacedLetter);
+
+            //recherche de l'ensemble des indices où la lettre apparait dans le chiffré
+            var tabIndicesDeLaLettreDansLeTexteChiffre = [];
+            for(var i = 0; i < textToDecrypt.length; i++) {
+                if (textToDecrypt[i] === letterToReplace.letter){
+                  tabIndicesDeLaLettreDansLeTexteChiffre.push(i);
+                }
+            }
+            //pour chaque indices, remplace le chiffré par le clair
+            tabIndicesDeLaLettreDansLeTexteChiffre.forEach((i) => {
+              tabDecrypted[i] = replacedLetter;
+            });
+
         });
-        console.log(textToDecrypt);
+
+        console.log(`Le texte décrypté est : "${tabDecrypted.join('')}"\n\n\n`);
+
         next();
     });
 };

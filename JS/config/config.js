@@ -110,13 +110,13 @@ const getAlphabetFull = (textUncrypted, key) => {
   if (textUncrypted === textUncrypted.toUpperCase() && key === key.toUpperCase()
       && // and there is NO space in text nor key
       textUncrypted.match(regexSpace) == null && key.match(regexSpace) == null) {
-    console.log('getAlphabet : UPPERCASE'); //FIXME: to remove
+    // console.log('getAlphabet : UPPERCASE'); //FIXME: to remove
     return alphabetMAJ; // --> to be able to decrypt
   // }else if (textUncrypted === textUncrypted.toLowerCase() && key === key.toLowerCase()) {
   //   console.log('getAlphabet : lowercase');
   //   return alphabetMin;
   } else {
-    console.log('getAlphabet : Full .'); //FIXME: to remove
+    // console.log('getAlphabet : Full .'); //FIXME: to remove
     return alphabetMAJ.concat(alphabetMin).concat(ponctuation).concat(caracteresAccentues);
   }
 };

@@ -131,3 +131,71 @@ Nous proposons la clé "AZERTY"
     Quel texte voulez-vous déchiffrer ? W—ÿù_¶÷F@˜.*ï&p(&]¨¶)MŸB»:!+À–"Û˜ô°F%ë’…[}˜)ÿÎˆ—°](«Î)˜ÿn…"ùq¶%]\˜"}F+¨—@Ùqô(B*"Î@—°À«)Au§°]\.(["/ˆ|ÿNàp"S»]÷Ù—/n"%ïà:)TŸ…´\F°»ï)Ûo)%FŸˆ¨@ï+z‘/ïm¶<nŸ˜.?"%pï(ï˜ô*B«–,])6Àsl˜;ô)OŸ_&*°}w>ÿéz!ÿI/«»M—ÿo—ÿÜxD+S("Î}"±`ï*ïà,\V«–¨¶ï»pï+Ÿ_¶0MK×ÎnÏ)ˆ[ÿA_¶+]\˜»«[3À{\Aˆ!ÿC‘‘"«-"o—8˜U«ÿG‘»»Ù»±pïRëà»\O°˜<Ùq)˜[)G"\ÿU/»»£ï[w˜/ü-!>h<ë»{]+»ï[ôo…)a ]Î*"±˜|ÿ1m}°F=ë!:ï*l!°ûz'ÿû*˜Î!˜%`!»ëp!3]«Ë¨@[ÿw—ÿAtJÿE(ë!:ï*Ô()˜S’«P+×Î˜—/p@3˜–)}MKë(]—ÿ_"%Aqô÷J°‘C…|ÿÀïÿ˜àk)D{ë-«[ÿp§»Ùm»)SŸ:¨@ï+`˜÷ëu«@F+‘«1ï0Ày/ïà[\S°˜Î\!+`F)Tày±[("»>-)À»±ïà§±]±˜(#ï#¨Ï\Ûà?"T%˜Î.Ï±y—ÿÜ_{+FŸ(,*(Tp÷ÿA-,)S«»!…>ÿ‘ïzïˆ;±M("Î\"±ˆ°*¶y!°nŸ‘,}"°˜˜ÿ5m@%P«–¨1ï!y—ÿÜ_{+FŸ(,*(Tpï(ëz}ÿV*˜Î!˜%`!»ëp!3]«Ë¨@[ÿp§»ïx«)O°×În˜ÿyÏ)ù´N»I(ë’:)ÿo—ÿÙÀ—+U‘’(…(3À’"ô˜ôRBŸ-G]—ÿ_"±Ÿà«"]\‘¨]–%p|ÿÈ_¶°]*Ë´\—>À–\Ûoô§B@_,@ï»s!&]à:)TŸ……[’)ˆï&ëˆô(F%"(@ï±yï*Bˆô\ÂŸ—!Ù¶ÿl{"ô¨ô(F%ëˆ/…°À–)˜n)±U(—!)—°]ï!Ûqô&P#«¨Ù{}˜(Tï(ôRBŸ`…/«)À…)ÿà;\S%ë´/§ÿ_!)Ï˜ô(FŸ:´Ù;"`–)˜z—+J/?´)—ÿ´]"Ûpô)M¶˜Î\—±˜ï*ûz§)SŸ"(¶ï@lï«ëˆ{}D‘ˆ¨1ï–l((ô]ô@FŸ(¨¶()À—°Aà§%Ba«"…|ÿL:ÿ)ê>ÿW/»«Ù‘Ÿl{)Gà["TŸ».…ï}x˜]ôz—+J/?Î…,[`F/]q>ÿN("Î?˜*l("Ïq}8
     Avec quelle clé le texte a été chiffré ? Les Misérables
     Le texte déchiffré est : "Le mouvement perpétuel était dans ses petits bras et la clameur perpétuelle dans ses petits poumons. - Hardy! encore des pavés, encore des tonneaux! encore des machins! Où y en a-t-il? Une hottée de plâtres pour me boucher ce trou-là. C'est tout petit, votre barricade. Il faut que ça monte. Mettez-y tout, flanquez-y tout, fichez-y tout. Cassez la maison. Une barricade, c'est le thé de la mère Gibou. Tenez, voilà une porte vitrée.      Ceci fit exclamer les travailleurs. - Une porte vitrée! Qu'est-ce que tu veux qu'on fasse d'une porte vitrée, tubercule? - Hercules vous-mêmes! riposta Gavroche. Une porte vitrée dans une barricade, c'est excellent. Ca n'empêche pas de l'attaquer, mais ça gêne pour la prendre. Vous n'avez donc jamais chipé des pommes par dessus un mur où il y avait des culs de bouteilles? Une porte vitrée, ça coupe les cors aux pieds de la garde nationale quand elle veut monter sur la barricade. Pardi! le verre est traître. Ah çà, vous n'avez pas une imagination effrénée, mes camarades."
+
+
+Permutation :
+
+Pré requis :
+Fréquence d'apparition des lettres théoriques en français
+EAISNRTOLUDCMPGBVHFQYXJKWZ
+
+Donc il nous faut plus de E que de A que de I ...
+EEEEEEEEEEEEEEEEEEEEEEEEEE
+AAAAAAAAAAAAAAAAAAAAAAAAA
+IIIIIIIIIIIIIIIIIIIIIIII
+SSSSSSSSSSSSSSSSSSSSSSS
+NNNNNNNNNNNNNNNNNNNNNN
+RRRRRRRRRRRRRRRRRRRRR
+TTTTTTTTTTTTTTTTTTTT
+OOOOOOOOOOOOOOOOOOO
+LLLLLLLLLLLLLLLLLL
+UUUUUUUUUUUUUUUUU
+DDDDDDDDDDDDDDDD
+CCCCCCCCCCCCCCC
+MMMMMMMMMMMMMM
+PPPPPPPPPPPPP
+GGGGGGGGGGGG
+BBBBBBBBBBB
+VVVVVVVVVV
+HHHHHHHHH
+FFFFFFFF
+QQQQQQQ
+YYYYYY
+XXXXX
+JJJJ
+KKK
+WW
+Z
+
+ce qui donne à la suite :
+EEEEEEEEEEEEEEEEEEEEEEEEEEAAAAAAAAAAAAAAAAAAAAAAAAAIIIIIIIIIIIIIIIIIIIIIIIISSSSSSSSSSSSSSSSSSSSSSSNNNNNNNNNNNNNNNNNNNNNNRRRRRRRRRRRRRRRRRRRRRTTTTTTTTTTTTTTTTTTTTOOOOOOOOOOOOOOOOOOOLLLLLLLLLLLLLLLLLLUUUUUUUUUUUUUUUUUDDDDDDDDDDDDDDDDCCCCCCCCCCCCCCCMMMMMMMMMMMMMMPPPPPPPPPPPPPGGGGGGGGGGGGBBBBBBBBBBBVVVVVVVVVVHHHHHHHHHFFFFFFFFQQQQQQQYYYYYYXXXXXJJJJKKKWWZ
+
+
+
+Faites-votre choix : 4
+Quel texte voulez-vous chiffrer ?EEEEEEEEEEEEEEEEEEEEEEEEEEAAAAAAAAAAAAAAAAAAAAAAAAAIIIIIIIIIIIIIIIIIIIIIIIISSSSSSSSSSSSSSSSSSSSSSSNNNNNNNNNNNNNNNNNNNNNNRRRRRRRRRRRRRRRRRRRRRTTTTTTTTTTTTTTTTTTTTOOOOOOOOOOOOOOOOOOOLLLLLLLLLLLLLLLLLLUUUUUUUUUUUUUUUUUDDDDDDDDDDDDDDDDCCCCCCCCCCCCCCCMMMMMMMMMMMMMMPPPPPPPPPPPPPGGGGGGGGGGGGBBBBBBBBBBBVVVVVVVVVVHHHHHHHHHFFFFFFFFQQQQQQQYYYYYYXXXXXJJJJKKKWWZ
+Vous avez le choix entre donner votre clé ou laisser l'algorithme générer la clé.
+1 - Laisser l'algorithme générer la clé
+2 - Donner une clé
+Quel est votre choix ?1
+La clé qui va être utilisée est donc : "CNMZUFDWVKSAPEXJGIBHLQYROT"
+Le texte chiffré est : "UUUUUUUUUUUUUUUUUUUUUUUUUUCCCCCCCCCCCCCCCCCCCCCCCCCVVVVVVVVVVVVVVVVVVVVVVVVBBBBBBBBBBBBBBBBBBBBBBBEEEEEEEEEEEEEEEEEEEEEEIIIIIIIIIIIIIIIIIIIIIHHHHHHHHHHHHHHHHHHHHXXXXXXXXXXXXXXXXXXXAAAAAAAAAAAAAAAAAALLLLLLLLLLLLLLLLLZZZZZZZZZZZZZZZZMMMMMMMMMMMMMMMPPPPPPPPPPPPPPJJJJJJJJJJJJJDDDDDDDDDDDDNNNNNNNNNNNQQQQQQQQQQWWWWWWWWWFFFFFFFFGGGGGGGOOOOOORRRRRKKKKSSSYYT"
+
+
+Faites-votre choix : 5
+Quel texte voulez-vous déchiffrer ?UUUUUUUUUUUUUUUUUUUUUUUUUUCCCCCCCCCCCCCCCCCCCCCCCCCVVVVVVVVVVVVVVVVVVVVVVVVBBBBBBBBBBBBBBBBBBBBBBBEEEEEEEEEEEEEEEEEEEEEEIIIIIIIIIIIIIIIIIIIIIHHHHHHHHHHHHHHHHHHHHXXXXXXXXXXXXXXXXXXXAAAAAAAAAAAAAAAAAALLLLLLLLLLLLLLLLLZZZZZZZZZZZZZZZZMMMMMMMMMMMMMMMPPPPPPPPPPPPPPJJJJJJJJJJJJJDDDDDDDDDDDDNNNNNNNNNNNQQQQQQQQQQWWWWWWWWWFFFFFFFFGGGGGGGOOOOOORRRRRKKKKSSSYYT
+getAlphabet : UPPERCASE
+Avec quelle clé le texte a été chiffré ?
+            La clé doit faire la taille de l'alphabet de l'algorithme.
+            Une lettre correspond à une autre (2 lettres ne peuvent pas être chiffrées avec la même lettre)
+            L'ordre de la clé suivra l'ordre des lettres de l'alphabet donnée juste en dessous
+            L'alphabet supporté est : A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z CNMZUFDWVKSAPEXJGIBHLQYROT
+Le texte déchiffré est : "EEEEEEEEEEEEEEEEEEEEEEEEEEAAAAAAAAAAAAAAAAAAAAAAAAAIIIIIIIIIIIIIIIIIIIIIIIISSSSSSSSSSSSSSSSSSSSSSSNNNNNNNNNNNNNNNNNNNNNNRRRRRRRRRRRRRRRRRRRRRTTTTTTTTTTTTTTTTTTTTOOOOOOOOOOOOOOOOOOOLLLLLLLLLLLLLLLLLLUUUUUUUUUUUUUUUUUDDDDDDDDDDDDDDDDCCCCCCCCCCCCCCCMMMMMMMMMMMMMMPPPPPPPPPPPPPGGGGGGGGGGGGBBBBBBBBBBBVVVVVVVVVVHHHHHHHHHFFFFFFFFQQQQQQQYYYYYYXXXXXJJJJKKKWWZ"
+
+
+Faites-votre choix : 6
+Quel texte voulez-vous décrypter ?UUUUUUUUUUUUUUUUUUUUUUUUUUCCCCCCCCCCCCCCCCCCCCCCCCCVVVVVVVVVVVVVVVVVVVVVVVVBBBBBBBBBBBBBBBBBBBBBBBEEEEEEEEEEEEEEEEEEEEEEIIIIIIIIIIIIIIIIIIIIIHHHHHHHHHHHHHHHHHHHHXXXXXXXXXXXXXXXXXXXAAAAAAAAAAAAAAAAAALLLLLLLLLLLLLLLLLZZZZZZZZZZZZZZZZMMMMMMMMMMMMMMMPPPPPPPPPPPPPPJJJJJJJJJJJJJDDDDDDDDDDDDNNNNNNNNNNNQQQQQQQQQQWWWWWWWWWFFFFFFFFGGGGGGGOOOOOORRRRRKKKKSSSYYT
+Le texte décrypté est : "EEEEEEEEEEEEEEEEEEEEEEEEEEAAAAAAAAAAAAAAAAAAAAAAAAAIIIIIIIIIIIIIIIIIIIIIIIISSSSSSSSSSSSSSSSSSSSSSSNNNNNNNNNNNNNNNNNNNNNNRRRRRRRRRRRRRRRRRRRRRTTTTTTTTTTTTTTTTTTTTOOOOOOOOOOOOOOOOOOOLLLLLLLLLLLLLLLLLLUUUUUUUUUUUUUUUUUDDDDDDDDDDDDDDDDCCCCCCCCCCCCCCCMMMMMMMMMMMMMMPPPPPPPPPPPPPGGGGGGGGGGGGBBBBBBBBBBBVVVVVVVVVVHHHHHHHHHFFFFFFFFQQQQQQQYYYYYYXXXXXJJJJKKKWWZ"
+
+
+
