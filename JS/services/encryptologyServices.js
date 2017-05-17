@@ -311,6 +311,24 @@ const vigenereDecode = (textToDecode, usedKey, next) => {
   console.log(`Le texte déchiffré est : "${decodedText}"\n\n\n`);
 };
 
+const vigenereDecodeMAJAlphabet = (textToDecode, usedKey, next) => {
+  let decodedText = "";
+  // console.log("le texte est : " + textToDecode);
+  // console.log("la clé est : " + usedKey);
+  let alphabet = config.getAlphabetMAJ(); //config.getAlphabet(textToEncode);
+  for (let i = 0; i < textToDecode.length; i++) {
+      let shift = _.indexOf(alphabet, usedKey[i % usedKey.length]);
+      let decodedLetter = decodeLetter(textToDecode[i], alphabet, shift);
+      if (!decodedLetter) {
+          // La lettre n'est pas dans l'alphabet il faut le dire à l'utilisateur et sortir du programme
+          console.log(`Nous ne pouvons pas continuer car le caractère ${textToDecode[i]} de votre texte ne se trouve pas dans l'alphabet`);
+          process.exit(1);
+      }
+      decodedText += decodedLetter;
+  }
+  console.log(`Le texte déchiffré est : "${decodedText}"\n\n\n`);
+};
+
 const vigenereDecoding = (next) => {
     const rl = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
     rl.question("Quel texte voulez-vous déchiffrer ? ", answer => {
@@ -369,7 +387,7 @@ const vigenereDecryptKey = (textToDecrypt, alphabet, longueurCle, next) => {
 
   console.log(`Nous proposons la clé "${cle}"\n`);
 
-  vigenereDecode(textToDecrypt, cle, next);
+  vigenereDecodeMAJAlphabet(textToDecrypt, cle, next);
 
   next();
 };
@@ -441,7 +459,7 @@ const vigenereDecrypting = (next) => {
                           let longueurCleLaPlusProbable = 0;
                           let bestIC = 999; //pour être sûr d'être plus loin que les autres
 
-                          let longueurMaxToTest = Math.min(textToDecrypt.length, 6); // longeur arbitraire
+                          let longueurMaxToTest = Math.min(textToDecrypt.length, 15); // longeur arbitraire
                           console.log(`Nous allons tester des longueurs de clé de 1 à ${longueurMaxToTest}`);
                           for (let i = 1; i <= longueurMaxToTest; i++) {
                             let tab = getPartText(textToDecrypt, i);

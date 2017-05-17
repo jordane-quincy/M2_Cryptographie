@@ -4,7 +4,7 @@ Le langage que nous avons utilisé est le javascript.
 Afin de lancer le projet il vous faut la dernière de Node à télécharger ici : 
 https://nodejs.org/en/ (prendre la version 7.10.0 current version)
 Une fois node installé, vérifier que tout est bien installé en tapant la commande 
-"node -v" dans l'invite de commandes.
+"node -v" dans l'invite de commandes. => devrait donner v7.10.0
 Si jamais node n'est pas reconnu, alors il faut ajouter le dossier racine de node 
 dans la variable d'environnement PATH (normalement c'est fait automatiquement)
 
@@ -12,14 +12,17 @@ Une fois node installé, il vous suffit simplement de lancer le fichier lancement
 ou de lancer manuellement en ligne de commande la commande "node crypto"
 
 Vous retrouverez un menu avec différents choix permettant de réaliser tout ce qui a été demandé pour le TP
-Attention le chiffrement avec que des majuscules et sans espace doit être utilisé pour obtenir un chiffrer à décrypter.
+Attention le chiffrement avec que des majuscules et sans espace doit être utilisé pour obtenir un chiffré à décrypter.
 Sinon pour les autres chiffrement et les déchiffrements nous avons utilisé un alphabet complet comportant
 chiffre, lettre (min et maj), caractères spéciaux, ponctuations etc...
 
 Pour décrypter il faut un long texte afin que la fréquence d'apparition des lettres soient totalement fonctionnelles.
-Exemple de texte :
+Exemple de texte (ne fonctionne pas pour le décryptage par permuttation) :
 GAVROCHECOMPLETEMENTENVOLEETRADIEUXSETAITCHARGEDELAMISEENTRAINILALLAITVENAITDESCENDAITREMONTAITBRUISSAITETINCELAITILSEMBLAITETRELAPOURLENCOURAGEMENTDETOUSAVAITILUNAIGUILLONOUICERTESSAMISEREAVAITILDESAILESOUICERTESSAJOIEGAVROCHEETAITUNTOURBILLONNEMENTONLEVOYAITSANSCESSEONLENTENDAITTOUJOURSILREMPLISSAITLAIRETANTPARTOUTALAFOISCETAITUNEESPECEDUBIQUITEPRESQUEIRRITANTEPASDARRETPOSSIBLEAVECLUILENORMEBARRICADELESENTAITSURSACROUPEILGENAITLESFLANEURSILEXCITAITLESPARESSEUXILRANIMAITLESFATIGUESILIMPATIENTAITLESPENSIFSMETTAITLESUNSENGAIETELESAUTRESENHALEINELESAUTRESENCOLERETOUSENMOUVEMENTPIQUAITUNETUDIANTMORDAITUNOUVRIERSEPOSAITSARRETAITREPARTAITVOLAITAUDESSUSDUTUMULTEETDELEFFORTSAUTAITDECEUXCIACEUXLAMURMURAITBOURDONNAITETHARCELAITTOUTLATTELAGEMOUCHEDELIMMENSECOCHEREVOLUTIONNAIRELEMOUVEMENTPERPETUELETAITDANSSESPETITSBRASETLACLAMEURPERPETUELLEDANSSESPETITSPOUMONSHARDIENCOREDESPAVESENCOREDESTONNEAUXENCOREDESMACHINSOUYENATILUNEHOTTEEDEPLATRASPOURMEBOUCHERCETROULACESTTOUTPETITVOTREBARRICADEILFAUTQUECAMONTEMETTEZYTOUTFLANQUEZYTOUTFICHEZYTOUTCASSEZLAMAISONUNEBARRICADECESTLETHEDELAMEREGIBOUTENEZVOILAUNEPORTEVITREECECIFITEXCLAMERLESTRAVAILLEURSUNEPORTEVITREEQUESTCEQUETUVEUXQUONFASSEDUNEPORTEVITREETUBERCULEHERCULESVOUSMEMESRIPOSTAGAVROCHEUNEPORTEVITREEDANSUNEBARRICADECESTEXCELLENTCANEMPECHEPASDELATTAQUERMAISCAGENEPOURLAPRENDREVOUSNAVEZDONCJAMAISCHIPEDESPOMMESPARDESSUSUNMUROUILYAVAITDESCULSDEBOUTEILLESUNEPORTEVITREECACOUPELESCORSAUXPIEDSDELAGARDENATIONALEQUANDELLEVEUTMONTERSURUNEBARRICADEPARDILEVERREESTTRAITREAHCAVOUSNAVEZPASUNEIMAGINATIONEFFRENEEMESCAMARADES
 qui nous vient tout droit du livre "Les Misérables"
-
-La seule limitation est qu'on ne peut pas 
-
+Nous n'avons malheureusement pas de réel texte fonctionnant avec le décryptage de permuttation puisqu'il se base uniquement sur l'apparition
+de toutes les lettres. Et nous avons donc des décallages, nous avons quand même testé avec un exemple où la fréquence d'apparition est la même 
+que celle que nous avons et ça fonctionne bien
+Texte testé :
+EEEEEEEEEEEEEEEEEEEEEEEEEEAAAAAAAAAAAAAAAAAAAAAAAAAIIIIIIIIIIIIIIIIIIIIIIIISSSSSSSSSSSSSSSSSSSSSSSNNNNNNNNNNNNNNNNNNNNNNRRRRRRRRRRRRRRRRRRRRRTTTTTTTTTTTTTTTTTTTTOOOOOOOOOOOOOOOOOOOLLLLLLLLLLLLLLLLLLUUUUUUUUUUUUUUUUUDDDDDDDDDDDDDDDDCCCCCCCCCCCCCCCMMMMMMMMMMMMMMPPPPPPPPPPPPPGGGGGGGGGGGGBBBBBBBBBBBVVVVVVVVVVHHHHHHHHHFFFFFFFFQQQQQQQYYYYYYXXXXXJJJJKKKWWZ
+(On pourrait changer l'ordre des lettres, tout ce qui compte est le nombre de fois que la lettre apparait)
