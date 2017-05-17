@@ -82,6 +82,43 @@ const cesarEncoding = (next) => {
     });
 };
 
+const cesarEncodingMAJAlphabet = (next) => {
+    const rl = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
+    rl.question("Quel texte voulez-vous chiffrer (que en majuscule) ? ", answer => {
+        let textToEncode = answer;
+        rl.close();
+        const r2 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
+        r2.question("Avec quelle clé voulez-vous chiffrer (que en majuscule) ? ", answer => {
+            let usedKey;
+            let encodedText = "";
+            usedKey = answer;
+            r2.close();
+            var regText = new RegExp("[A-Z]{" + textToEncode.length + "}");
+            var regKey = /[A-Z]{1}/
+            // verify if text and key is uppercase
+            if (!regText.test(textToEncode) || !regKey.test(usedKey)) {
+                console.log("Le texte donnée ou la clé n'est pas en majuscule !!! Recommencez !!!");
+                cesarEncodingMAJAlphabet(next);
+            }
+            else {
+                let alphabet = config.getAlphabetMAJ();
+                let shift = _.indexOf(alphabet, usedKey);
+                for (let i = 0; i < textToEncode.length; i++) {
+                    let encodedLetter = encodeLetter(textToEncode[i], alphabet, shift);
+                    if (!encodedLetter) {
+                        // La lettre n'est pas dans l'alphabet il faut le dire à l'utilisateur et sortir du programme
+                        console.log(`Nous ne pouvons pas continuer car le caractère ${textToEncode[i]} de votre texte ne se trouve pas dans l'alphabet`);
+                        process.exit(1);
+                    }
+                    encodedText += encodedLetter;
+                }
+                console.log(`Le texte chiffré est : "${encodedText}"\n\n\n`);
+                next();
+            }
+        });
+    });
+};
+
 const cesarDecoding = (next) => {
     const rl = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
     rl.question("Quel texte voulez-vous déchiffrer ? ", answer => {
@@ -190,8 +227,6 @@ const vigenereEncoding = (next) => {
             let encodedText = "";
             usedKey = answer;
             r2.close();
-            // console.log("le texte est : " + textToEncode);
-            // console.log("la clé est : " + usedKey);
             let alphabet = config.getAlphabetFull(textToEncode, usedKey); //config.getAlphabet(textToEncode);
             for (let i = 0; i < textToEncode.length; i++) {
                 let shift = _.indexOf(alphabet, usedKey[i % usedKey.length]);
@@ -207,6 +242,45 @@ const vigenereEncoding = (next) => {
             }
             console.log(`Le texte chiffré est : "${encodedText}"\n\n\n`);
             next();
+        });
+    });
+};
+
+const vigenereEncodingMAJAlphabet = (next) => {
+    const rl = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
+    rl.question("Quel texte voulez-vous chiffrer (que en majuscule) ? ", answer => {
+        let textToEncode = answer;
+        rl.close();
+        const r2 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
+        r2.question("Avec quelle clé voulez-vous chiffrer (que en majuscule) ? ", answer => {
+            let usedKey;
+            let encodedText = "";
+            usedKey = answer;
+            r2.close();
+            var regText = new RegExp("[A-Z]{" + textToEncode.length + "}");
+            var regKey = /[A-Z]{1}/
+            // verify if text and key is uppercase
+            if (!regText.test(textToEncode) || !regKey.test(usedKey)) {
+                console.log("Le texte donnée ou la clé n'est pas en majuscule !!! Recommencez !!!");
+                vigenereEncodingMAJAlphabet(next);
+            }
+            else {
+                let alphabet = config.getAlphabetMAJ(); //config.getAlphabet(textToEncode);
+                for (let i = 0; i < textToEncode.length; i++) {
+                    let shift = _.indexOf(alphabet, usedKey[i % usedKey.length]);
+                    //console.log(`usedKey : "${usedKey[i % usedKey.length]}"\n`);
+                    let encodedLetter = encodeLetter(textToEncode[i], alphabet, shift);
+                    if (!encodedLetter) {
+                        // La lettre n'est pas dans l'alphabet il faut le dire à l'utilisateur et sortir du programme
+                        console.log(`Nous ne pouvons pas continuer car le caractère ${textToEncode[i]} de votre texte ne se trouve pas dans l'alphabet`);
+                        process.exit(1);
+                    }
+                    encodedText += encodedLetter;
+                    //console.log(`encodedText : "${encodedText}"\n`);
+                }
+                console.log(`Le texte chiffré est : "${encodedText}"\n\n\n`);
+                next();
+            }
         });
     });
 };
@@ -504,6 +578,44 @@ const permuttationEncoding = (next) => {
     });
 };
 
+const permuttationEncodingMAJAlphabet = (next) => {
+    const r1 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
+    r1.question("Quel texte voulez-vous chiffrer ?", answer => {
+        let textToEncode = answer;
+        let alphabet = config.getAlphabetMAJ();
+        r1.close();
+        var regText = new RegExp("[A-Z]{" + textToEncode.length + "}");
+        // verify if text and key is uppercase
+        if (!regText.test(textToEncode)) {
+            console.log("Le texte donnée n'est pas en majuscule !!! Recommencez !!!");
+            permuttationEncodingMAJAlphabet(next);
+        }
+        else {
+            const r2 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
+            console.log("Vous avez le choix entre donner votre clé ou laisser l'algorithme générer la clé.");
+            console.log("1 - Laisser l'algorithme générer la clé");
+            console.log("2 - Donner une clé");
+            r2.question("Quel est votre choix ?", answer => {
+                let choix = answer;
+                r2.close();
+                let key;
+                switch (choix) {
+                    case "1":
+                        key = generatePermutationKey(alphabet);
+                        permuttationEncodingSuite(key, textToEncode, alphabet, next);
+                        break;
+                    case "2":
+                        askKeyForPermuttationEncoding(textToEncode, alphabet, permuttationEncodingSuite, next);
+                        break;
+                    default:
+                        console.log("Mauvais choix on recommence !!!");
+                        permuttationEncoding(next);
+                };
+            });
+        }
+    });
+};
+
 const permuttationDecoding = (next) => {
     const r1 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
     r1.question("Quel texte voulez-vous déchiffrer ?", answer => {
@@ -512,11 +624,11 @@ const permuttationDecoding = (next) => {
         r1.close();
         const r2 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
 
-        r2.question(`Avec quelle clé le texte a été chiffré ?
-            La clé doit faire la taille de l'alphabet de l'algorithme.
-            Une lettre correspond à une autre (2 lettres ne peuvent pas être chiffrées avec la même lettre)
-            L'ordre de la clé suivra l'ordre des lettres de l'alphabet donnée juste en dessous
-            L'alphabet supporté est : ${(alphabet.join("|"))} `, answer => {
+        r2.question("Avec quelle clé le texte a été chiffré ? \n" +
+            "La clé doit faire la taille de l'alphabet de l'algorithme." +
+            "Une lettre correspond à une autre (2 lettres ne peuvent pas être chiffrées avec la même lettre)" +
+            "L'ordre de la clé suivra l'ordre des lettres de l'alphabet donnée juste en dessous" +
+            "L'alphabet supporté est : " + alphabet.join("|") + "\n", answer => {
             const usedKey = answer;
             r2.close();
             // On teste si la clé donnée est correcte
@@ -691,7 +803,7 @@ const merkleHellmanEncoding = next => {
         let nonSuperGrowingSequence = generateNonSuperGrowingSequence(p, m, superGrowingList);
         console.log(`Clé m utilisée : ${m}`);
         console.log(`Clé p utilisée : ${p}`);
-        console.log(`Clé privé utilisée : ${superGrowingList}`);
+        //console.log(`Clé privé utilisée : ${superGrowingList}`);
         console.log(`Clé publique utilisée : ${nonSuperGrowingSequence}`);
         let textToEncodeInBytes = transformTextToEncodeInBytes(textToEncode, numberOfBytes, alphabet);
         // Tranfrom textToEncodeInBytes in tabOfBlocksInBytes
@@ -853,12 +965,15 @@ module.exports = {
     encodeLetter,
     decodeLetter,
     cesarEncoding,
+    cesarEncodingMAJAlphabet,
     cesarDecoding,
     cesarDecrypting,
     vigenereEncoding,
+    vigenereEncodingMAJAlphabet,
     vigenereDecoding,
     vigenereDecrypting,
     permuttationEncoding,
+    permuttationEncodingMAJAlphabet,
     permuttationDecoding,
     permuttationDecrypting,
     merkleHellmanEncoding,

@@ -9,16 +9,19 @@ const encryptologyServices = require('services/encryptologyServices');
 var menu = () => {
     console.log("Quel service voulez-vous utilisez ?");
     console.log("1 - César : Chiffrer un texte en donnant la clé");
-    console.log("2 - César : Déchiffrer un texte en donnant la clé");
-    console.log("3 - César : Décrypter un texte");
-    console.log("4 - Permutation : Chiffrer un texte en donnant la clé");
-    console.log("5 - Permutation : Déchiffrer un texte en donnant la clé");
-    console.log("6 - Permutation : Décrypter un texte");
-    console.log("7 - Vigenère : Chiffrer un texte en donnant la clé");
-    console.log("8 - Vigenère : Déchiffrer un texte en donnant la clé");
-    console.log("9 - Vigenère : Décrypter un texte (via Indice de coïncidence)");
-    console.log("10 - Merkle - Hellman : Chiffrer un texte");
-    console.log("11 - Merkle - Hellman : Déchiffrer une séquence");
+    console.log("2 - César : Chiffrer un texte en donnant la clé (alphabet Majuscule only pour décryptage)");
+    console.log("3 - César : Déchiffrer un texte en donnant la clé");
+    console.log("4 - César : Décrypter un texte");
+    console.log("5 - Permutation : Chiffrer un texte en donnant la clé");
+    console.log("6 - Permutation : Chiffrer un texte en donnant la clé (alphabet Majuscule only pour décryptage)");
+    console.log("7 - Permutation : Déchiffrer un texte en donnant la clé");
+    console.log("8 - Permutation : Décrypter un texte");
+    console.log("9 - Vigenère : Chiffrer un texte en donnant la clé");
+    console.log("10 - Vigenère : Chiffrer un texte en donnant la clé (alphabet MAJUSCULE only pour décryptage)");
+    console.log("11 - Vigenère : Déchiffrer un texte en donnant la clé");
+    console.log("12 - Vigenère : Décrypter un texte (via Indice de coïncidence)");
+    console.log("13 - Merkle - Hellman : Chiffrer un texte");
+    console.log("14 - Merkle - Hellman : Déchiffrer une séquence");
     console.log("0 - Quitter");
     var readline1 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: false});
     readline1.question("Faites-votre choix : ", (answer) => {
@@ -28,33 +31,42 @@ var menu = () => {
                 encryptologyServices.cesarEncoding(menu);
                 break;
             case "2":
-                encryptologyServices.cesarDecoding(menu);
+                encryptologyServices.cesarEncodingMAJAlphabet(menu);
                 break;
             case "3":
-                encryptologyServices.cesarDecrypting(menu);
+                encryptologyServices.cesarDecoding(menu);
                 break;
             case "4":
-                encryptologyServices.permuttationEncoding(menu);
+                encryptologyServices.cesarDecrypting(menu);
                 break;
             case "5":
-                encryptologyServices.permuttationDecoding(menu);
+                encryptologyServices.permuttationEncoding(menu);
                 break;
             case "6":
-                encryptologyServices.permuttationDecrypting(menu);
+                encryptologyServices.permuttationEncodingMAJAlphabet(menu);
                 break;
             case "7":
-                encryptologyServices.vigenereEncoding(menu);
+                encryptologyServices.permuttationDecoding(menu);
                 break;
             case "8":
-                encryptologyServices.vigenereDecoding(menu);
+                encryptologyServices.permuttationDecrypting(menu);
                 break;
             case "9":
-                encryptologyServices.vigenereDecrypting(menu);
+                encryptologyServices.vigenereEncoding(menu);
                 break;
             case "10":
-                encryptologyServices.merkleHellmanEncoding(menu);
+                encryptologyServices.vigenereEncodingMAJAlphabet(menu);
                 break;
             case "11":
+                encryptologyServices.vigenereDecoding(menu);
+                break;
+            case "12":
+                encryptologyServices.vigenereDecrypting(menu);
+                break;
+            case "13":
+                encryptologyServices.merkleHellmanEncoding(menu);
+                break;
+            case "14":
                 encryptologyServices.merkleHellmanDecoding(menu);
                 break;
             case "0":

@@ -125,7 +125,7 @@ const getAlphabetFull = (textUncrypted, key) => {
   }
 };
 
-const getAlphabetMAJ = (textToAnalyse) => {
+const getAlphabetMAJ = () => {
   return alphabetMAJ;
 };
 
