@@ -599,6 +599,9 @@ const getNumberOfBytesDependOnAlphabet = alphabet => {
     else if (alphabet.length <= 127) {
         numberOfBytes = 7
     }
+    else {
+        numberOfBytes = 8
+    }
     return numberOfBytes
 };
 
@@ -675,7 +678,7 @@ const merkleHellmanEncoding = next => {
         let textToEncode = answer;
         rl.close();
         // On récupère l'alphabet en fonction du texte donné en entrée
-        let alphabet = config.getAlphabet(textToEncode);
+        let alphabet = config.getTrulyAlphabetFull();
         // On récupère le nombre de bits utilisé pour la transformation en bits des lettres du texte
         let numberOfBytes = getNumberOfBytesDependOnAlphabet(alphabet);
         console.log(`nombre de bits pour les lettres : ${numberOfBytes}`);
@@ -767,31 +770,37 @@ const merkleHellmanDecoding = next => {
                 let p = +answer;
                 r3.close();
                 const r4 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
-                r4.question("Quelle est la clé privé ? (la suite super croissant, à séparer par des virgules (ex : 1,3,8))", answer => {
-                    let superGrowingList = answer.split(",");
+                r4.question("Quelle est la clé publique ? (la suite non super croissante, à séparer par des virgules (ex : 1,3,8))", answer => {
+                    let nonSuperGrowingSequence = answer.split(",");
                     r4.close();
                     const r5 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
                     r5.question("Enfin sur combien de bits ont été codés les lettres lors du chiffrage de ce message ?", answer => {
                         let numberOfByteForLetter = +answer;
                         r5.close();
                         // Trick alphabet
-                        let alphabet = config.getAlphabet("abc");
+                        let alphabet = config.getTrulyAlphabetFull();
                         let multiplicativeInverse = calculateMultiplicativeInverse(m, p);
                         let encodedTabOfBlocks = textToDecode.split(",");
                         console.log(`Inverse multiplicatif = ${multiplicativeInverse}`);
                         let baseDecodedBlock = [];
+                        // Calculate superGrowingList with nonSuperGrowingSequence
+                        var superGrowingList = [];
+                        nonSuperGrowingSequence.forEach(number => {
+                            superGrowingList.push((number * multiplicativeInverse) % m);
+                        });
+                        // On calcule la liste super croissante grace à l'inverse multiplicatif et la liste publique non super croissante
                         superGrowingList.forEach((number) => {
                             baseDecodedBlock.push({
                                 number: +number,
                                 isToTake: false
                             });
                         });
+                        console.log(superGrowingList);
                         let decodedTextInBytes = "";
                         encodedTabOfBlocks.forEach((encodedBlock) => {
                             let decodedBlock = _.cloneDeep(baseDecodedBlock);
                             let tmpNumber = (+encodedBlock * multiplicativeInverse) % m;
                             let cpt = 0;
-                            console.log("tmpNumber : " + tmpNumber);
                             while (sumDecodedBlock(decodedBlock) !== tmpNumber) {
                                 if (sumDecodedBlock(decodedBlock) + (+superGrowingList[(superGrowingList.length - 1) - cpt]) <= tmpNumber) {
                                     decodedBlock[(superGrowingList.length - 1) - cpt].isToTake = true;

@@ -104,6 +104,10 @@ const freqApparitionLetter = [
     "Z"
 ];
 
+const getTrulyAlphabetFull = () => {
+    return alphabetMAJ.concat(alphabetMin).concat(ponctuation).concat(caracteresAccentues);
+}
+
 const getAlphabetFull = (textUncrypted, key) => {
   //if text and key are both in UPPERCASE
   var regexSpace = new RegExp("[\\s+]", "g");
@@ -180,5 +184,6 @@ module.exports = {
     freqApparitionLetter,
     // getAlphabet,
     getAlphabetFull,
-    getAlphabetMAJ
+    getAlphabetMAJ,
+    getTrulyAlphabetFull
 };
