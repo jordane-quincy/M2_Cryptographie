@@ -65,7 +65,7 @@ const cesarEncoding = (next) => {
             r2.close();
             // console.log("le texte est : " + textToEncode);
             // console.log("la clé est : " + usedKey);
-            let alphabet = config.getAlphabetFull(textToEncode, usedKey); //config.getAlphabet(textToEncode);
+            let alphabet = config.getTrulyAlphabetFull(); //config.getAlphabet(textToEncode);
             let shift = _.indexOf(alphabet, usedKey);
             for (let i = 0; i < textToEncode.length; i++) {
                 let encodedLetter = encodeLetter(textToEncode[i], alphabet, shift);
@@ -132,7 +132,7 @@ const cesarDecoding = (next) => {
             r2.close();
             // console.log("le texte est : " + textToDecode);
             // console.log("la clé est : " + usedKey);
-            let alphabet = config.getAlphabetFull(textToDecode, usedKey); //config.getAlphabet(textToDecode);
+            let alphabet = config.getTrulyAlphabetFull(); //config.getAlphabet(textToEncode);
             let shift = _.indexOf(alphabet, usedKey);
             for (let i = 0; i < textToDecode.length; i++) {
                 let decodedLetter = decodeLetter(textToDecode[i], alphabet, shift);
@@ -235,7 +235,7 @@ const vigenereEncoding = (next) => {
             let encodedText = "";
             usedKey = answer;
             r2.close();
-            let alphabet = config.getAlphabetFull(textToEncode, usedKey); //config.getAlphabet(textToEncode);
+            let alphabet = config.getTrulyAlphabetFull(); //config.getAlphabet(textToEncode);
             for (let i = 0; i < textToEncode.length; i++) {
                 let shift = _.indexOf(alphabet, usedKey[i % usedKey.length]);
                 //console.log(`usedKey : "${usedKey[i % usedKey.length]}"\n`);
@@ -297,7 +297,7 @@ const vigenereDecode = (textToDecode, usedKey, next) => {
   let decodedText = "";
   // console.log("le texte est : " + textToDecode);
   // console.log("la clé est : " + usedKey);
-  let alphabet = config.getAlphabetFull(textToDecode, usedKey); //config.getAlphabet(textToDecode);
+  let alphabet = config.getTrulyAlphabetFull(); //config.getAlphabet(textToEncode);
   for (let i = 0; i < textToDecode.length; i++) {
       let shift = _.indexOf(alphabet, usedKey[i % usedKey.length]);
       let decodedLetter = decodeLetter(textToDecode[i], alphabet, shift);
@@ -567,7 +567,7 @@ const permuttationEncoding = (next) => {
     const r1 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
     r1.question("Quel texte voulez-vous chiffrer ?", answer => {
         let textToEncode = answer;
-        let alphabet = config.getAlphabetFull(textToEncode, '');
+        let alphabet = config.getTrulyAlphabetFull(); //config.getAlphabet(textToEncode);
         r1.close();
         const r2 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
         console.log("Vous avez le choix entre donner votre clé ou laisser l'algorithme générer la clé.");
@@ -635,7 +635,7 @@ const permuttationDecoding = (next) => {
     const r1 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
     r1.question("Quel texte voulez-vous déchiffrer ?", answer => {
         let textToDecode = answer;
-        let alphabet = config.getAlphabetFull(textToDecode, '');
+        let alphabet = config.getTrulyAlphabetFull(); //config.getAlphabet(textToEncode);
         r1.close();
         const r2 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
 
