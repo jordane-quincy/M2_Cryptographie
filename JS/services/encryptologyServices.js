@@ -188,31 +188,39 @@ const cesarDecrypting = (next) => {
     rl.question("Warning : Les caractères du texte clair et la clé doivent être compris dans l'interval [A-Z].\nQuel texte voulez-vous décrypter ? ", answer => {
         let textToDecrypt = answer;
         rl.close();
-        let alphabet = config.getAlphabetMAJ(); //config.getAlphabet(textToDecrypt);
-
-        //On est en français donc la letter qui apparait le plus dans le texte chiffré est un 'e' dans le texte en clair
-        let letterMaxOccurence = getLetterWithMaxOccurence(textToDecrypt);
-
-        let shiftLetterMaxOccurence = _.indexOf(alphabet, letterMaxOccurence);
-
-        let shiftLetterE = 4; // le 'E' est à la cinquième place dans l'alphabet (alphabet[4])
-
-        let shift = ((shiftLetterMaxOccurence - shiftLetterE) % alphabet.length);
-        // console.log(`shift : "${shift}"\n`);
-
-        var decodedText = '';
-        for (let i = 0; i < textToDecrypt.length; i++) {
-            let decodedLetter = decodeLetter(textToDecrypt[i], alphabet, shift);
-            // console.log(`textToDecrypt[i] : "${textToDecrypt[i]}" = "${decodedLetter}"\n`);
-            if (!decodedLetter) {
-                // La lettre n'est pas dans l'alphabet il faut le dire à l'utilisateur et sortir du programme
-                console.log(`Nous ne pouvons pas continuer car le caractère ${textToDecrypt[i]} de votre texte ne se trouve pas dans l'alphabet`);
-                process.exit(1);
-            }
-            decodedText += decodedLetter;
+        var regText = new RegExp("[A-Z]{" + textToDecrypt.length + "}");
+        // verify if text and key is uppercase
+        if (!regText.test(textToDecrypt)) {
+            console.log("Le texte donnée n'est pas en majuscule !!! Recommencez !!!");
+            cesarDecrypting(next);
         }
-        console.log(`Le texte déchiffré est : "${decodedText}"\n\n\n`);
-        next();
+        else {
+            let alphabet = config.getAlphabetMAJ(); //config.getAlphabet(textToDecrypt);
+
+            //On est en français donc la letter qui apparait le plus dans le texte chiffré est un 'e' dans le texte en clair
+            let letterMaxOccurence = getLetterWithMaxOccurence(textToDecrypt);
+
+            let shiftLetterMaxOccurence = _.indexOf(alphabet, letterMaxOccurence);
+
+            let shiftLetterE = 4; // le 'E' est à la cinquième place dans l'alphabet (alphabet[4])
+
+            let shift = ((shiftLetterMaxOccurence - shiftLetterE) % alphabet.length);
+            // console.log(`shift : "${shift}"\n`);
+
+            var decodedText = '';
+            for (let i = 0; i < textToDecrypt.length; i++) {
+                let decodedLetter = decodeLetter(textToDecrypt[i], alphabet, shift);
+                // console.log(`textToDecrypt[i] : "${textToDecrypt[i]}" = "${decodedLetter}"\n`);
+                if (!decodedLetter) {
+                    // La lettre n'est pas dans l'alphabet il faut le dire à l'utilisateur et sortir du programme
+                    console.log(`Nous ne pouvons pas continuer car le caractère ${textToDecrypt[i]} de votre texte ne se trouve pas dans l'alphabet`);
+                    process.exit(1);
+                }
+                decodedText += decodedLetter;
+            }
+            console.log(`Le texte déchiffré est : "${decodedText}"\n\n\n`);
+            next();
+        }
     });
 };
 
@@ -406,73 +414,80 @@ const vigenereDecrypting = (next) => {
     rl.question("Warning : Les caractères du texte clair et la clé doivent être compris dans l'interval [A-Z].\nQuel texte voulez-vous décrypter ?", answer => {
         let textToDecrypt = answer;
         rl.close();
+        var regText = new RegExp("[A-Z]{" + textToDecrypt.length + "}");
+        // verify if text and key is uppercase
+        if (!regText.test(textToDecrypt)) {
+            console.log("Le texte donnée n'est pas en majuscule !!! Recommencez !!!");
+            vigenereDecrypting(next);
+        }
+        else {
+            let alphabet = config.getAlphabetMAJ(); //config.getAlphabet(textToDecrypt);
 
-        let alphabet = config.getAlphabetMAJ(); //config.getAlphabet(textToDecrypt);
+            const r2 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
+            console.log("Vous avez le choix entre donner votre longueur de clé ou laisser l'algorithme chercher la longueur de la clé.");
+            console.log("1 - Laisser l'algorithme chercher la longueur de la clé");
+            console.log("2 - Donner une longueur de clé");
+            r2.question("Quel est votre choix ?", (answer) => {
+              let choix = answer;
+              r2.close();
+              let longueurCle;
+              switch (choix) {
+                      case "1":
+                          //il va falloir calculer plusieurs IC pour utiliser la longueur de clé la plus probable
 
-        const r2 = readline.createInterface({input: process.stdin, output: process.stdout, terminal: true});
-        console.log("Vous avez le choix entre donner votre longueur de clé ou laisser l'algorithme chercher la longueur de la clé.");
-        console.log("1 - Laisser l'algorithme chercher la longueur de la clé");
-        console.log("2 - Donner une longueur de clé");
-        r2.question("Quel est votre choix ?", (answer) => {
-          let choix = answer;
-          r2.close();
-          let longueurCle;
-          switch (choix) {
-                  case "1":
-                      //il va falloir calculer plusieurs IC pour utiliser la longueur de clé la plus probable
+                          //L'indice de coïncidence différe selon les sources
+                          let ICRefFR = 0.0778;
 
-                      //L'indice de coïncidence différe selon les sources
-                      let ICRefFR = 0.0778;
+                          let longueurCleLaPlusProbable = 0;
+                          let bestIC = 999; //pour être sûr d'être plus loin que les autres
 
-                      let longueurCleLaPlusProbable = 0;
-                      let bestIC = 999; //pour être sûr d'être plus loin que les autres
+                          let longueurMaxToTest = Math.min(textToDecrypt.length, 6); // longeur arbitraire
+                          console.log(`Nous allons tester des longueurs de clé de 1 à ${longueurMaxToTest}`);
+                          for (let i = 1; i <= longueurMaxToTest; i++) {
+                            let tab = getPartText(textToDecrypt, i);
 
-                      let longueurMaxToTest = Math.min(textToDecrypt.length, 6); // longeur arbitraire
-                      console.log(`Nous allons tester des longueurs de clé de 1 à ${longueurMaxToTest}`);
-                      for (let i = 1; i <= longueurMaxToTest; i++) {
-                        let tab = getPartText(textToDecrypt, i);
+                            let sumPartIC = 0;
+                            for (let j = 0; j < i; j++) {
+                              let partTextToDecrypt = tab[j].join('');
+                              let partTextIC = getICPartText(partTextToDecrypt);
 
-                        let sumPartIC = 0;
-                        for (let j = 0; j < i; j++) {
-                          let partTextToDecrypt = tab[j].join('');
-                          let partTextIC = getICPartText(partTextToDecrypt);
+                              // console.log('['+ j +'] partTextToDecrypt:', partTextToDecrypt, '\t', partTextIC);
+                              sumPartIC += partTextIC;
+                            }
+                            // console.log('sumPartIC / i :', sumPartIC, i, (sumPartIC / i));
+                            let ic = sumPartIC / i;
 
-                          // console.log('['+ j +'] partTextToDecrypt:', partTextToDecrypt, '\t', partTextIC);
-                          sumPartIC += partTextIC;
-                        }
-                        // console.log('sumPartIC / i :', sumPartIC, i, (sumPartIC / i));
-                        let ic = sumPartIC / i;
+                            let partTextDiff = Math.abs(ICRefFR - ic);
+                            let curBestDiff = Math.abs(ICRefFR - bestIC);
+                            // console.log(`partTextDiff : ${partTextDiff}, curBestDiff : ${curBestDiff}`);
 
-                        let partTextDiff = Math.abs(ICRefFR - ic);
-                        let curBestDiff = Math.abs(ICRefFR - bestIC);
-                        // console.log(`partTextDiff : ${partTextDiff}, curBestDiff : ${curBestDiff}`);
+                            console.log(`Moyenne des indices de coïncidence pour la longueur de clé ${i} : ${partTextDiff}`);
 
-                        console.log(`Moyenne des indices de coïncidence pour la longueur de clé ${i} : ${partTextDiff}`);
+                            // l'IC de cette partie est elle plus proche que les autres de l'IC de référence
+                            if( partTextDiff < curBestDiff ){
+                              bestIC = ic;
+                              longueurCleLaPlusProbable = i;
+                              // console.log(`La moyenne des indices de coïncidence pour la longueur de clé ${longueurCleLaPlusProbable} devient le plus proche de l'indice de référence avec ${bestIC} .`);
+                            }
 
-                        // l'IC de cette partie est elle plus proche que les autres de l'IC de référence
-                        if( partTextDiff < curBestDiff ){
-                          bestIC = ic;
-                          longueurCleLaPlusProbable = i;
-                          // console.log(`La moyenne des indices de coïncidence pour la longueur de clé ${longueurCleLaPlusProbable} devient le plus proche de l'indice de référence avec ${bestIC} .`);
-                        }
+                            // console.log('---');
+                          }
 
-                        // console.log('---');
-                      }
+                          console.log(`La longueur de la clé la plus probable [IC=${bestIC}] est ${longueurCleLaPlusProbable}.`);
 
-                      console.log(`La longueur de la clé la plus probable [IC=${bestIC}] est ${longueurCleLaPlusProbable}.`);
+                          //maintenant qu'on a la longueur de cle, on l'utilise pour la déchiffrer
+                          vigenereDecryptKey(textToDecrypt, alphabet, longueurCleLaPlusProbable, next);
 
-                      //maintenant qu'on a la longueur de cle, on l'utilise pour la déchiffrer
-                      vigenereDecryptKey(textToDecrypt, alphabet, longueurCleLaPlusProbable, next);
-
-                      break;
-                  case "2":
-                      askKeyLengthForVigenereDecrypting(textToDecrypt, alphabet, next);
-                      break;
-                  default:
-                      console.log("Mauvais choix on recommence !!!");
-                      vigenereDecrypting(next);
-              };
-        });
+                          break;
+                      case "2":
+                          askKeyLengthForVigenereDecrypting(textToDecrypt, alphabet, next);
+                          break;
+                      default:
+                          console.log("Mauvais choix on recommence !!!");
+                          vigenereDecrypting(next);
+                  };
+            });
+        }
     });
 };
 
@@ -672,31 +687,39 @@ const permuttationDecrypting = next => {
     r1.question("Quel texte voulez-vous décrypter ?", answer => {
         let textToDecrypt = answer;
         r1.close();
-        let mapLetterOccurence = countLetterOccurence(textToDecrypt);
-        let tabLetterOccurence = getTabOccurenceLetter(mapLetterOccurence);
-        let tabDecrypted = textToDecrypt.split(''); //meme longeur
-        let decryptedText = '';
-        tabLetterOccurence.forEach((letterToReplace, index) => {
-            let replacedLetter = freqApparitionLetter[index];
-            // console.log(index, letterToReplace, replacedLetter);
+        var regText = new RegExp("[A-Z]{" + textToDecrypt.length + "}");
+        // verify if text and key is uppercase
+        if (!regText.test(textToDecrypt)) {
+            console.log("Le texte donnée n'est pas en majuscule !!! Recommencez !!!");
+            permuttationDecrypting(next);
+        }
+        else {
+            let mapLetterOccurence = countLetterOccurence(textToDecrypt);
+            let tabLetterOccurence = getTabOccurenceLetter(mapLetterOccurence);
+            let tabDecrypted = textToDecrypt.split(''); //meme longeur
+            let decryptedText = '';
+            tabLetterOccurence.forEach((letterToReplace, index) => {
+                let replacedLetter = freqApparitionLetter[index];
+                // console.log(index, letterToReplace, replacedLetter);
 
-            //recherche de l'ensemble des indices où la lettre apparait dans le chiffré
-            var tabIndicesDeLaLettreDansLeTexteChiffre = [];
-            for(var i = 0; i < textToDecrypt.length; i++) {
-                if (textToDecrypt[i] === letterToReplace.letter){
-                  tabIndicesDeLaLettreDansLeTexteChiffre.push(i);
+                //recherche de l'ensemble des indices où la lettre apparait dans le chiffré
+                var tabIndicesDeLaLettreDansLeTexteChiffre = [];
+                for(var i = 0; i < textToDecrypt.length; i++) {
+                    if (textToDecrypt[i] === letterToReplace.letter){
+                      tabIndicesDeLaLettreDansLeTexteChiffre.push(i);
+                    }
                 }
-            }
-            //pour chaque indices, remplace le chiffré par le clair
-            tabIndicesDeLaLettreDansLeTexteChiffre.forEach((i) => {
-              tabDecrypted[i] = replacedLetter;
+                //pour chaque indices, remplace le chiffré par le clair
+                tabIndicesDeLaLettreDansLeTexteChiffre.forEach((i) => {
+                  tabDecrypted[i] = replacedLetter;
+                });
+
             });
 
-        });
+            console.log(`Le texte décrypté est : "${tabDecrypted.join('')}"\n\n\n`);
 
-        console.log(`Le texte décrypté est : "${tabDecrypted.join('')}"\n\n\n`);
-
-        next();
+            next();
+        }
     });
 };
 
